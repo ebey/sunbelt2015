@@ -1,0 +1,86 @@
+---
+title: "statnetWeb Introduction and User Manual"
+author: "Emily Beylerian"
+runtime: shiny
+output:
+  ioslides_presentation:
+    smaller: yes
+---
+
+## Introducing statnetWeb
+
+statnetWeb is a prototype web interactive interface for social network analysis. The functionality is based on the **ergm** package, a member of the statnet network analysis software suite, and also incorporates functionality from the associated packages **network** and **sna**.
+
+To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washington.edu/trac), where you can find publications, tutorials and recent news.
+
+
+
+## Intro to Social Network Analysis
+
+In the network depiction of a community, nodes represent individual entities (people, organizations, etc.), which may be connected to each other by edges, based on the entities' relationship. For example, the following network shows the business connections among Florentine families (Padgett).
+
+By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network.
+
+```{r, echo=FALSE}
+img(src="images/flobusiness_plot.png")
+```
+
+
+## Creating Networks
+
+Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists. Below is the adjacency matrix from the Florentine business network.
+
+![flobusiness adjacency matrix](images/flobusiness_adjmx.png)
+
+## statnetWeb: Data Upload
+
+Observed network data can be uploaded to statnetWeb in various formats. From the Upload Network tab, the user can transfer files saved in Excel, R or Pajek into statnetWeb for further analysis.
+
+**Excel:** Specify the type of matrix and upload a .csv file of relational data.  
+**R:** Upload a matrix of relational data or a statnet network object. Objects should be exported from R using the command `save(objectname, file="newfilename"  )`. By default the file will be saved into the current working directory, but the full path to a new location can be specified in the `file=` argument, or set `file=file.choose(new=TRUE)` to use a save dialog box.  
+**Pajek:** Upload network or project files (.net or .paj, respectively).  
+
+
+Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
+
+## statnetWeb: Network Descriptives
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages(require(ergm, warn.conflicts=FALSE,quietly=TRUE))
+data("faux.mesa.high")
+sidebarLayout(position="right",
+sidebarPanel(width=3,
+  checkboxInput("iso", label="Display isolates", value=T),
+  checkboxInput("vnames", label="Display vertex names", value=F),
+  sliderInput("opacity", label="Vertex opacity", min=0, max=1, value=1),
+  selectInput("vcol", label="Color nodes according to:",
+              choices=c("None", "Grade", "Race", "Sex"),
+              selectize=FALSE),
+  selectInput("vsize", label="Size nodes according to:",
+              choices=c("None", "Betweenness", "Grade"),
+              selectize=FALSE)
+  ),
+mainPanel(
+  renderPlot({
+    par(mar=c(0,0,0,0))
+    plot(faux.mesa.high, displaylabels=input$vnames,
+         displayisolates=input$iso)
+  })
+  )
+)
+```
+
+## statnetWeb: Fit Model
+
+Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network.  
+
+What is an ERGM?  
+
+* Exponential-family random graph models: a class of models for specifying the probability distribution for a set of random graphs or networks.
+* $$ P(Y=y)=\frac{exp(\theta)}{k(\theta)} $$
+
+## statnetWeb: MCMC Diagnostics
+
+## statnetWeb: Goodness-of-fit
+
+## statnetWeb: Simulations
