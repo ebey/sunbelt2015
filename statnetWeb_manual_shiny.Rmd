@@ -43,9 +43,61 @@ Observed network data can be uploaded to statnetWeb in various formats. From the
 
 Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
 
------
+## statnetWeb: Data Upload
 
-new page
+```{r, echo=FALSE}
+wellPanel(
+fluidRow(
+ column(6,
+        radioButtons('filetype',label=h5('File type'),
+                     choices=c('pre-loaded sample network'=5, 
+                               'statnet network object (R-object)'=1,
+                               'Pajek network (*.net)'=2,
+                               'Pajek project (*.paj)'=3,
+                               'matrix of relational data (*.csv or R-object)'=4))
+                              ),
+ conditionalPanel(condition = 'input.filetype < 5',
+   column(6,
+        br(),
+        fileInput(inputId='rawdatafile', label=NULL, accept='text'),
+        verbatimTextOutput('rawdatafile'))
+    ),
+ conditionalPanel(condition = 'input.filetype == 5',
+        br(),
+        selectInput('samplenet', label='Choose a network',
+                    choices=c('None', 'ecoli1', 'ecoli2',
+                              'faux.mesa.high','flobusiness',
+                              'flomarriage', 'kapferer', 'kapferer2',
+                              'molecule', 'samplike'),
+                    selectize=FALSE) 
+                  )
+ ),
+   fluidRow(
+     conditionalPanel(condition='input.filetype == 4',
+         h5('Specify'),
+         column(4,
+                br(),
+                radioButtons('matrixtype', label='Matrix Type',
+                             choices=c('Adjacency matrix'='adjacency', 
+                                       'Bipartite adjacency matrix'='bipartite',
+                                       'Incidence matrix' = 'incidence',
+                                       'Edge list' = 'edgelist'))),
+         column(5,
+                br(),
+                span('Network Attributes'),
+                div(checkboxInput('dir', 'directed?', value=TRUE),
+                     style='padding-top:5px;'),
+                checkboxInput('loops', 'loops?', value=FALSE),
+                checkboxInput('multiple', 'multiple?', value=FALSE),
+                checkboxInput('bipartite', 'bipartite?', value=FALSE))
+                ),
+ conditionalPanel(condition='input.filetype == 3',
+     h5('Specify'),
+     column(6,
+            selectInput('choosepajnw', label='Upload a Pajek project file and choose a network from it',
+choices = c('None'), selectize=FALSE)))
+))
+```
 
 ## statnetWeb: Network Descriptives
 
