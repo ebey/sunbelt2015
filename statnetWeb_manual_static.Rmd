@@ -37,9 +37,28 @@ Outside of statnetWeb, the nodes and edges of a network can be denoted by adjace
 Observed network data can be uploaded to statnetWeb in various formats. From the Upload Network tab, the user can transfer files saved in Excel, R or Pajek into statnetWeb for further analysis.  
 ![matrix upload](images/sw_uploaddata.png)
 
-* Excel: Specify the type of matrix and upload a .csv file of relational data.  
-* R: Upload a matrix of relational data or a statnet network object. Objects should be exported from R using the command `save(objectname, file="newfilename"  )`. By default the file will be saved into the current working directory, but the full path to a new location can be specified in the `file=` argument, or set `file=file.choose(new=TRUE)` to use a save dialog box.  
-* Pajek: Upload network or project files (.net or .paj, respectively).  
+<ul>
+<li>**Excel:** 
+  <ul>
+  <li>Specify the type of matrix and upload a .csv file of relational data. </li>
+  <li>Adjacency matrices should have vertex labels in the first row and column.</li>
+  <li>Incidence matrices should have edge labels in the first row and vertex labels in the first column.</li>
+  <li>Edge lists should not have row or column labels.</li>
+  </ul>
+</li>
+<li>**R:** 
+  <ul>
+  <li>Upload a matrix of relational data or a statnet network object. </li>
+  <li>Objects should be exported from R using the command `save(objectname, file="newfilename"  )`.  
+  By default the file will be saved into the current working directory, but the full path to a new location can be specified in the `file=` argument, or set `file=file.choose(new=TRUE)` to use a save dialog box.</li>
+  </ul>
+</li>
+<li>**Pajek:** 
+  <ul>
+  <li>Upload network or project files (.net or .paj, respectively). </li>
+  </ul>
+</li>
+</ul>  
 
 
 Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
