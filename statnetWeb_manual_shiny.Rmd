@@ -1,5 +1,5 @@
 ---
-title: "statnetWeb Introduction and User Manual"
+title: "Introduction to statnetWeb"
 author: "Emily Beylerian"
 runtime: shiny
 output:
@@ -13,7 +13,7 @@ statnetWeb is a prototype web interactive interface for social network analysis.
 
 To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washington.edu/trac), where you can find publications, tutorials and recent news.
 
-
+These slides are meant to serve as an interactive manual for the functionality of statnetWeb and as a guide to using the app as a teaching tool for introductory network analysis.
 
 ## Intro to Social Network Analysis
 
@@ -42,6 +42,10 @@ Observed network data can be uploaded to statnetWeb in various formats. From the
 
 
 Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
+
+-----
+
+new page
 
 ## statnetWeb: Network Descriptives
 
@@ -77,7 +81,7 @@ Our goal is to use key model statistics to fit an exponential-family random grap
 What is an ERGM?  
 
 * Exponential-family random graph models: a class of models for specifying the probability distribution for a set of random graphs or networks.
-* $$ P(Y=y)=\frac{exp(\theta)}{k(\theta)} $$
+$$ P(Y=y)=\frac{exp(\theta)}{k(\theta)} $$
 
 ## statnetWeb: MCMC Diagnostics
 
