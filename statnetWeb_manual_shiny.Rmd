@@ -5,6 +5,7 @@ runtime: shiny
 output:
   ioslides_presentation:
     smaller: yes
+    css: ioslides.css
 ---
 
 ## Introducing statnetWeb
@@ -32,13 +33,11 @@ Outside of statnetWeb, the nodes and edges of a network can be denoted by adjace
 
 ![flobusiness adjacency matrix](images/flobusiness_adjmx.png)
 
-## statnetWeb: Data Upload
+## statnetWeb: Data Upload {.verysmall}
 
 Observed network data can be uploaded to statnetWeb in various formats. From the Upload Network tab, the user can transfer files saved in Excel, R or Pajek into statnetWeb for further analysis. 
 
 Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
-
-Once a network has been uploaded, a summary of the network's properties will be displayed on the right side of the page.
 
 ```{r, echo=FALSE}
 wellPanel(
@@ -91,6 +90,9 @@ fluidRow(
 choices = c('None'), selectize=FALSE)))
 ))
 ```
+
+
+Once a network has been uploaded, a summary of the network's properties will be displayed on the right side of the page.
 
 ## statnetWeb: Data Upload
 
@@ -146,7 +148,7 @@ mainPanel(
 )
 ```
 
-## statnetWeb: Network Descriptives
+## statnetWeb: Network Descriptives {.stdtext}
 
 <div class="columns-2">
 
