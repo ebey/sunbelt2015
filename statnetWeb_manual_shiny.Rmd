@@ -146,9 +146,11 @@ mainPanel(
 
 ## statnetWeb: Network Descriptives
 
-Degree distribution: ![degree distribution](mesa_degreedist_small.png)
+Degree distribution:  
+![degree distribution](images/mesa_degreedist_small.png)
 
-Geodesic distribution: ![geodesic distribution](mesa_geodist_small.png)
+Geodesic distribution:  
+![geodesic distribution](images/mesa_geodist_small.png)
 
 ## statnetWeb: Fit Model
 
