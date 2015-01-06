@@ -146,11 +146,15 @@ mainPanel(
 
 ## statnetWeb: Network Descriptives
 
+<div class="columns-2">
+
 Degree distribution:  
 ![degree distribution](images/mesa_degreedist_small.png)
 
+
 Geodesic distribution:  
 ![geodesic distribution](images/mesa_geodist_small.png)
+</div>
 
 ## statnetWeb: Fit Model
 
