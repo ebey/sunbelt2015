@@ -98,7 +98,7 @@ choices = c('None'), selectize=FALSE)))
   <li>Specify the type of matrix and upload a .csv file of relational data. </li>
   <li>Adjacency matrices should have vertex labels in the first row and column.</li>
   <li>Incidence matrices should have edge labels in the first row and vertex labels in the first column.</li>
-  <li>Edge lists should not have row or column labels</li>
+  <li>Edge lists should not have row or column labels.</li>
   </ul>
 </li>
 <li>**R:** 
@@ -116,6 +116,8 @@ choices = c('None'), selectize=FALSE)))
 </ul>
 
 ## statnetWeb: Network Descriptives
+
+Network descriptives are valuable for gaining insight into the observed network. Exploring plots and descriptive statistics before fitting a model can lead to better model formulations and improve interpretation of results.
 
 ```{r, echo=FALSE}
 suppressPackageStartupMessages(require(ergm, warn.conflicts=FALSE,quietly=TRUE))
@@ -142,13 +144,19 @@ mainPanel(
 )
 ```
 
+## statnetWeb: Network Descriptives
+
+Degree distribution: ![degree distribution](mesa_degreedist_small.png)
+
+Geodesic distribution: ![geodesic distribution](mesa_geodist_small.png)
+
 ## statnetWeb: Fit Model
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network.  
 
 What is an ERGM?  
 
-* Exponential-family random graph models: a class of models for specifying the probability distribution for a set of random graphs or networks.
+* Exponential-family random graph models: a class of models for specifying the probability distribution for a set of random graphs or networks.  
 $$ P(Y=y)=\frac{exp(\theta)}{k(\theta)} $$
 
 ## statnetWeb: MCMC Diagnostics
