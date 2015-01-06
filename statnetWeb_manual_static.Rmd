@@ -62,7 +62,7 @@ Observed network data can be uploaded to statnetWeb in various formats. From the
 
 
 Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
-![sample networks](images/sw_uploaddata2.png)
+![sample networks](images/sw_uploaddata2.png) ![nw summary](images/mesa_nwsum.png)
 
 Once a network has been uploaded, a summary of the network's properties will be displayed on the right side of the page.
 
