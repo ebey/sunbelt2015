@@ -20,11 +20,13 @@ This document is meant to serve as a manual for the functionality of statnetWeb 
 In the network depiction of a community, nodes represent individual entities (people, organizations, etc.), which may be connected to each other by edges. The type of network will vary depending on the community it depicts. 
 
 * Edges can be directed/undirected and valued/binary
-* Nodes can have categorical or quantitative attributes associated
+* Nodes can have categorical or quantitative attributes associated to them (age, sex, etc.)
 
 $\rightarrow$ Networks can be: directed, valued, bipartite, etc.
 
-By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network.
+In simple random graphs, any edge between two nodes is equally likely, but this is not the case for many networks. The chance of a tie between nodes i and j may depend on the attributes of i and j, or on other ties in the network.
+
+By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network. Then, we can predict the formation and structure of other networks.
 
 ![flobusiness network](images/flobusiness_plot.png)
 
@@ -69,7 +71,12 @@ Once a network has been uploaded, a summary of the network's properties will be 
 ### statnetWeb: Network Descriptives
 
 Network descriptives are valuable for gaining insight into the observed network. Exploring plots and descriptive statistics before fitting a model can lead to better model formulations and improve interpretation of results.  
-![faux.mesa.high](images/mesa_colorplot.png)
+
+Simply looking at a network plot can give a general sense of the network, and editing the display options is even more revealing.
+![fmh1](images/mesa_plot.png) ![fmh2](images/mesa_colorplot.png)  
+When the nodes of the faux.mesa.high network are color-coded, it is easy to see clustering by grade. In statnetWeb, any nodal attributes will be available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes will be available in the sizing menu.
+
+![flomarriage wealth](images/flomarriage_wealthplot.png)
 
 ### statnetWeb: Fit Model
 
