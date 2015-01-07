@@ -69,22 +69,36 @@ Alternatively, the user can choose from pre-loaded sample networks to experiment
 Once a network has been uploaded, a summary of the network's properties will be displayed on the right side of the page.
 
 ### statnetWeb: Network Descriptives
-
+ 
 Network descriptives are valuable for gaining insight into the observed network. Exploring plots and descriptive statistics before fitting a model can lead to better model formulations and improve interpretation of results.  
 
-Simply looking at a network plot can give a general sense of the network, and editing the display options is even more revealing.
+**Network Plot**  
+Looking at a network plot can give a general sense of the network, and editing the display options is even more revealing. When the nodes of the faux.mesa.high network are color-coded, it is easy to see clustering by grade. Likewise, sizing the nodes of the flomarriage by wealth shows a tendency for wealthier families to have more marriage ties.  
+In statnetWeb, any nodal attributes will be available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes will be available in the sizing menu.
 ![fmh1](images/mesa_plot.png) ![fmh2](images/mesa_colorplot.png)  
-When the nodes of the faux.mesa.high network are color-coded, it is easy to see clustering by grade. In statnetWeb, any nodal attributes will be available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes will be available in the sizing menu.
 
 ![flomarriage wealth](images/flomarriage_wealthplot.png)
+
+**Degree Distribution**  
+Inspect the distribution of nodal degrees throughout the network. Do most nodes have similar degree? Are there a few nodes with high degree ("hubs") and many with low degree? Does the distribution vary by attribute?
+
+**Geodesic Distribution**  
+The geodesic measures the length of the shortest path between two nodes. A geodesic distance of "inf" between two nodes means that they are not connected by any path. Compare the distribution of the geodesics from all the dyads in the observed network to null models.
+<ul>
+<li>Conditional uniform graphs (CUG): Draws from the distribution of simple random graphs with the same fixed density as the observed network.</li>
+<li>Bernoulli random graphs (BRG): Draws from the distribution of simple random graphs with the same stochastic tie probability as the observed network.</li>
+</ul>
+When compared to the null models, the faux.mesa.high network has fewer paths of length 5-8 than we would expect, and more disconnected node pairs (with geodesic distance inf).
+![mesa geodist](images/mesa_geodist_small.png)
+
+**More node- and graph-level indices**
 
 ### statnetWeb: Fit Model
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network.  
 
 What is an ERGM?  
-
-* Exponential-family random graph models: a class of models for specifying the probability distribution for a set of random graphs or networks.
+Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
 $$ P(Y=y)=\frac{exp(\theta)}{k(\theta)} $$
 
 ### statnetWeb: MCMC Diagnostics
