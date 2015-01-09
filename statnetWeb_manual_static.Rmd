@@ -73,23 +73,23 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
 <li>Descriptive</li>
   <ul>
   <li>A set of summary statistics calculated on the network</li>
-    <ul>
-    <li>E.g., density, degree distribution, centrality, etc.</li>
-    </ul>
+  <ul>
+  <li>E.g., density, degree distribution, centrality, etc.</li>
+  </ul>
   </ul>
 <li>Statistical</li>
   <ul>
   <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.  {NEED TO DEVELOP A TYPOLOGY HERE – CHECK SNIJDERS?}</li>
   <li>Models for links, nodal attributes fixed:</li>
-    <ul>
-    <li>In simple random graphs, each edge between two nodes is equally likely</li>
-      <ul>
-      <li>Not the case for most social networks</li>
-      <li>The chance of a tie between nodes i and j may depend on the attributes of i and j</li>
-      </ul>
-    <li>By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network</li>
-    <li>Then, we can predict the formation and structure of other networks</li>
-    </ul>
+  <ul>
+  <li>In simple random graphs, each edge between two nodes is equally likely</li>
+  <ul>
+  <li>Not the case for most social networks</li>
+  <li>The chance of a tie between nodes i and j may depend on the attributes of i and j</li>
+  </ul>
+  <li>By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network</li>
+  <li>Then, we can predict the formation and structure of other networks</li>
+  </ul>
   <li>Joint models for nodal attributes and links:  Influence and Selection</li>
   </ul>
 </ul>
@@ -195,11 +195,15 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window gives access to the help file of each one.
 
 How does statnetWeb find a model that fits?  
-* MLE: maximum likelihood estimation
-* MCMC: only for model with dyadic dependent terms
-    + Approximates likelihood by....
+<ul>
+<li>MLE: maximum likelihood estimation</li>
+<li>MCMC: only for models with dyadic dependent terms</li>
+  <ul>
+  <li>Approximates likelihood by....</li>
+  </ul>
+</ul>
 
-## Model evaluation
+## Model Evaluation
 
 <font class="lobj">Learning objectives:</font>
 
@@ -207,7 +211,7 @@ How does statnetWeb find a model that fits?
 
 ### statnetWeb: Goodness-of-fit
 
-## Model-based simulation
+## Model-Based Simulation
 
 <font class="lobj">Learning objectives:</font>
 
