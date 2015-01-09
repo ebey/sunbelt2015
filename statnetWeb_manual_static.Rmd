@@ -12,7 +12,7 @@ output:
 
 statnetWeb is a prototype web interactive application for social network analysis. Users can perform complete analyses of relational data (including network visualization, model estimation and evaluation, and model-based simulation) through the user-friendly interface and can download results and figures throughout the process. 
 
-This document is meant to serve as a guide to using statnetWeb as a teaching tool for introductory network analysis courses. We will provide templates for course outlines (both 10 and 14 week formats) and discuss the programming involved in creating statnetWeb.
+This document is meant to serve as a guide to using statnetWeb as a teaching tool for introductory network analysis courses. We provide templates for course outlines (both 10 and 14 week formats), which are not exhaustive of all course material and should be taylored according to students' backgrounds. Following the course templates is a summary of the programming involved in creating statnetWeb.
 
 Suggestions for improvements and additional functionality to statnetWeb are welcome!
 
@@ -30,17 +30,21 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
 
 ## Course Outline
 
+<font class="lobj">10 Week Course:</font>
+
 * Network analysis basics: 2 weeks
 * Data: 1 week
 * Network descriptives: 1 week
 * Model estimation: 2 weeks
 * Diagnostics: 1 week
 * Model-based simulation: 2 weeks
-* Review: 1 week
+* Review and further topics: 1 week
 
 # Course Material
 
 ## Basic Components of Network Analysis
+
+<font class="lobj">Week 1 Learning objectives:</font>
 
 **What is a network?** A population of nodes with links.
 <ul>
@@ -58,15 +62,35 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
   <li>Defined by properties of the nodes and links</li>
   </ul>
 </ul>
+
+**Motivation**  
+What can we accomplish with network analysis?  
+<ul>
+<li>Examples</li>
+<li>Glimpse ahead to types of analysis</li>
+</ul>
+
+**Network data storage and representation**
+<ul>
+<li>Overview of adjacency matrices, incidence matrices, edge lists</li>
+<li>Intro to idea of missing data</li>
+  <ul>
+  <li>Missing edge $\not\Rightarrow$ no edge
+  </ul>
+</ul>
+**Network data as a graph**
+<ul>
+<li>Graph notation</li>
+<li>Graph terminology</li>
+</ul>
+
+<font class="lobj">Week 2 Learning objectives:</font>
+
 **Network data sampling designs**
 <ul>
 <li>Census:  data on every node and link in the population of interest</li>
 <li>Adaptive sample:  link-tracing designs, e.g., snowballs, Respondent Driven Sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
-</ul>
-**Network data storage and representation**
-<ul>
-<li>Adjacency matrices, incidence matrices, edge lists</li>
 </ul>
 **Types of network analysis**
 <ul>
@@ -98,7 +122,7 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
 
 ## Network Data
 
-<font class="lobj">Learning objectives:</font>
+<font class="lobj">Week 3 Learning objectives:</font>
 
 Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists. Below is the adjacency matrix from the Florentine business network.
 
@@ -137,7 +161,7 @@ Once a network has been uploaded, a summary of the network's properties will be 
 
 ## Network Descriptives
 
-<font class="lobj">Learning objectives:</font>
+<font class="lobj">Week 4 Learning objectives:</font>
 
 Network descriptives are valuable for gaining insight into the observed network. Exploring plots and descriptive statistics before fitting a model can lead to better model formulations and improve interpretation of results.  
 
@@ -165,9 +189,9 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
 
 **More node- and graph-level indices**
 
-## Model estimation
+## Model Estimation
 
-<font class="lobj">Learning objectives:</font>
+<font class="lobj">Weeks 5-6 Learning objectives:</font>
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.
 * examples of model statisitics
@@ -212,7 +236,8 @@ Output from model fitting
   <li>Corresponding probability from equation above
   </ul>
   </ul>
-  <li>Save up to five models for comparison
+  <li>Save up to five models for comparison  
+  ![](images/modelcomp.png)
   <li>When a model fails
   <ul>
   <li>Control parameters: burn-in, interval, sample size
@@ -224,7 +249,7 @@ Example: -Inf coefficients
 
 ## Model Evaluation
 
-<font class="lobj">Learning objectives:</font>
+<font class="lobj">Week 7 Learning objectives:</font>
 
 ### statnetWeb: MCMC Diagnostics
 
@@ -247,7 +272,7 @@ When multiple models are saved, compare GOF plots in a chart.
 
 ## Model-Based Simulation
 
-<font class="lobj">Learning objectives:</font>
+<font class="lobj">Weeks 8-9 Learning objectives:</font>
 
 After creating an ergm and checking the diagnostics, we can simulate from it (take examples of networks drawn from this distribution). If the model is a good fit to the observed data, then networks drawn from this distribution will be more likely to “resemble” the observed data.
 
@@ -261,6 +286,10 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 [IMAGE AFTER INCREASING INTERVAL]
 <li>Download simulation statistics
 </ul>
+
+## Review and Further Topics
+
+<font class="lobj">Week 10 Learning objectives:</font>
 
 # Shiny
 
