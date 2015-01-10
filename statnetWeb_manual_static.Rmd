@@ -18,7 +18,9 @@ Suggestions for improvements and additional functionality to statnetWeb are welc
 
 ## Why These Tools?
 
-Network analysis software: UCINET, PNet, Siena... R (statnet)
+Dichotomy in network analysis software: 
+UCINET, PNet, Pajek, Siena vs. R
+
 
 Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis.
 
@@ -62,6 +64,8 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
   <li>Defined by properties of the nodes and links</li>
   </ul>
 </ul>
+
+![](images/samplenets_small.png)
 
 **Motivation**  
 What can we accomplish with network analysis?  
@@ -117,8 +121,6 @@ What can we accomplish with network analysis?
   <li>Joint models for nodal attributes and links:  Influence and Selection</li>
   </ul>
 </ul>
-
-![flobusiness network](images/flobusiness_plot.png)
 
 ## Network Data
 
