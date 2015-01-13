@@ -187,10 +187,11 @@ Network descriptives are valuable for gaining insight into the observed network.
 ### statnetWeb: Network Descriptives
 
 **Network Plot**  
-Looking at a network plot can give a general sense of the network, and editing the display options is even more revealing. When the nodes of the faux.mesa.high network are color-coded, it is easy to see clustering by grade. Likewise, sizing the nodes of the flomarriage by wealth shows a tendency for wealthier families to have more marriage ties.  
-In statnetWeb, any nodal attributes will be available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes will be available in the sizing menu.  
-![fmh1](images/mesa_plot.png) ![fmh2](images/mesa_colorplot.png)  
+Looking at a network plot can give a general sense of the network, and editing the display options is even more revealing. When the nodes of the faux.mesa.high network are color-coded, it is easy to see clustering by grade. Likewise, sizing the nodes of the flomarriage by wealth shows a tendency for wealthier families to have more marriage ties.
 
+In statnetWeb, any nodal attributes will be available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes will be available in the sizing menu.
+
+![fmh1](images/mesa_plot.png) ![fmh2](images/mesa_colorplot.png)
 ![flomarriage wealth](images/flomarriage_wealthplot.png)
 
 **Degree Distribution**  
