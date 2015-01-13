@@ -30,33 +30,11 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
 
 statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in the R programming language. We see the app as a great tool for introducing the concepts and process of network analysis in a way that is less programming intensive. 
 
-## Course Outline
-
-<font class="lobj">10 Week Course:</font>
-
-* Network analysis basics: 2 weeks
-* Data: 1 week
-* Network descriptives: 1 week
-* Model estimation: 2 weeks
-* Diagnostics: 1 week
-* Model-based simulation: 2 weeks
-* Review and further topics: 1 week
-
-<font class="lobj14">14 Week Course:</font>
-
-* Network analysis basics: 2 weeks
-* Data: 1 week
-* Network descriptives: 2 week
-* Model estimation: 3 weeks
-* Diagnostics: 1 week
-* Model-based simulation: 2 weeks
-* Review and further topics: 3 weeks
-
 # Course Material
 
 ## Basic Components of Network Analysis
 
-<font class="lobj">Week 1 learning objectives:</font> Know what a network is, what it can represent and why we use it. 
+<font class="lobj">Learning objectives:</font> Know what a network is, what it can represent and why we use it. Gain a broad sense of network analysis uses and methods.
 
 **What is a network?** A population of nodes with links.
 <ul>
@@ -97,8 +75,6 @@ What can we accomplish with network analysis?
 <li>Graph terminology</li>
 </ul>
 
-<font class="lobj">Week 2 learning objectives:</font> Gain broader sense of network analysis.
-
 **Network data sampling designs**
 <ul>
 <li>Census: data on every node and link in the population of interest</li>
@@ -116,9 +92,8 @@ What can we accomplish with network analysis?
   </ul>
 <li>Statistical</li>
   <ul>
+  <li>Review the various frameworks for statistical network analysis (give references), and specify the framework we will be working from.
   <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.</li>
-  <li>"In *model-based inference* the researcher - explicitly or implicitly - constructs a probability model, makes the assumption that the observed data can be regarded as the outcome of a random draw from this model, and uses this model to derive statistical procedures and their properties."  
-  - Snijders</li>
   <li>Models for links, nodal attributes fixed:</li>
   <ul>
   <li>In simple random graphs, each edge between two nodes is equally likely</li>
@@ -133,15 +108,19 @@ What can we accomplish with network analysis?
   </ul>
 </ul>
 
-<font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook.
+<font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook. Read published network analysis paper and identify type of analysis and why it was used.
 
 ## Network Data
 
-<font class="lobj">Week 3 learning objectives:</font> Know differences between network representation methods and advantages/disadvantages of each. Practice creating networks, translating between each representation and uploading to statnetWeb.
+<font class="lobj">Learning objectives:</font> Know differences between network representation methods and advantages/disadvantages of each. Practice creating networks, translating between each representation and uploading to statnetWeb.
 
-Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists. Below is the adjacency matrix from the Florentine business network.
+Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists.
+<ul>
+<li>Example of each representation with same network
+<li>Limitations of each
+<li>The network type will be reflected in the data
+</ul>
 
-![flobusiness adjacency matrix](images/flobusiness_adjmx.png)
 
 ### statnetWeb: Data
 
@@ -185,7 +164,7 @@ Once a network has been uploaded, a summary of the network's properties will be 
 
 ## Network Descriptives
 
-<font class="lobj">Week 4 Learning objectives:</font>
+<font class="lobj">Learning objectives:</font>
 
 Network descriptives are valuable for gaining insight into the observed network. Exploring plots and descriptive statistics before fitting a model can lead to better model formulations and improve interpretation of results.  
 
@@ -202,6 +181,8 @@ In statnetWeb, any nodal attributes will be available in the color-coding menu. 
 
 **Degree Distribution**  
 Inspect the distribution of nodal degrees throughout the network. Do most nodes have similar degree? Are there a few nodes with high degree ("hubs") and many with low degree? Does the distribution vary by attribute?
+
+![](images/mesa_degreedist_small.png) ![](images/mesa_degreedist_null.png)
 
 **Geodesic Distribution**  
 The geodesic measures the length of the shortest path between two nodes. A geodesic distance of "inf" between two nodes means that they are not connected by any path. Compare the distribution of the geodesics from all the dyads in the observed network to null models.
@@ -225,14 +206,12 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
   </ul>
 </ul>
 
-## Model Estimation
+## Model Specification
 
-<font class="lobj">Weeks 5-6 Learning objectives:</font>
+<font class="lobj">Learning objectives:</font>
 
-Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.
-* examples of model statisitics
+- depends on type of data
 
-<u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
@@ -249,6 +228,14 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 <li>$\delta(y_{ij})$ is the change statistic, i.e. it records how $g(y)$ changes if the tie $y_{ij}$ is toggled on or off</li>
 <li>$\theta$ (the coefficient for a model statistic) is the log-odds of an individual tie conditional on all others</li>
 </ul>
+
+Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.
+
+* examples of model statisitics
+
+<u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
+
+## Model Estimation
 
 ### statnetWeb: Fit Model
 
@@ -306,7 +293,7 @@ When a model fails
 
 ## Model Evaluation
 
-<font class="lobj">Week 7 Learning objectives:</font>
+<font class="lobj">Learning objectives:</font>
 
 ### statnetWeb: MCMC Diagnostics
 
@@ -319,6 +306,7 @@ Interpreting other MCMC diagnostics
 <ul>
 <li>flobusiness ~ edges+degree(0)  
 flobusiness has 5 isolates, can't have any fewer than -5 from target statistic  
+try to modify control parameters and do better
 ![](images/mcmc_bad.png)
 </ul>
 
@@ -329,7 +317,7 @@ When multiple models are saved, compare GOF plots in a chart.
 
 ## Model-Based Simulation
 
-<font class="lobj">Weeks 8-9 Learning objectives:</font>
+<font class="lobj">Learning objectives:</font>
 
 After creating an ergm and checking the diagnostics, we can simulate from it (take examples of networks drawn from this distribution). If the model is a good fit to the observed data, then networks drawn from this distribution will be more likely to “resemble” the observed data.
 
@@ -346,7 +334,29 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 
 ## Review and Further Topics
 
-<font class="lobj">Week 10 Learning objectives:</font>
+<font class="lobj">Learning objectives:</font>
+
+## Course Outlines
+
+<font class="lobj">10 Week Course:</font>
+
+* Network analysis basics: 2 weeks
+* Data: 1 week
+* Network descriptives: 1 week
+* Model estimation: 2 weeks
+* Diagnostics: 1 week
+* Model-based simulation: 2 weeks
+* Review and further topics: 1 week
+
+<font class="lobj">14 Week Course:</font>
+
+* Network analysis basics: 2 weeks
+* Data: 1 week
+* Network descriptives: 2 week
+* Model estimation: 3 weeks
+* Diagnostics: 1 week
+* Model-based simulation: 2 weeks
+* Review and further topics: 3 weeks
 
 # Shiny
 
