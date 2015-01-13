@@ -252,7 +252,11 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 
 ### statnetWeb: Fit Model
 
-We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window gives access to the help file of each one.
+We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window in statnetWeb gives access to the help file of each one.
+<ul>
+<li>Browse through all terms or narrow the results down to only the terms that are applicable to the currently loaded network.
+<li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
+</ul>
 
 How does statnetWeb find a model that fits?  
 <ul>
@@ -345,6 +349,8 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 <font class="lobj">Week 10 Learning objectives:</font>
 
 # Shiny
+
+The code for statnetWeb is publicly available at our [GitHub repository](https://github.com/statnet/statnetWeb)
 
 ![uw logo](images/UW.Wordmark_small.jpg)  
 ![csde logo](images/csdelogo_crop_small.png) ![csde](images/csde_goudy.fw_small.png)
