@@ -202,7 +202,7 @@ Our goal is to use key model statistics to fit an exponential-family random grap
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
-$$ P(Y=y)=\frac{exp(\theta)}{k(\theta)} $$
+$$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
 <ul>
 <li> $Y$: random variable for state of network (with realization $y$)
 <li> $g(y)$: vector of model statistics for network $y$
