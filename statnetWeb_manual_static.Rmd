@@ -42,11 +42,21 @@ statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for cre
 * Model-based simulation: 2 weeks
 * Review and further topics: 1 week
 
+<font class="lobj">14 Week Course:</font>
+
+* Network analysis basics: 2 weeks
+* Data: 1 week
+* Network descriptives: 2 week
+* Model estimation: 2 weeks
+* Diagnostics: 1 week
+* Model-based simulation: 2 weeks
+* Review and further topics: 4 weeks
+
 # Course Material
 
 ## Basic Components of Network Analysis
 
-<font class="lobj">Week 1 Learning objectives:</font>
+<font class="lobj">Week 1 Learning objectives:</font> 
 
 **What is a network?** A population of nodes with links.
 <ul>
@@ -65,12 +75,15 @@ statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for cre
   </ul>
 </ul>
 
-![](images/samplenets_small.png)
+ADD BACK THIS IMAGE (images/samplenets_small.png)
 
 **Motivation**  
 What can we accomplish with network analysis?  
 <ul>
 <li>Examples</li>
+  <ul>
+  <li>Show examples with statnetWeb</li>
+  </ul>
 <li>Glimpse ahead to types of analysis</li>
 </ul>
 
@@ -92,8 +105,8 @@ What can we accomplish with network analysis?
 
 **Network data sampling designs**
 <ul>
-<li>Census:  data on every node and link in the population of interest</li>
-<li>Adaptive sample:  link-tracing designs, e.g., snowballs, Respondent Driven Sampling, etc.</li>
+<li>Census: data on every node and link in the population of interest</li>
+<li>Adaptive sample: link-tracing designs, e.g., snowballs, Respondent Driven Sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
 </ul>
 **Types of network analysis**
@@ -247,7 +260,16 @@ Output from model fitting
   </ul>
 </ul>
 
-Example: -Inf coefficients
+<font class="tutorialex">Example: Bernoulli model</font> 
+<ul><li>flomarriage ~ edges</li></ul>
+
+<font class="tutorialex">Example: Triad formation</font>  
+<ul><li>flomarriage ~ edges + triangle</li></ul>
+
+<font class="tutorialex">Example: Nodal covariates</font>  
+<ul><li>flomarriage ~ edges + nodecov("wealth")</li></ul>
+
+<font class="tutorialex">Example: -Inf coefficients</font>  
 
 ## Model Evaluation
 
