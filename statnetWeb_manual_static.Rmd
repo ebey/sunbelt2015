@@ -75,7 +75,7 @@ statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for cre
   </ul>
 </ul>
 
-ADD BACK THIS IMAGE (images/samplenets_small.png)
+![](images/samplenets_small.png)
 
 **Motivation**  
 What can we accomplish with network analysis?  
