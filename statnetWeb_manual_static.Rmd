@@ -42,21 +42,21 @@ statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for cre
 * Model-based simulation: 2 weeks
 * Review and further topics: 1 week
 
-<font class="lobj">14 Week Course:</font>
+<font class="lobj14">14 Week Course:</font>
 
 * Network analysis basics: 2 weeks
 * Data: 1 week
 * Network descriptives: 2 week
-* Model estimation: 2 weeks
+* Model estimation: 3 weeks
 * Diagnostics: 1 week
 * Model-based simulation: 2 weeks
-* Review and further topics: 4 weeks
+* Review and further topics: 3 weeks
 
 # Course Material
 
 ## Basic Components of Network Analysis
 
-<font class="lobj">Week 1 Learning objectives:</font> 
+<font class="lobj">Week 1 learning objectives:</font> Know what a network is, what it can represent and why we use it. 
 
 **What is a network?** A population of nodes with links.
 <ul>
@@ -97,7 +97,7 @@ What can we accomplish with network analysis?
 <li>Graph terminology</li>
 </ul>
 
-<font class="lobj">Week 2 Learning objectives:</font>
+<font class="lobj">Week 2 learning objectives:</font> Gain broader sense of network analysis.
 
 **Network data sampling designs**
 <ul>
@@ -116,7 +116,9 @@ What can we accomplish with network analysis?
   </ul>
 <li>Statistical</li>
   <ul>
-  <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.  {NEED TO DEVELOP A TYPOLOGY HERE – CHECK SNIJDERS?}</li>
+  <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.</li>
+  <li>"In *model-based inference* the researcher - explicitly or implicitly - constructs a probability model, makes the assumption that the observed data can be regarded as the outcome of a random draw from this model, and uses this model to derive statistical procedures and their properties."  
+  - Snijders</li>
   <li>Models for links, nodal attributes fixed:</li>
   <ul>
   <li>In simple random graphs, each edge between two nodes is equally likely</li>
@@ -124,16 +126,18 @@ What can we accomplish with network analysis?
   <li>Not the case for most social networks</li>
   <li>The chance of a tie between nodes i and j may depend on the attributes of i and j</li>
   </ul>
-  <li>By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network</li>
-  <li>Then, we can predict the formation and structure of other networks</li>
+  <li>By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network.</li>
+  <li>Then, we can predict the formation and structure of other networks.</li>
   </ul>
   <li>Joint models for nodal attributes and links:  Influence and Selection</li>
   </ul>
 </ul>
 
+<font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook.
+
 ## Network Data
 
-<font class="lobj">Week 3 Learning objectives:</font>
+<font class="lobj">Week 3 learning objectives:</font> Know differences between network representation methods and advantages/disadvantages of each. Practice creating networks, translating between each representation and uploading to statnetWeb.
 
 Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists. Below is the adjacency matrix from the Florentine business network.
 
@@ -257,23 +261,31 @@ Output from model fitting
   </ul>
   <li>Save up to five models for comparison  
   ![](images/modelcomp.png)
-  <li>When a model fails
-  <ul>
-  <li>Control parameters: burn-in, interval, sample size
-  <li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
-  </ul>
 </ul>
 
-<font class="tutorialex">Example: Bernoulli model</font> 
+<font class="ex">Example: Bernoulli model</font> 
 <ul><li>flomarriage ~ edges</li></ul>
 
-<font class="tutorialex">Example: Triad formation</font>  
+<font class="ex">Example: Triad formation</font>  
 <ul><li>flomarriage ~ edges + triangle</li></ul>
 
-<font class="tutorialex">Example: Nodal covariates</font>  
+<font class="ex">Example: Nodal covariates</font>  
 <ul><li>flomarriage ~ edges + nodecov("wealth")</li></ul>
 
-<font class="tutorialex">Example: -Inf coefficients</font>  
+<font class="ex">Example: -Inf coefficients</font>  
+
+Missing data in ERGMs
+<ul>
+<li><font class="ex">Example: missnet ~ edges</font> 
+<li>Compare when edges are coded as missing vs. zeros
+</ul>
+
+
+When a model fails
+<ul>
+<li>Control parameters: burn-in, interval, sample size
+<li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
+</ul>
 
 ## Model Evaluation
 
