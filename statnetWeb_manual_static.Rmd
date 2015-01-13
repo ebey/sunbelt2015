@@ -12,7 +12,7 @@ output:
 
 statnetWeb is a prototype web interactive application for social network analysis. Users can perform complete analyses of relational data (including network visualization, model estimation and evaluation, and model-based simulation) through the user-friendly interface and can download results and figures throughout the process. 
 
-This document is meant to serve as a guide to using statnetWeb as a teaching tool for introductory network analysis courses. We provide templates for course outlines (both 10 and 14 week formats), which are not exhaustive of all course material and should be taylored according to students' backgrounds. Following the course templates is a summary of the programming involved in creating statnetWeb.
+This document is meant to serve as a guide to using statnetWeb as a teaching tool for introductory network analysis courses. We provide templates for course outlines (both 10 and 14 week formats), which are not exhaustive of all course material and should be tailored according to students' backgrounds. Following the course templates is a summary of the programming involved in creating statnetWeb.
 
 Suggestions for improvements and additional functionality to statnetWeb are welcome!
 
@@ -24,11 +24,11 @@ UCINET, PNet, Pajek, Siena vs. R
 
 Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis.
 
-statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in the R programming language. We see the app as a great tool for introducing the concepts and process of network analysis in a way that is less programming intensive. 
-
-The functionality is based on the **ergm** package, a member of the statnet network analysis software suite, and also incorporates the associated packages **network** and **sna**. For in depth analysis, researchers would want to transition into accessing the full functionality of statnet through the command line. 
+The functionality of statnetWeb is based on the **ergm** package, a member of the statnet network analysis software suite, and also incorporates the associated packages **network** and **sna**. For in depth analysis, researchers would want to transition into accessing the full functionality of statnet through the command line. 
 
 To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washington.edu/trac), where you can find publications, tutorials and recent news.
+
+statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in the R programming language. We see the app as a great tool for introducing the concepts and process of network analysis in a way that is less programming intensive. 
 
 ## Course Outline
 
