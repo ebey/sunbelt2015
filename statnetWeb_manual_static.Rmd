@@ -90,10 +90,6 @@ What can we accomplish with network analysis?
 **Network data storage and representation**
 <ul>
 <li>Overview of adjacency matrices, incidence matrices, edge lists</li>
-<li>Intro to idea of missing data</li>
-  <ul>
-  <li>Missing edge $\not\Rightarrow$ no edge
-  </ul>
 </ul>
 **Network data as a graph**
 <ul>
@@ -170,9 +166,16 @@ Observed network data can be uploaded to statnetWeb in various formats. From the
 
 
 Alternatively, the user can choose from pre-loaded sample networks to experiment with while becoming familiar with statnetWeb.
-![sample networks](images/sw_uploaddata2.png) ![nw summary](images/mesa_nwsum.png)
 
 Once a network has been uploaded, a summary of the network's properties will be displayed on the right side of the page.
+
+![sample networks](images/sw_uploaddata2.png) ![nw summary](images/mesa_nwsum.png)
+
+**Missing Data**
+<ul>
+<li>Missing edge $\not\Rightarrow$ no edge</li>
+<li>statnet interprets NA entries not along the diagonal as missing
+</ul>
 
 ## Network Descriptives
 
