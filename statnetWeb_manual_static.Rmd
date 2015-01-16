@@ -81,7 +81,7 @@ What can we accomplish with network analysis?
 <li>Adaptive sample: link-tracing designs, e.g., snowballs, Respondent Driven Sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
 </ul>
-**Types of network analysis**
+**Types of statistical network analysis**
 <ul>
 <li>Descriptive</li>
   <ul>
@@ -89,10 +89,12 @@ What can we accomplish with network analysis?
   <ul>
   <li>E.g., density, degree distribution, centrality, etc.</li>
   </ul>
+  <li>Statistical inference is limited to the finite population from which the sample is drawn.
   </ul>
-<li>Statistical</li>
+<li>Analytical</li>
   <ul>
   <li>Review the various frameworks for statistical network analysis (give references), and specify the framework we will be working from.
+  <li>The researcher creates a model, assumes that the observed network is a the outcome of a random draw from that model. (snijders)
   <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.</li>
   <li>Models for links, nodal attributes fixed:</li>
   <ul>
