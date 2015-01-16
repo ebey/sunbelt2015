@@ -94,10 +94,7 @@ What can we accomplish with network analysis?
 <li>Analytical</li>
   <ul>
   <li>Review the various frameworks for statistical network analysis (give references), and specify the framework we will be working from.
-<<<<<<< HEAD
-=======
   <li>The researcher creates a model, assumes that the observed network is a the outcome of a random draw from that model. (snijders)
->>>>>>> dc6f342b3f7935070f1b15ef83ef62328ae03acd
   <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.</li>
   <li>Models for links, nodal attributes fixed:</li>
   <ul>
@@ -187,11 +184,8 @@ In statnetWeb, any nodal attributes will be available in the color-coding menu. 
 **Degree Distribution**  
 Inspect the distribution of nodal degrees throughout the network. Do most nodes have similar degree? Are there a few nodes with high degree ("hubs") and many with low degree? Does the distribution vary by attribute?
 
-<<<<<<< HEAD
 ![](images/mesa_degreedist_small.png) ![](images/mesa_degreedist_nullsmall.png)
-=======
-![](images/mesa_degreedist_small.png) ![](images/mesa_degreedist_null.png)
->>>>>>> dc6f342b3f7935070f1b15ef83ef62328ae03acd
+
 
 **Geodesic Distribution**  
 The geodesic measures the length of the shortest path between two nodes. A geodesic distance of "inf" between two nodes means that they are not connected by any path. Compare the distribution of the geodesics from all the dyads in the observed network to null models.
