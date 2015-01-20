@@ -19,7 +19,7 @@ Suggestions for improvements and additional functionality to statnetWeb are welc
 ## Why These Tools?
 
 Dichotomy in network analysis software: 
-UCINET, PNet, Pajek, Siena vs. R
+Those with GUI (UCINET, PNet, Pajek, Siena) vs. command line (R)
 
 
 Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis.
@@ -78,7 +78,7 @@ What can we accomplish with network analysis?
 **Network data sampling designs**
 <ul>
 <li>Census: data on every node and link in the population of interest</li>
-<li>Adaptive sample: link-tracing designs, e.g., snowballs, Respondent Driven Sampling, etc.</li>
+<li>Adaptive sample: link-tracing designs, e.g., snowballs, respondent-driven sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
 </ul>
 **Types of statistical network analysis**
@@ -89,25 +89,30 @@ What can we accomplish with network analysis?
   <ul>
   <li>E.g., density, degree distribution, centrality, etc.</li>
   </ul>
+  <li>"Design-based" methods are used when a sample is drawn from a larger graph
   <li>Statistical inference is limited to the finite population from which the sample is drawn.
   </ul>
 <li>Analytical</li>
   <ul>
-  <li>Review the various frameworks for statistical network analysis (give references), and specify the framework we will be working from.
-  <li>The researcher creates a model, assumes that the observed network is a the outcome of a random draw from that model. (snijders)
-  <li>A model representing the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.</li>
+  <li>"Model-based" methods used when an entire network has been observed.
+  <li>If the researcher can capture the underlying structural features of a network with a few parameters, they can gain insight to how that structure influences the individual actors and relationships in the network and predict the structure of other networks.
+  <li>The researcher creates a model, assumes that the observed network is the outcome of a random draw from that model.
+  <ul>
+  <li>A model represents the factors that determine the probability of a link between two nodes, with parameters that can be estimated from network data.</li>
+  </ul>
   <li>Models for links, nodal attributes fixed:</li>
   <ul>
-  <li>In simple random graphs, each edge between two nodes is equally likely</li>
+  <li>In simple random graphs, each edge between two nodes is equally likely - not the case for most social networks</li>
   <ul>
-  <li>Not the case for most social networks</li>
-  <li>The chance of a tie between nodes i and j may depend on the attributes of i and j</li>
+  <li>The chance of a tie between nodes i and j may depend on the attributes of i and j (e.g. Homophily)</li>
   </ul>
-  <li>By analyzing a social network, we can gain insight to the underlying structure of the network and how that structure influences the individual actors and relationships in the network.</li>
-  <li>Then, we can predict the formation and structure of other networks.</li>
   </ul>
   <li>Joint models for nodal attributes and links:  Influence and Selection</li>
+  <ul>
+  <li>Transitivity
   </ul>
+  </ul>
+<li>See [Snijders 2011](http://www.stats.ox.ac.uk/~snijders/StatModelsSocNetworks.pdf) for review of various frameworks for statistical network analysis.
 </ul>
 
 <font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook. Read published network analysis paper and identify type of analysis and why it was used.
@@ -209,12 +214,24 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
   </ul>
 </ul>
 
-## Model Specification
+## Analytical Models
 
-<font class="lobj">Learning objectives:</font>
+<font class="lobj">Learning objectives:</font> The appropriate model depends on the type of data
 
 - depends on type of data
 
+Recall, we want a model that can capture the underlying structural features of a network with a few parameters.
+<ul>
+<li> Conditionally uniform models
+<li>Latent space models
+<ul> 
+<li>$p_1$ model
+<li>$p_2$ model
+</ul>
+<li>Exponential random graph models
+</ul>
+
+### Model Specification
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
@@ -232,15 +249,20 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 <li>$\theta$ (the coefficient for a model statistic) is the log-odds of an individual tie conditional on all others</li>
 </ul>
 
-Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.
-
-* examples of model statisitics
+Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.  
 
 <u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
 
-## Model Estimation
+* edges
+* triangles
+* nodes of degree 0
+* nodal homophily (nodematch)
 
-### statnetWeb: Fit Model
+<font class="ex">Exercise:</font> Which of the above terms are dyad dependent? Why?
+
+### Model Estimation
+
+#### statnetWeb: Fit Model
 
 We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window in statnetWeb gives access to the help file of each one.
 <ul>
@@ -339,9 +361,11 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 
 <font class="lobj">Learning objectives:</font>
 
+Longitudinal network analysis?
+
 ## Course Outlines
 
-<font class="lobj">10 Week Course:</font>
+**10 Week Course:**
 
 * Network analysis basics: 2 weeks
 * Data: 1 week
@@ -351,7 +375,7 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 * Model-based simulation: 2 weeks
 * Review and further topics: 1 week
 
-<font class="lobj">14 Week Course:</font>
+**14 Week Course:**
 
 * Network analysis basics: 2 weeks
 * Data: 1 week
