@@ -243,6 +243,18 @@ The appropriate model depends on the type of data. For now, we consider fully ob
 Recall, we want to capture the underlying structural features of a network with a few parameters.
 <ul>
 <li>Covariate effects, odds ratios for tie preferences
+  <ul>
+  <li>Densities of subgraphs $\rightarrow$ blockmodels
+  
+
+                 $x_j = 0$       $x_j = 1$    
+------------  --------------  --------------
+  $x_i = 0$      $p_{00}$        $p_{01}$     
+  $x_i = 1$      $p_{10}$        $p_{11}$     
+------------- --------------  --------------
+  <li> $\text{odds}(E) = \frac{\text{Pr}(E)}{1-\text{Pr}(E)}$
+  <li> $\text{odds}(E: A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
+  </ul>
 <li>Logistic regression
 $$\begin{align*}
  \Pr( y_{1,2} = 1 | x_1,x_2 ) &= 
@@ -255,6 +267,9 @@ $$\begin{align*}
 \text{log odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
   \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2  
 \end{align*}$$
+  <ul>
+  <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?
+  </ul>
 <li>Conditionally uniform models
 <li>Latent space models
 <ul> 
