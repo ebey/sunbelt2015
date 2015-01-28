@@ -41,18 +41,17 @@ Network analysis techniques have progressed immensely over the past 60 years and
 <li> ERGMs
 </ul>
 
-The [statnet](https://statnet.csde.washington.edu/trac) project provides a comprehensive framework for statistical network modeling based on exponential family random graph models.
 
-As the field grows, more software programs are created for various types of network analysis. A dichotomy has emerged between those accessed with a graphical user interface and those accessed through the command line. While GUI-based programs are easier to _____, 
+As the field grows, software programs geared toward various types of network analysis (above) are created. A dichotomy has emerged between those accessed with a graphical user interface and those accessed through the command line. Although GUI-based programs are easier for a wide range of people to interact with, the analysis possibilities are limited to the specific options provided in the interface. On the other hand, command line interfaces allow the user much more flexibility, but require a significant initial investment to learn the syntax of a programming language.
 
+The [statnet](https://statnet.csde.washington.edu/trac) project encompasses a suite of packages in the R programming language and provides a comprehensive framework for statistical network modeling based on exponential family random graph models. 
+Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis, so we created statnetWeb in order to reduce the upfront obstacles.
 
-Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis.
+The functionality of statnetWeb is based on the **ergm** package, a member of the statnet software suite, and also incorporates the associated packages **network** and **sna**. We see the app as a great tool for teaching and understanding the concepts and process of network analysis in a way that is less programming intensive. For in depth analysis, researchers can transition into accessing the full functionality of statnet through the command line. 
 
-The functionality of statnetWeb is based on the **ergm** package, a member of the statnet network analysis software suite, and also incorporates the associated packages **network** and **sna**. For in depth analysis, researchers would want to transition into accessing the full functionality of statnet through the command line. 
+statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in R.  The app is available online at https://ebey.shinyapps.io/statnetWeb/ or can be run locally through RStudio. Development is on [GitHub](https://github.com/statnet/statnetWeb), where you can browse the code, make suggestions and report issues. 
 
 To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washington.edu/trac), where you can find publications, tutorials and recent news.
-
-statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in the R programming language. We see the app as a great tool for introducing the concepts and process of network analysis in a way that is less programming intensive. 
 
 # Course Material
 
