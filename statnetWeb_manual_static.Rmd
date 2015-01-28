@@ -12,23 +12,46 @@ output:
 
 statnetWeb is a prototype web interactive application for social network analysis. Users can perform complete analyses of relational data (including network visualization, model estimation and evaluation, and model-based simulation) through the user-friendly interface and can download results and figures throughout the process. 
 
-This document is meant to serve as a guide to using statnetWeb as a teaching tool for introductory network analysis courses. We provide templates for course outlines (both 10 and 14 week formats), which are not exhaustive of all course material and should be tailored according to students' backgrounds. Following the course templates is a summary of the programming involved in creating statnetWeb.
+This document is meant to serve as a guide to using statnetWeb as a teaching tool for introductory network analysis courses. Below we provide a course outline template with references to in-depth resources for certain topics. Following the course template is a brief summary of the programming involved in creating statnetWeb.
 
 Suggestions for improvements and additional functionality to statnetWeb are welcome!
 
 ## Why These Tools?
 
-Dichotomy in network analysis software: 
-Those with GUI (UCINET, PNet, Pajek, Siena) vs. command line (R)
+Network analysis techniques have progressed immensely over the past 60 years and continue to develop quickly. 
+<ul>
+<li> Graph theoretic summaries
+  <ul>
+  <li>Degree distribution, geodesics, centrality measures, etc.
+  <li>No inference
+  </ul>
+<li> Conditionally uniform models (Holland and Leinhardt 1976, Wasserman 1977)
+  <ul>
+  <li>Useful as null hypotheses, but don't give indications of how to model
+  </ul>
+<li> $p_1$ model ([Holland and Leinhardt 1981](http://www.stat.cmu.edu/~fienberg/Stat36-835/HollandLeinhardt-JASA-1981.pdf))
+  <ul>
+  <li>Statistical inference
+  <li>Large number of parameters
+  </ul>
+<li> Markov model
+  <ul>
+  <li>Dyad dependence
+  </ul>
+<li> ERGMs
+</ul>
 
 
-Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis.
+As the field grows, software programs geared toward various types of network analysis (above) are created. A dichotomy has emerged between those accessed with a graphical user interface and those accessed through the command line. Although GUI-based programs are easier for a wide range of people to interact with, the analysis possibilities are limited to the specific options provided in the interface. On the other hand, command line interfaces allow the user much more flexibility, but require a significant initial investment to learn the syntax of a programming language.
 
-The functionality of statnetWeb is based on the **ergm** package, a member of the statnet network analysis software suite, and also incorporates the associated packages **network** and **sna**. For in depth analysis, researchers would want to transition into accessing the full functionality of statnet through the command line. 
+The [statnet](https://statnet.csde.washington.edu/trac) project encompasses a suite of packages in the R programming language and provides a comprehensive framework for statistical network modeling based on exponential family random graph models. 
+Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis, so we created statnetWeb in order to reduce the upfront obstacles.
+
+The functionality of statnetWeb is based on the **ergm** package, a member of the statnet software suite, and also incorporates the associated packages **network** and **sna**. The app occupies a middle ground in the spectrum of software accessibility and we see it as a valuable tool for teaching and understanding the concepts and process of network analysis in a context less dependent on programming expertise. For in depth analysis, researchers can transition into accessing the full functionality of statnet through the command line. 
+
+statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in R.  The app is available online at https://ebey.shinyapps.io/statnetWeb/ or can be run locally through RStudio. Development is on [GitHub](https://github.com/statnet/statnetWeb), where anyone can browse the code, make suggestions and report issues. 
 
 To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washington.edu/trac), where you can find publications, tutorials and recent news.
-
-statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in the R programming language. We see the app as a great tool for introducing the concepts and process of network analysis in a way that is less programming intensive. 
 
 # Course Material
 
@@ -81,7 +104,8 @@ What can we accomplish with network analysis?
 <li>Adaptive sample: link-tracing designs, e.g., snowballs, respondent-driven sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
 </ul>
-**Types of statistical network analysis**
+**Types of statistical network analysis**  
+See [Snijders 2011](http://www.stats.ox.ac.uk/~snijders/StatModelsSocNetworks.pdf)
 <ul>
 <li>Descriptive</li>
   <ul>
@@ -89,12 +113,9 @@ What can we accomplish with network analysis?
   <ul>
   <li>E.g., density, degree distribution, centrality, etc.</li>
   </ul>
-  <li>"Design-based" methods are used when a sample is drawn from a larger graph
-  <li>Statistical inference is limited to the finite population from which the sample is drawn.
   </ul>
-<li>Analytical</li>
+<li>Statistical</li>
   <ul>
-  <li>"Model-based" methods used when an entire network has been observed (and can be interpretted as a single example of many possible networks)
   <li>If the researcher can capture the underlying structural features of a network with a few parameters, they can gain insight to how that structure influences the individual actors and relationships in the network and predict the structure of other networks.
   <li>The researcher creates a model, assumes that the observed network is the outcome of a random draw from that model.
   <ul>
@@ -112,7 +133,6 @@ What can we accomplish with network analysis?
   <li>Transitivity
   </ul>
   </ul>
-<li>See [Snijders 2011](http://www.stats.ox.ac.uk/~snijders/StatModelsSocNetworks.pdf) for review of various frameworks for statistical network analysis.
 </ul>
 
 <font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook. Read published network analysis paper and identify type of analysis and why it was used.
@@ -220,12 +240,28 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
   </ul>
 </ul>
 
-## Analytical Models
+## Statistical Models
 
-<font class="lobj">Learning objectives:</font> The appropriate model depends on the type of data. What kind ERGMs represent that other models can't?
+<font class="lobj">Learning objectives:</font> What can ERGMs represent that other models can't?
 
-Recall, we want a model that can capture the underlying structural features of a network with a few parameters.
+The appropriate model depends on the type of data. For now, we consider fully observed binary networks.
+
+Recall, we want to capture the underlying structural features of a network with a few parameters.
 <ul>
+<li>Covariate effects, odds ratios for tie preferences
+<li>Logistic regression
+$$\begin{align*}
+ \Pr( y_{1,2} = 1 | x_1,x_2 ) &= 
+\frac{ e^{ \beta_0 + \beta_1 x_1 + \beta_2 x_2 +    \beta_{12} x_1 x_2}    }
+      {1+ e^{ \beta_0 + \beta_1 x_1 + \beta_2 x_2 +     \beta_{12} x_1 x_2 }  } \\ \\
+\Pr( y_{1,2} = 0 | x_1,x_2 ) &= 
+\frac{1}{1+e^{\beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2 } } \\ \\
+\text{odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
+  \exp( \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2 ) \\ \\
+\text{log odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
+  \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2  
+\end{align*}$$
+
 <li>Conditionally uniform models
 <li>Latent space models
 <ul> 
@@ -235,7 +271,7 @@ Recall, we want a model that can capture the underlying structural features of a
 <li>Exponential random graph models ($p^*$)
 </ul>
 
-### Model Specification
+### ERG Model Specification
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
@@ -264,7 +300,7 @@ Our goal is to use key model statistics to fit an exponential-family random grap
 
 <font class="ex">Exercise:</font> Which of the above terms are dyad dependent? Why?
 
-### Model Estimation
+### ERGM Estimation
 
 #### statnetWeb: Fit Model
 
