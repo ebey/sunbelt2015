@@ -47,9 +47,9 @@ As the field grows, software programs geared toward various types of network ana
 The [statnet](https://statnet.csde.washington.edu/trac) project encompasses a suite of packages in the R programming language and provides a comprehensive framework for statistical network modeling based on exponential family random graph models. 
 Learning how to program in R before accessing these powerful statistical analysis tools presents a large barrier to many people who are new to network analysis, so we created statnetWeb in order to reduce the upfront obstacles.
 
-The functionality of statnetWeb is based on the **ergm** package, a member of the statnet software suite, and also incorporates the associated packages **network** and **sna**. We see the app as a great tool for teaching and understanding the concepts and process of network analysis in a way that is less programming intensive. For in depth analysis, researchers can transition into accessing the full functionality of statnet through the command line. 
+The functionality of statnetWeb is based on the **ergm** package, a member of the statnet software suite, and also incorporates the associated packages **network** and **sna**. The app occupies a middle ground in the spectrum of software accessibility and we see it as a valuable tool for teaching and understanding the concepts and process of network analysis in a context less dependent on programming expertise. For in depth analysis, researchers can transition into accessing the full functionality of statnet through the command line. 
 
-statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in R.  The app is available online at https://ebey.shinyapps.io/statnetWeb/ or can be run locally through RStudio. Development is on [GitHub](https://github.com/statnet/statnetWeb), where you can browse the code, make suggestions and report issues. 
+statnetWeb is built with [Shiny](http://shiny.rstudio.com/), a framework for creating web applications with content written in R.  The app is available online at https://ebey.shinyapps.io/statnetWeb/ or can be run locally through RStudio. Development is on [GitHub](https://github.com/statnet/statnetWeb), where anyone can browse the code, make suggestions and report issues. 
 
 To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washington.edu/trac), where you can find publications, tutorials and recent news.
 
@@ -104,7 +104,8 @@ What can we accomplish with network analysis?
 <li>Adaptive sample: link-tracing designs, e.g., snowballs, respondent-driven sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
 </ul>
-**Types of statistical network analysis**
+**Types of statistical network analysis**  
+See [Snijders 2011](http://www.stats.ox.ac.uk/~snijders/StatModelsSocNetworks.pdf)
 <ul>
 <li>Descriptive</li>
   <ul>
@@ -112,12 +113,9 @@ What can we accomplish with network analysis?
   <ul>
   <li>E.g., density, degree distribution, centrality, etc.</li>
   </ul>
-  <li>"Design-based" methods are used when a sample is drawn from a larger graph
-  <li>Statistical inference is limited to the finite population from which the sample is drawn.
   </ul>
-<li>Analytical</li>
+<li>Statistical</li>
   <ul>
-  <li>"Model-based" methods used when an entire network has been observed.
   <li>If the researcher can capture the underlying structural features of a network with a few parameters, they can gain insight to how that structure influences the individual actors and relationships in the network and predict the structure of other networks.
   <li>The researcher creates a model, assumes that the observed network is the outcome of a random draw from that model.
   <ul>
@@ -135,7 +133,6 @@ What can we accomplish with network analysis?
   <li>Transitivity
   </ul>
   </ul>
-<li>See [Snijders 2011](http://www.stats.ox.ac.uk/~snijders/StatModelsSocNetworks.pdf) for review of various frameworks for statistical network analysis.
 </ul>
 
 <font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook. Read published network analysis paper and identify type of analysis and why it was used.
@@ -283,7 +280,7 @@ Our goal is to use key model statistics to fit an exponential-family random grap
 
 <font class="ex">Exercise:</font> Which of the above terms are dyad dependent? Why?
 
-### Model Estimation
+### ERGM Estimation
 
 #### statnetWeb: Fit Model
 
