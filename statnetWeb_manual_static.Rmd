@@ -234,15 +234,28 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
   </ul>
 </ul>
 
-## Analytical Models
+## Statistical Models
 
 <font class="lobj">Learning objectives:</font> The appropriate model depends on the type of data
 
-- depends on type of data
+The appropriate model depends on the type of data. For now, we consider fully observed binary networks.
 
-Recall, we want a model that can capture the underlying structural features of a network with a few parameters.
+Recall, we want to capture the underlying structural features of a network with a few parameters.
 <ul>
-<li> Conditionally uniform models
+<li>Covariate effects, odds ratios for tie preferences
+<li>Logistic regression
+$$\begin{align*}
+ \Pr( y_{1,2} = 1 | x_1,x_2 ) &= 
+\frac{ e^{ \beta_0 + \beta_1 x_1 + \beta_2 x_2 +    \beta_{12} x_1 x_2}    }
+      {1+ e^{ \beta_0 + \beta_1 x_1 + \beta_2 x_2 +     \beta_{12} x_1 x_2 }  } \\ \\
+\Pr( y_{1,2} = 0 | x_1,x_2 ) &= 
+\frac{1}{1+e^{\beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2 } } \\ \\
+\text{odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
+  \exp( \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2 ) \\ \\
+\text{log odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
+  \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2  
+\end{align*}$$
+<li>Conditionally uniform models
 <li>Latent space models
 <ul> 
 <li>$p_1$ model
@@ -251,7 +264,7 @@ Recall, we want a model that can capture the underlying structural features of a
 <li>Exponential random graph models
 </ul>
 
-### Model Specification
+### ERG Model Specification
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
