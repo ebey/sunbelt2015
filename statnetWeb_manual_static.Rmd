@@ -277,6 +277,10 @@ $$\begin{align*}
   <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?
   </ul>
 <li>Conditionally uniform models
+  <ul>
+  <li>Useful for null hypotheses
+  <li>e.g. All possible graphs conditional on number of ties (see degree and geodesic distributions in **statnetWeb**)
+  </ul>
 <li>Latent space models
 <ul> 
 <li>$p_1$ model
