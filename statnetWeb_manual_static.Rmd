@@ -247,6 +247,7 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
 The appropriate model depends on the type of data. For now, we consider fully observed binary networks.
 
 Recall, we want to capture the underlying structural features of a network with a few parameters.
+
 <ul>
 <li>Covariate effects, odds ratios for tie preferences
   <ul>
@@ -308,6 +309,8 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 </ul>
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.  
+
+![](images/workflow.png)
 
 <u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
 
