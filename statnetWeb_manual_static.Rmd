@@ -290,6 +290,7 @@ $$\begin{align*}
   <ul>
   <li>Useful for null hypotheses
   <li>e.g. All possible graphs conditional on number of ties (see degree and geodesic distributions in **statnetWeb**)
+  <li>Compare test statistics from observed network to distributions of null models
   </ul>
 <li>Latent space models
 <ul> 
@@ -390,9 +391,7 @@ When a model fails
 
 <font class="lobj">Learning objectives:</font>
 
-<ul>
-<li>Null distributions and hypothesis tests
-</ul>
+Recall the hypothesis testing with conditionally uniform models. If we reject a single model, for example a simple random graph with tie probability $\theta_1$, we cannot necessarily reject any other simple random graph with $\theta_2$. Instead of checking every possible value of $\theta$, we use the maximum likelihood estimator $\hat\theta$ so that $p(Y|\hat\theta) \ge p(Y|\theta)$ for all $\theta \in \Theta$.
 
 #### statnetWeb: MCMC Diagnostics
 
