@@ -253,12 +253,8 @@ Recall, we want to capture the underlying structural features of a network with 
   <ul>
   <li>Densities of subgraphs $\rightarrow$ blockmodels
   
-
-                 $x_j = 0$       $x_j = 1$    
-------------  --------------  --------------
-  $x_i = 0$      $p_{00}$        $p_{01}$     
-  $x_i = 1$      $p_{10}$        $p_{11}$     
-------------- --------------  --------------
+  ![](images/blockmodel.png)
+  
   <li> $\text{odds}(E) = \frac{\text{Pr}(E)}{1-\text{Pr}(E)}$
   <li> $\text{odds}(E: A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
   <li> Baseline and relative rates: $p_{00}, \frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}$
@@ -279,7 +275,16 @@ $$\begin{align*}
   \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2  
 \end{align*}$$
   <li> $\beta_1$, the "effect" of $x_1$, represents the log odds ratio $(y=1|(1,0),(0,0))$
-  <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?
+  <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?  
+  <ul>
+  <li>If network density is low, $1-p_{x_ix_j} \approx 1$  
+  $$o_{x_ix_j} = p_{x_ix_j}/(1-p_{x_ix_j}) \approx p_{x_ix_j}$$
+  And
+  $$\begin{align*}
+  \{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\} & \approx \{o_{00}, \frac{o_{10}}{o_{00}}, \frac{o_{01}}{o_{00}}, \frac{o_{00}o_{11}}{o_{01}o_{10}}\} \\
+  & = \{\text{e}^{\beta_0}, \text{e}^{\beta_1}, \text{e}^{\beta_2}, \text{e}^{\beta_{12}}\}
+  \end{align*}$$
+  </ul>
   </ul>
 <li>Conditionally uniform models
   <ul>
@@ -292,11 +297,6 @@ $$\begin{align*}
 <li>$p_2$ model
 </ul>
 <li>Exponential random graph models ($p^*$)
-</ul>
-
-**Model Evaluation**
-<ul>
-<li>Null distributions and hypothesis tests
 </ul>
 
 ### ERG Model Specification
@@ -390,6 +390,10 @@ When a model fails
 
 <font class="lobj">Learning objectives:</font>
 
+<ul>
+<li>Null distributions and hypothesis tests
+</ul>
+
 #### statnetWeb: MCMC Diagnostics
 
 We want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0.  
@@ -440,7 +444,7 @@ Longitudinal network analysis?
 * Network analysis basics: 2 weeks
 * Data: 1 week
 * Network descriptives: 1 week
-* Model estimation: 2 weeks
+* Statistical models: 2 weeks
 * Diagnostics: 1 week
 * Model-based simulation: 2 weeks
 * Review and further topics: 1 week
@@ -450,7 +454,7 @@ Longitudinal network analysis?
 * Network analysis basics: 2 weeks
 * Data: 1 week
 * Network descriptives: 2 week
-* Model estimation: 3 weeks
+* Statistical models: 3 weeks
 * Diagnostics: 1 week
 * Model-based simulation: 2 weeks
 * Review and further topics: 3 weeks
