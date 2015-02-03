@@ -261,8 +261,12 @@ Recall, we want to capture the underlying structural features of a network with 
 ------------- --------------  --------------
   <li> $\text{odds}(E) = \frac{\text{Pr}(E)}{1-\text{Pr}(E)}$
   <li> $\text{odds}(E: A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
+  <li> Baseline and relative rates: $p_{00}, \frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}$
+  <li> Odds ratio $\frac{p_{00}p_{11}}{p_{01}p_{10}}$ represents preference for homophily
   </ul>
 <li>Logistic regression
+  <ul>
+  <li>Given a binary outcome variable $y$ and binary explanatory variables $x_1, x_2$
 $$\begin{align*}
  \Pr( y_{1,2} = 1 | x_1,x_2 ) &= 
 \frac{ e^{ \beta_0 + \beta_1 x_1 + \beta_2 x_2 +    \beta_{12} x_1 x_2}    }
@@ -274,7 +278,7 @@ $$\begin{align*}
 \text{log odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
   \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2  
 \end{align*}$$
-  <ul>
+  <li> $\beta_1$, the "effect" of $x_1$, represents the log odds ratio $(y=1|(1,0),(0,0))$
   <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?
   </ul>
 <li>Conditionally uniform models
@@ -288,6 +292,11 @@ $$\begin{align*}
 <li>$p_2$ model
 </ul>
 <li>Exponential random graph models ($p^*$)
+</ul>
+
+**Model Evaluation**
+<ul>
+<li>Null distributions and hypothesis tests
 </ul>
 
 ### ERG Model Specification
