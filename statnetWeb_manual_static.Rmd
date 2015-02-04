@@ -288,9 +288,23 @@ $$\begin{align*}
   </ul>
 <li>Conditionally uniform models
   <ul>
-  <li>Useful for null hypotheses
-  <li>e.g. All possible graphs conditional on number of ties (see degree and geodesic distributions in **statnetWeb**)
-  <li>Compare test statistics from observed network to distributions of null models
+  <li>Useful as null models for hypothesis testing - we can compare test statistics from the observed network to the distribution of these statistics under the null models.
+  <li>Simple random graphs (Bernoulli)
+  <ul>
+  <li>All possible graphs where the probability of each tie is a constant $\theta$ (number of nodes $n$ is conditional on observed network).
+  <li>Which $\theta$ to use if we want to reject all simple random graphs? Intuitively, if we use a value $\hat\theta$ that maximizes the probability that our observed network $y$ came from the distribution SRG($\theta$) and can reject this model, then we can reject SRG($\theta$) for all $\theta$. It turns out that the MLE $\hat\theta$ is equal to $\bar{y}$, the density of the observed network.
+  </ul>
+  <li>All possible graphs conditional on number of ties $s$ (Erdos-Reyni graph SRG($n,s$))
+  <ul>
+  <li>SRG($n,s$) does not require that we estimate $\theta$, but it often gives similar results to the SRG($\hat\theta$) model above
+  **add images of each distribution compared to test stat of an observed nw (and add this func to sW)**
+  </ul>
+  <li>We can add more conditions to the model: 
+  <ul>
+  <li>e.g. A null hypothesis where ties are independent of covariates ($p(Y,x)=p(Y) \times p(x)$) and the ties are drawn from the SRG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
+  <li>e.g. A null hypothesis where ties are independent of covariates and  the covariates are i.i.d. for some distribution p(x). We can simulate this by holding the ties in $Y$ constant and randomly permuting the values in $x$.
+  </ul>
+  <li>(see degree and geodesic distributions in **statnetWeb**)
   </ul>
 <li>Latent space models
 <ul> 
