@@ -286,6 +286,11 @@ $$\begin{align*}
   \end{align*}$$
   </ul>
   </ul>
+<li>Row and column effects 
+  <ul>
+  <li>$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu_{ij}}}{1+\text{e}^{\mu_{ij}}}$  
+  where $\mu_{ij}=\mu + a_i + b_j$
+  </ul>
 <li>Conditionally uniform models
   <ul>
   <li>Useful as null models for hypothesis testing - we can compare test statistics from the observed network to the distribution of these statistics under the null models.
@@ -301,7 +306,7 @@ $$\begin{align*}
   </ul>
   <li>We can add more conditions to the model: 
   <ul>
-  <li>e.g. A null hypothesis where ties are independent of covariates ($p(Y,x)=p(Y) \times p(x)$) and the ties are drawn from the SRG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
+  <li>e.g. A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the SRG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
   <li>e.g. A null hypothesis where ties are independent of covariates and  the covariates are i.i.d. for some distribution p(x). We can simulate this by holding the ties in $Y$ constant and randomly permuting the values in $x$.
   </ul>
   <li>(see degree and geodesic distributions in **statnetWeb**)
