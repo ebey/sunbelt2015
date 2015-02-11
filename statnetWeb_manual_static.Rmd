@@ -247,21 +247,43 @@ When compared to the null models, the faux.mesa.high network has fewer paths of 
 The appropriate model depends on the type of data. For now, we consider fully observed binary networks.
 
 Recall, we want to capture the underlying structural features of a network with a few parameters.
-<ul>
-<li>Covariate effects, odds ratios for tie preferences
+
+Conditionally uniform models
+  <ul>
+  <li>Useful as null models for hypothesis testing - we can compare test statistics from the observed network to the distribution of these statistics under the null models.
+  <li>Simple random graphs (Bernoulli)
+  <ul>
+  <li>All possible graphs where the probability of each tie is a constant $\theta$ (number of nodes $n$ is conditional on observed network).
+  <li>Which $\theta$ to use if we want to reject all simple random graphs? Intuitively, if we use a value $\hat\theta$ that maximizes the probability that our observed network $y$ came from the distribution SRG($\theta$) and can reject this model, then we can reject SRG($\theta$) for all $\theta$. It can be shown that the MLE $\hat\theta$ is equal to $\bar{y}$, the density of the observed network.
+  </ul>
+  <li>All possible graphs conditional on number of ties $s$ (Erdos-Reyni graph SRG($n,s$))
+  <ul>
+  <li>SRG($n,s$) does not require that we estimate $\theta$, but it often gives similar results to the SRG($\hat\theta$) model above
+  **add images of each distribution compared to test stat of an observed nw (and add this func to sW)**
+  </ul>
+  <li>We can add more conditions to the model: 
+  <ul>
+  <li>e.g. A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the SRG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
+  <li>e.g. A null hypothesis where ties are independent of covariates and  the covariates are i.i.d. for some distribution p(x). We can simulate this by holding the ties in $Y$ constant and randomly permuting the values in $x$.
+  </ul>
+  <li>(also see degree and geodesic distributions in **statnetWeb**)
+  </ul>
+  
+Covariate effects, odds ratios for tie preferences
   <ul>
   <li>Densities of subgraphs $\rightarrow$ blockmodels
   
-
-                 $x_j = 0$       $x_j = 1$    
-------------  --------------  --------------
-  $x_i = 0$      $p_{00}$        $p_{01}$     
-  $x_i = 1$      $p_{10}$        $p_{11}$     
-------------- --------------  --------------
+  ![](images/blockmodel.png)
+  
   <li> $\text{odds}(E) = \frac{\text{Pr}(E)}{1-\text{Pr}(E)}$
   <li> $\text{odds}(E: A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
+  <li> Baseline and relative rates: $p_{00}, \frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}$
+  <li> Odds ratio $\frac{p_{00}p_{11}}{p_{01}p_{10}}$ represents preference for homophily
   </ul>
-<li>Logistic regression
+  
+Logistic regression
+  <ul>
+  <li>Given a binary outcome variable $y$ and binary explanatory variables $x_1, x_2$
 $$\begin{align*}
  \Pr( y_{1,2} = 1 | x_1,x_2 ) &= 
 \frac{ e^{ \beta_0 + \beta_1 x_1 + \beta_2 x_2 +    \beta_{12} x_1 x_2}    }
@@ -273,21 +295,37 @@ $$\begin{align*}
 \text{log odds}( y_{1,2} = 1 | x_1,x_2 ) &= 
   \beta_0+\beta_1 x_1 + \beta_2 x_2 +  \beta_{12} x_1 x_2  
 \end{align*}$$
+  <li> $\beta_1$, the "effect" of $x_1$, represents the log odds ratio $(y=1|(1,0),(0,0))$
+  <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?  
   <ul>
-  <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?
+  <li>If network density is low, $1-p_{x_ix_j} \approx 1$  
+  $$o_{x_ix_j} = p_{x_ix_j}/(1-p_{x_ix_j}) \approx p_{x_ix_j}$$
+  And
+  $$\begin{align*}
+  \{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\} & \approx \{o_{00}, \frac{o_{10}}{o_{00}}, \frac{o_{01}}{o_{00}}, \frac{o_{00}o_{11}}{o_{01}o_{10}}\} \\
+  & = \{\text{e}^{\beta_0}, \text{e}^{\beta_1}, \text{e}^{\beta_2}, \text{e}^{\beta_{12}}\}
+  \end{align*}$$
   </ul>
-<li>Conditionally uniform models
+  </ul>
+  
+Row and column effects
   <ul>
-  <li>Useful for null hypotheses
-  <li>e.g. All possible graphs conditional on number of ties (see degree and geodesic distributions in **statnetWeb**)
+  <li>Captures levels of heterogeneity in nodal out-degree and in-degree
+  <li>$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu_{ij}}}{1+\text{e}^{\mu_{ij}}}$  
+  where $\mu_{ij}=\mu + a_i + b_j$
   </ul>
-<li>Latent space models
+  
+Latent space models
 <ul> 
 <li>$p_1$ model
 <li>$p_2$ model
 </ul>
-<li>Exponential random graph models ($p^*$)
-</ul>
+
+Exponential random graph models ($p^*$)
+  <ul>
+  <li>
+  </ul>
+
 
 ### ERG Model Specification
 
@@ -308,6 +346,8 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 </ul>
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.  
+
+![](images/workflow.png)
 
 <u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
 
@@ -378,6 +418,8 @@ When a model fails
 
 <font class="lobj">Learning objectives:</font>
 
+Recall the hypothesis testing with conditionally uniform models. If we reject a single model, for example a simple random graph with tie probability $\theta_1$, we cannot necessarily reject any other simple random graph with $\theta_2$. Instead of checking every possible value of $\theta$, we use the maximum likelihood estimator $\hat\theta$ so that $p(Y|\hat\theta) \ge p(Y|\theta)$ for all $\theta \in \Theta$.
+
 #### statnetWeb: MCMC Diagnostics
 
 We want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0.  
@@ -428,7 +470,7 @@ Longitudinal network analysis?
 * Network analysis basics: 2 weeks
 * Data: 1 week
 * Network descriptives: 1 week
-* Model estimation: 2 weeks
+* Statistical models: 2 weeks
 * Diagnostics: 1 week
 * Model-based simulation: 2 weeks
 * Review and further topics: 1 week
@@ -438,7 +480,7 @@ Longitudinal network analysis?
 * Network analysis basics: 2 weeks
 * Data: 1 week
 * Network descriptives: 2 week
-* Model estimation: 3 weeks
+* Statistical models: 3 weeks
 * Diagnostics: 1 week
 * Model-based simulation: 2 weeks
 * Review and further topics: 3 weeks
