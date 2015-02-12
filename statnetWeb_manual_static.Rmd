@@ -259,14 +259,63 @@ Conditionally uniform models
   <li>All possible graphs conditional on number of ties $s$ (Erdos-Reyni graph SRG($n,s$))
   <ul>
   <li>SRG($n,s$) does not require that we estimate $\theta$, but it often gives similar results to the SRG($\hat\theta$) model above
-  **add images of each distribution compared to test stat of an observed nw (and add this func to sW)**
+  <li>**statnetWeb:** compare SRG($\hat\theta$) and SRG($n,s$) distributions in the degree and geodesic distributions  
+  **TO DO: add images of distribution compared to other test stats of an observed nw (and add this func to sW)**
   </ul>
   <li>We can add more conditions to the model: 
   <ul>
   <li>e.g. A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the SRG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
+```{r,echo=FALSE}
+library(rda)
+data(conflict90s)
+polity <- conflict90s$nodevars[,3]
+Y <- conflict90s$conflicts
+
+moremore <- mean(Y[polity>0,polity>0], na.rm=TRUE)
+moreless <- mean(Y[polity>0,polity<0], na.rm=TRUE)
+lessmore <- mean(Y[polity<0,polity>0], na.rm=TRUE)
+lessless <- mean(Y[polity<0,polity<0], na.rm=TRUE)
+
+
+#shuffle entries of sociomatrix, keeping polity as observed
+n <- dim(Y)[1]
+tievals <- Y[!is.na(conflict90s$conflicts)]
+
+shuffledties <- function(n,vals){
+  Ysim <- matrix(0,n,n)
+  diag(Ysim) <- NA
+  Ysim[!is.na(Ysim)] <- sample(vals)
+  Ysim
+}
+
+moremore_sim <- NULL
+moreless_sim <- NULL
+lessmore_sim <- NULL
+lessless_sim <- NULL
+S <- 1000
+
+for(i in 1:S){
+  Ysim <- shuffledties(n,tievals)
+  moremore_sim <- rbind(moremore_sim, mean(Ysim[polity>0,polity>0],na.rm=TRUE))
+  lessless_sim <- rbind(lessless_sim, mean(Ysim[polity<0,polity<0],na.rm=TRUE))
+  moreless_sim <- rbind(moreless_sim, mean(Ysim[polity>0,polity<0],na.rm=TRUE))
+  lessmore_sim <- rbind(lessmore_sim, mean(Ysim[polity<0,polity>0],na.rm=TRUE))
+}
+par(mfrow=c(2,2))
+hist(moremore_sim, xlab="Avg Edge Value",main="Dem -> Dem", col="lightblue")
+abline(v=moremore, col="red",lty=2,lwd=2)
+hist(moreless_sim, xlab="Avg Edge Value",main="Dem -> NonDem", col="lightblue")
+abline(v=moreless, col="red",lty=2,lwd=2)
+hist(lessmore_sim, xlab="Avg Edge Value",main="NonDem -> Dem", col="lightblue")
+abline(v=lessmore, col="red",lty=2,lwd=2)
+hist(lessless_sim, xlab="Avg Edge Value",main="NonDem -> NonDem", col="lightblue",
+     xlim=range(c(lessless,lessless_sim)))
+abline(v=lessless, col="red",lty=2,lwd=2)
+```
+
   <li>e.g. A null hypothesis where ties are independent of covariates and  the covariates are i.i.d. for some distribution p(x). We can simulate this by holding the ties in $Y$ constant and randomly permuting the values in $x$.
+  ![](images/shufflexvals.png)
   </ul>
-  <li>(also see degree and geodesic distributions in **statnetWeb**)
   </ul>
   
 Covariate effects, odds ratios for tie preferences
