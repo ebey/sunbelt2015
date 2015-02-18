@@ -256,6 +256,7 @@ Conditionally uniform models
   <li>All possible graphs conditional on number of ties $s$ (Erdos-Reyni graph SRG($n,s$))
   <ul>
   <li>SRG($n,s$) does not require that we estimate $\theta$, but it often gives similar results to the SRG($\hat\theta$) model above  
+  ![](images/fmh_sddeg.png)
   ***add images of each distribution compared to test stat of an observed nw (and add this func to sW)**
   <li>See these distributions as overlays on the degree and geodesic distributions in **statnetWeb**.  
    When compared to the null models, the faux.mesa.high network has fewer paths of length 5-8 than we would expect, and more disconnected node pairs (with geodesic distance inf).  
