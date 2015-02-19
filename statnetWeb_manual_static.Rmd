@@ -239,7 +239,7 @@ The geodesic measures the length of the shortest path between two nodes. A geode
 
 ## Statistical Models
 
-<font class="lobj">Learning objectives:</font> What can ERGMs represent that other models can't?
+<font class="lobj">Learning objectives:</font> Build understanding of modeling process step by step, eventually arriving at ERGMs.
 
 The appropriate model depends on the type of data. For now, we consider fully observed binary networks.
 
@@ -256,8 +256,9 @@ Conditionally uniform models
   <li>All possible graphs conditional on number of ties $s$ (Erdos-Reyni graph SRG($n,s$))
   <ul>
   <li>SRG($n,s$) does not require that we estimate $\theta$, but it often gives similar results to the SRG($\hat\theta$) model above  
-  ![](images/fmh_sddeg.png)
-  ***add images of each distribution compared to test stat of an observed nw (and add this func to sW)**
+  <font class="ex">Example:</font> faux.mesa.high network  
+  ![](images/brg_density.png)
+  ![](images/fmh_sddeg.png)  
   <li>See these distributions as overlays on the degree and geodesic distributions in **statnetWeb**.  
    When compared to the null models, the faux.mesa.high network has fewer paths of length 5-8 than we would expect, and more disconnected node pairs (with geodesic distance inf).  
 ![mesa geodist](images/mesa_geodist_small.png)
@@ -279,6 +280,20 @@ Covariate effects, odds ratios for tie preferences
   <li> $\text{odds}(E: A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
   <li> Baseline and relative rates: $p_{00}, \frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}$
   <li> Odds ratio $\frac{p_{00}p_{11}}{p_{01}p_{10}}$ represents preference for homophily
+  
+  <font class="ex">Example:</font> Ties between males/females in faux.mesa.high network. We can see from the probabilities of ties within and between the sexes (which are the densities of those subgraphs) that female-female ties are the most likely in this network. The relative rates show us that male-female relationships are less than half as likely as female-female and that there is a strong preference for within sex homophily. 
+  $$\begin{align*}
+  p_{FF}&=0.0167 \\
+  p_{FM}=p_{MF}&= 0.0068 \\
+  p_{MM}&=0.0089
+  \end{align*}$$
+  
+  $$\begin{align*}
+  p_{FF}&=0.0167 \\
+  \frac{p_{FM}}{p_{FF}}=\frac{p_{MF}}{p_{FF}}&=0.4043 \\
+  \frac{p_{FF}p_{MM}}{p_{FM}p_{MF}}&=3.2533
+  \end{align*}
+  $$
   </ul>
   
 Logistic regression
@@ -290,12 +305,13 @@ $$\begin{align*}
       {1+ e^{ \beta_0 + \beta_1 x_i + \beta_2 x_j +     \beta_{12} x_i x_j }  } \\ \\
 \Pr( y_{i,j} = 0 | x_i,x_j ) &= 
 \frac{1}{1+e^{\beta_0+\beta_1 x_i + \beta_2 x_j +  \beta_{12} x_i x_j } } \\ \\
-\text{odds}( y_{i,j} = 1 | x_i,x_j ) &= 
+\frac{\Pr( y_{i,j} = 1 | x_i,x_j )}{\Pr( y_{i,j} = 0 | x_i,x_j )} = \text{odds}( y_{i,j} = 1 | x_i,x_j ) &= 
   \exp( \beta_0+\beta_1 x_i + \beta_2 x_j +  \beta_{12} x_i x_j ) \\ \\
 \text{log odds}( y_{i,j} = 1 | x_i,x_j ) &= 
   \beta_0+\beta_1 x_i + \beta_2 x_j +  \beta_{12} x_i x_j  
 \end{align*}$$
-  <li> $\beta_1$, the "effect" of $x_i$, represents the log odds ratio $(y=1|(1,0),(0,0))$
+  <li> $\beta_1$, the "effect" of $x_i$, represents the log odds ratio $(y=1|(1,0),(0,0))$  
+  <font class="ex">Example:</font> **look at notes for how to make this work**
   <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?  
   <ul>
   <li>If network density is low, $1-p_{x_ix_j} \approx 1$  
