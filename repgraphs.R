@@ -29,17 +29,24 @@ for(i in 1:500){
   brg_close <- rbind(brg_close, centralization(Ybrg, closeness,mode="graph",cmode="undirected"))
 }
 
-CUGcol <- adjustcolor("firebrick", alpha.f=0.55)
-BRGcol <- adjustcolor("orangered", alpha.f=0.55)
+CUGcol <- adjustcolor("darkred", alpha.f=0.7)
+BRGcol <- adjustcolor("sienna1", alpha.f=0.9)
+
+par(mfrow=c(1,1), mar=mar, xpd=FALSE)
+layout(rbind(c(1,2,3)), widths=c(2,2,1.1))
+hist(brg_theta, col=BRGcol, ylab=NULL, main=NULL, xlab="density")
+abline(v=obs_theta, col="blue", lty=2, lwd=2)
 
 hist(brg_sdd, col=BRGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(brg_sdd,cug_sdd,obs_sdd+.2), ylim=c(0,150))
 hist(cug_sdd, col=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", add=T)
 abline(v=obs_sdd, col="blue", lty=2, lwd=2)
+plot.new(); par(xpd=TRUE)
+legend(x="top",legend=c("observed","BRG","CUG(n,s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
+       col=c("blue",0,0), lty=c(2,0,0),lwd=c(2,0,0), merge=TRUE, bty="n")
 
-hist(brg_theta, col=BRGcol, ylab=NULL, main=NULL, xlab="density")
-abline(v=obs_theta, col="blue", lty=2, lwd=2)
 
-hist(brg_close, col=BRGcol, ylab=NULL, main=NULL, xlab="closeness centrality")
+par(mfrow=c(1,1), xpd=FALSE)
+#hist(brg_close, col=BRGcol, ylab=NULL, main=NULL, xlab="closeness centrality")
 #all zeros because graph is disconnected
 
 ### Blockmodels
