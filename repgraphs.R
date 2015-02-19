@@ -29,8 +29,8 @@ for(i in 1:500){
   brg_close <- rbind(brg_close, centralization(Ybrg, closeness,mode="graph",cmode="undirected"))
 }
 
-CUGcol <- adjustcolor("firebrick", alpha.f=0.7)
-BRGcol <- adjustcolor("orangered", alpha.f=0.7)
+CUGcol <- adjustcolor("firebrick", alpha.f=0.55)
+BRGcol <- adjustcolor("orangered", alpha.f=0.55)
 
 hist(brg_sdd, col=BRGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(brg_sdd,cug_sdd,obs_sdd+.2), ylim=c(0,150))
 hist(cug_sdd, col=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", add=T)
