@@ -324,7 +324,7 @@ $$\begin{align*}
   $$o_{x_ix_j} = p_{x_ix_j}/(1-p_{x_ix_j}) \approx p_{x_ix_j}$$
   And
   $$\begin{align*}
-  \{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\} & \approx \{o_{00}, \frac{o_{10}}{o_{00}}, \frac{o_{01}}{o_{00}}, \frac{o_{00}o_{11}}{o_{01}o_{10}}\} \\
+  \{ p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\} & \approx \{o_{00}, \frac{o_{10}}{o_{00}}, \frac{o_{01}}{o_{00}}, \frac{o_{00}o_{11}}{o_{01}o_{10}}\} \\
   & = \{\text{e}^{\beta_0}, \text{e}^{\beta_1}, \text{e}^{\beta_2}, \text{e}^{\beta_{12}}\}
   \end{align*}$$
   </ul>
@@ -334,7 +334,8 @@ Row and column effects
   <ul>
   <li>Captures levels of heterogeneity in nodal out-degree and in-degree
   <li>$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu_{ij}}}{1+\text{e}^{\mu_{ij}}}$  
-  where $\mu_{ij}=\mu + a_i + b_j$
+  where $\mu_{ij}=\mu + a_i + b_j$  
+  ![](images/samp_sdinout.png)
   </ul>
   
 Latent space models
