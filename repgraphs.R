@@ -1,33 +1,75 @@
 library(statnet)
 data(faux.mesa.high)
+data(sampson)
+
+Yfmh <- as.sociomatrix(faux.mesa.high)
+diag(Yfmh) <- NA
+Ysamp <- as.sociomatrix(samplike)
+diag(Ysamp) <- NA
+
 fmh <- faux.mesa.high
-n <- fmh$gal$n
 
-obs_sdd <- sd(degree(fmh, gmode="graph"))
-obs_theta <- gden(fmh, mode="graph")
-obs_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
+fmh_sdd <- sd(degree(fmh, gmode="graph"))
+fmh_dens <- gden(fmh, mode="graph")
+fmh_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
 
-brg_theta <- NULL
-brg_close <- NULL
-brg_sdd <- NULL
-cug_sdd <- NULL
-cug_close <- NULL
+samp_sdd <- sd(degree(samplike, gmode="digraph"))
+samp_dens <- gden(samplike, mode="digraph")
+samp_close <- centralization(samplike, closeness, mode="digraph", cmode="directed")
 
-for(i in 1:500){
-  Ycug <- matrix(0,n,n)
-  diag(Ycug)<- NA
-  Ycug[upper.tri(Ycug)] <- sample(c(rep(1,203),rep(0,n*(n-1)/2-203)))
-  Ycug <- symmetrize(Ycug, rule="upper")
-  cug_sdd <- rbind(cug_sdd, sd(degree(Ycug, gmode="graph")))
-  cug_close <- rbind(cug_close, centralization(Ycug, closeness,mode="graph",cmode="undirected"))
+tsim <- function(Y, gmode, cmode){
+  n <- nrow(Y)
+  if(gmode=="graph"){
+    s <- sum(Y, na.rm=T)/2
+  } else {
+    s <- sum(Y, na.rm=T)
+  }
+  obs_dens <- mean(Y, na.rm=TRUE)
   
-  Ybrg<-matrix(rbinom(n^2,1,obs_theta),n,n)
-  diag(Ybrg)<-NA
-  Ybrg <- symmetrize(Ybrg,rule="upper")
-  brg_sdd <- rbind(brg_sdd, sd(degree(Ybrg, gmode="graph")))
-  brg_theta <- rbind(brg_theta, gden(Ybrg, mode="graph"))
-  brg_close <- rbind(brg_close, centralization(Ybrg, closeness,mode="graph",cmode="undirected"))
+  brg_dens <- NULL
+  brg_close <- NULL
+  brg_sdd <- NULL
+  cug_sdd <- NULL
+  cug_close <- NULL
+  cug_sdi <- NULL
+  cug_sdo <- NULL
+  brg_sdi <- NULL
+  brg_sdo <- NULL
+  
+  for(i in 1:500){
+    Ycug <- matrix(0,n,n)
+    diag(Ycug)<- NA
+    if(gmode=="graph"){
+      Ycug[upper.tri(Ycug)] <- sample(c(rep(1,s),rep(0,n*(n-1)/2-s)))
+      Ycug <- symmetrize(Ycug, rule="upper")
+    } else {
+      Ycug[!is.na(Ycug)] <- sample(c(rep(1,s), rep(0,n*(n-1)-s)))
+    }
+    cug_sdd <- rbind(cug_sdd, sd(degree(Ycug, gmode=gmode)))
+    cug_close <- rbind(cug_close, centralization(Ycug, closeness,mode=gmode,cmode=cmode))
+    cug_sdo <- rbind(cug_sdi, sd(rowSums(Ycug, na.rm=TRUE)))
+    cug_sdi <- rbind(cug_sdo, sd(colSums(Ycug, na.rm=TRUE)))
+    
+    Ybrg<-matrix(rbinom(n^2,1,obs_dens),n,n)
+    diag(Ybrg)<-NA
+    Ybrg <- symmetrize(Ybrg,rule="upper")
+    brg_sdd <- rbind(brg_sdd, sd(degree(Ybrg, gmode=gmode)))
+    brg_dens <- rbind(brg_dens, gden(Ybrg, mode=gmode))
+    brg_close <- rbind(brg_close, centralization(Ybrg, closeness,mode=gmode,cmode=cmode))
+    brg_sdo <- rbind(brg_sdi, sd(rowSums(Ybrg, na.rm=TRUE)))
+    brg_sdi <- rbind(brg_sdo, sd(colSums(Ybrg, na.rm=TRUE)))
+  }
+  
+  dat <- list()
+  dat$cug <- cbind(cug_sdd, cug_close, cug_sdo, cug_sdi)
+  dat$brg <- cbind(brg_sdd, brg_close, brg_sdo, brg_sdi, brg_dens)
+  return(dat)
 }
+
+
+
+fmhsim <- tsim(Yfmh, gmode="graph", cmode="undirected")
+
 
 CUGcol <- adjustcolor("darkred", alpha.f=0.7)
 BRGcol <- adjustcolor("sienna1", alpha.f=0.9)
@@ -50,16 +92,36 @@ par(mfrow=c(1,1), xpd=FALSE)
 #all zeros because graph is disconnected
 
 ### Blockmodels
-Yobs <- as.sociomatrix(fmh)
 sex <- get.vertex.attribute(fmh,"Sex")
-p00 <- mean(Yobs[sex=="F",sex=="F"])
-p01 <- mean(Yobs[sex=="F",sex=="M"])
-p10 <- mean(Yobs[sex=="M",sex=="F"])
-p11 <- mean(Yobs[sex=="M",sex=="M"])
+p00 <- mean(Yfmh[sex=="F",sex=="F"])
+p01 <- mean(Yfmh[sex=="F",sex=="M"])
+p10 <- mean(Yfmh[sex=="M",sex=="F"])
+p11 <- mean(Yfmh[sex=="M",sex=="M"])
 
+
+
+### Regression
 sex01 <- 1*(sex=="M")
 sexR <- matrix(sex01,nrow=n,ncol=n)
 sexC <- t(sexR)
 fit <- glm(c(Yobs) ~ c(sexR) + c(sexR)*c(sexC), family=binomial)
 summary(fit)
 exp(fit$coef)
+
+
+sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
+
+### Row Column Effects
+samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
+samp_sdi <- sd(colSums(Ysamp, na.rm=TRUE))
+par(mfrow=c(1,2));
+hist(sampsimdat$brg[,3], col=BRGcol, xlab="sd(out-degree)", ylab=NULL,main=NULL,
+     xlim=range(c(sampsimdat$cug[,3],samp_sdo)))
+hist(sampsimdat$cug[,3], col=CUGcol, add=T)
+abline(v=samp_sdo,col="blue", lty=2, lwd=2)
+
+hist(sampsimdat$brg[,4], col=BRGcol, xlab="sd(in-degree)", ylab=NULL,main=NULL,
+     xlim=range(c(sampsimdat$cug[,4],samp_sdi)))
+hist(sampsimdat$cug[,4], col=CUGcol, add=T)
+abline(v=samp_sdi,col="blue", lty=2, lwd=2)
+par(mfrow=c(1,1)); title(main="sampson"); 
