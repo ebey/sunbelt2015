@@ -47,8 +47,8 @@ tsim <- function(Y, gmode, cmode){
     }
     cug_sdd <- rbind(cug_sdd, sd(degree(Ycug, gmode=gmode)))
     cug_close <- rbind(cug_close, centralization(Ycug, closeness,mode=gmode,cmode=cmode))
-    cug_sdo <- rbind(cug_sdi, sd(rowSums(Ycug, na.rm=TRUE)))
-    cug_sdi <- rbind(cug_sdo, sd(colSums(Ycug, na.rm=TRUE)))
+    cug_sdo <- rbind(cug_sdo, sd(rowSums(Ycug, na.rm=TRUE)))
+    cug_sdi <- rbind(cug_sdi, sd(colSums(Ycug, na.rm=TRUE)))
     
     Ybrg<-matrix(rbinom(n^2,1,obs_dens),n,n)
     diag(Ybrg)<-NA
@@ -56,8 +56,8 @@ tsim <- function(Y, gmode, cmode){
     brg_sdd <- rbind(brg_sdd, sd(degree(Ybrg, gmode=gmode)))
     brg_dens <- rbind(brg_dens, gden(Ybrg, mode=gmode))
     brg_close <- rbind(brg_close, centralization(Ybrg, closeness,mode=gmode,cmode=cmode))
-    brg_sdo <- rbind(brg_sdi, sd(rowSums(Ybrg, na.rm=TRUE)))
-    brg_sdi <- rbind(brg_sdo, sd(colSums(Ybrg, na.rm=TRUE)))
+    brg_sdo <- rbind(brg_sdo, sd(rowSums(Ybrg, na.rm=TRUE)))
+    brg_sdi <- rbind(brg_sdi, sd(colSums(Ybrg, na.rm=TRUE)))
   }
   
   dat <- list()
@@ -114,7 +114,7 @@ sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
 ### Row Column Effects
 samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
 samp_sdi <- sd(colSums(Ysamp, na.rm=TRUE))
-par(mfrow=c(1,2));
+par(mfrow=c(1,3))
 hist(sampsimdat$brg[,3], col=BRGcol, xlab="sd(out-degree)", ylab=NULL,main=NULL,
      xlim=range(c(sampsimdat$cug[,3],samp_sdo)))
 hist(sampsimdat$cug[,3], col=CUGcol, add=T)
@@ -124,4 +124,8 @@ hist(sampsimdat$brg[,4], col=BRGcol, xlab="sd(in-degree)", ylab=NULL,main=NULL,
      xlim=range(c(sampsimdat$cug[,4],samp_sdi)))
 hist(sampsimdat$cug[,4], col=CUGcol, add=T)
 abline(v=samp_sdi,col="blue", lty=2, lwd=2)
-par(mfrow=c(1,1)); title(main="sampson"); 
+plot.new()
+par(mar=c(5.1,0,4.1,2.1))
+legend(x="topleft",legend=c("observed","BRG","CUG(n,s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
+       col=c("blue",0,0), lty=c(2,0,0),lwd=c(2,0,0), merge=TRUE, bty="n")
+par(mfrow=c(1,1)); title(main="sampson data"); 
