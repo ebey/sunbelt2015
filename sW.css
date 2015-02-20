@@ -7,6 +7,17 @@
   color: #669900;
   font-weight: bold;
 }
-.ex {
+font.ex {
   color: #B20000
+}
+div.ex {
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #F0F0F0;
+}
+div.cols {
+  -webkit-column-count: 2; /* Chrome, Safari, Opera */
+  -moz-column-count: 2;  /* Firefox */
+  column-count: 2;
 }
