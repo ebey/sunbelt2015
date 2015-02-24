@@ -14,8 +14,22 @@ fmh_dens <- gden(fmh, mode="graph")
 fmh_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
 
 samp_sdd <- sd(degree(samplike, gmode="digraph"))
+samp_sdideg <- sd(colSums(Ysamp, na.rm=T))
+samp_sdodeg <- sd(rowSums(Ysamp, na.rm=T))
 samp_dens <- gden(samplike, mode="digraph")
 samp_close <- centralization(samplike, closeness, mode="digraph", cmode="directed")
+ns <- nrow(Ysamp)
+brg_dens <- NULL
+brg_sdi <- NULL
+brg_sdo <- NULL
+for(s in 1:500){
+  Ysim <- matrix(rbinom(ns^2,1,samp_dens),ns,ns)
+  diag(Ysim)<- NA
+  brg_dens <- rbind(brg_dens,mean(Ysim,na.rm=T))
+  brg_sdo <- rbind(brg_sdo, sd(rowSums(Ysim, na.rm=TRUE)))
+  brg_sdi <- rbind(brg_sdi, sd(colSums(Ysim, na.rm=TRUE)))
+}
+
 
 tsim <- function(Y, gmode, cmode){
   n <- nrow(Y)
