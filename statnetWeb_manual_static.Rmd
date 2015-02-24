@@ -142,9 +142,13 @@ See [Snijders 2011](http://www.stats.ox.ac.uk/~snijders/StatModelsSocNetworks.pd
 <font class="lobj">Learning objectives:</font> Know differences between network representation methods and advantages/disadvantages of each. Practice creating networks, translating between each representation and uploading to statnetWeb.
 
 Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists.
+![](images/snet_data.png)
+
 <ul>
-<li>Example of each representation with same network
-<li>Limitations of each
+<li>Limitations:
+  <ul>
+  <li>
+  </ul>
 <li>The network type will be reflected in the data
 </ul>
 
@@ -245,7 +249,7 @@ The appropriate model depends on the type of data. For now, we consider fully ob
 
 Recall, we want to capture the underlying structural features of a network with a few parameters.
 
-<font class="ex">**insert image of workflow**</font>
+![](images/workflow1.png)
 
 **Conditionally uniform models**
   <ul>
