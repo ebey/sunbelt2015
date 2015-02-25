@@ -147,6 +147,8 @@ Outside of statnetWeb, the nodes and edges of a network can be denoted by adjace
 <ul>
 <li>Limitations:
   <ul>
+  <li>Adjacency matrices are large, but often sparse
+  <li>Edge lists don't include isolates
   <li>
   </ul>
 <li>The network type will be reflected in the data
@@ -257,11 +259,11 @@ Recall, we want to capture the underlying structural features of a network with 
   <li>Simple random graphs (Bernoulli)
   <ul>
   <li>All possible graphs where the probability of each tie is a constant $\theta$ (number of nodes $n$ is conditional on observed network).
-  <li>Which $\theta$ to use if we want to reject all simple random graphs? If we use a value $\hat\theta$ that maximizes the probability that our observed network $y$ came from the distribution SRG($\theta$) and can reject this model, then we can reject SRG($\theta$) for all $\theta$. It can be shown that the MLE $\hat\theta$ is equal to $\bar{y}$, the density of the observed network.
+  <li>Which $\theta$ to use if we want to reject all bernoulli random graphs? If we use a value $\hat\theta$ that maximizes the probability that our observed network $y$ came from the distribution BRG($\theta$) and can reject this model, then we can reject BRG($\theta$) for all $\theta$. It can be shown that the MLE $\hat\theta$ is equal to $\bar{y}$, the density of the observed network.
   </ul>
   <li>All possible graphs conditional on number of ties $s$: CUG($n,s$) (an Erdos-Reyni graph)
   <ul>
-  <li>CUG($n,s$) does not require that we estimate $\theta$, it always reproduces the density of the observed network. It often gives similar results to the SRG($\hat\theta$) model above. 
+  <li>CUG($n,s$) does not require that we estimate $\theta$, it always reproduces the density of the observed network. It often gives similar results to the BRG($\hat\theta$) model above. 
   </ul>
   <div class="ex">
   <font class="ex">Example:</font> `faux.mesa.high` network  
@@ -272,14 +274,14 @@ Recall, we want to capture the underlying structural features of a network with 
   </div>
   <li>We can add more conditions to the model: 
   <ul>
-  <li>A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the SRG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
+  <li>A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the CUG($n,s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
   <li>A null hypothesis where ties are independent of covariates and  the covariates are i.i.d. for some distribution p(x). We can simulate this by holding the ties in $Y$ constant and randomly permuting the values in $x$.
   </ul>
   </ul>
   
 **Covariate effects, odds ratios for tie preferences**
   <ul>
-  <li>Densities of subgraphs $\rightarrow$ blockmodels
+  <li>Rearrange the rows and columns of an adjacency matrix to create a blockmodel where nodes are grouped by values of a covariate. Each subgraph has its own density, which shows potential effects from the covariates.
   
   ![](images/blockmodel.png)
   
@@ -375,6 +377,8 @@ Perhaps some nodes in a directed network are more likely to send ties (more soci
 
 ### ERG Model Specification
 
+![](images/workflow2.png)
+
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
 $$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
@@ -392,8 +396,6 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 </ul>
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.  
-
-![](images/workflow.png)
 
 <u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
 
