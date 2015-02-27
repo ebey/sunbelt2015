@@ -373,15 +373,23 @@ $$\begin{align*}
   </div>
   </ul>
   
-**Row and column effects**
+**Individual effects**
 
-Perhaps some nodes in a directed network are more likely to send ties (more sociable) or more likely to receive ties (more popular). We can capture the heterogeneity of out-degree and in-degree with a row and column effects model (RCE).
+Perhaps some nodes in a directed network are more likely to send ties (more sociable) or more likely to receive ties (more popular). We can capture the variability of out-degree and in-degree by fitting the marginal totals of a network's adjacency matrix.
+<div align="center">
+![](images/snet_margins.png)
+</div>
+
+The model below takes into account a row effect $a$ from the sender and column effect $b$ from the receiver. Note that in an undirected network the row and column sums are equal, so $a_i = b_i$ for each node $i$.
+
   <ul>
-  $$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu + a_{i} + b_{j}}}{1+\text{e}^{\mu + a_{i} + b_{j}}}$$  
-
+  $$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu + a_{i} + b_{j}}}{1+\text{e}^{\mu + a_{i} + b_{j}}}$$   
+  
+  <div style="position:relative; left:200px;">
   $\mu$: grand mean  
   $a_i$: measure of sociability of node i  
   $b_j$: measure of popularity of node j
+  </div>
   
   <div class="ex">
   <font class="ex">Example:</font> Consider a directed network of friendship nominations among a group of monks. Clearly our previous null models do not accurately capture the heterogeneity of in- and out-degree.  
