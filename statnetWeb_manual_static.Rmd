@@ -290,14 +290,22 @@ xsim <- sample(xobs)
   
 **Covariate effects, odds ratios for tie preferences**
   <ul>
-  <li>Rearrange the rows and columns of an adjacency matrix to create a blockmodel where nodes are grouped by values of a covariate. Each subgraph has its own density, which shows potential effects from the covariate.
+  <li>Rearrange the rows and columns of an adjacency matrix to create a blockmodel where nodes are grouped by values of a nodal covariate. Each block is a subgraph with its own density.
+  <li>Comparing densities of the blocks shows potential effects from the covariate on tie formation.
   
   ![](images/blockmodel.png)
   
-  <li> $\text{odds}(E) = \frac{\text{Pr}(E)}{1-\text{Pr}(E)}$
-  <li> $\text{odds}(E: A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
-  <li> Baseline and relative rates: $p_{00}, \frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}$
-  <li> Odds ratio $\frac{p_{00}p_{11}}{p_{01}p_{10}}$ represents preference for homophily
+  <li> The odds of an event $E$ occurring is the ratio of the probability that $E$ occurs to the probability that it doesn't.  
+  $\text{odds}(E) = \frac{\text{Pr}(E)}{1-\text{Pr}(E)}$
+  <li> An odds ratio compares the odds of $E$ occuring given $A$, to the odds of $E$ occuring given $B$, where $B=A^C$    
+  $\text{odds}(E| A, B) = \frac{\text{Pr}(E|A)}{1-\text{Pr}(E|A)}\frac{1-\text{Pr}(E|B)}{\text{Pr}(E|B)}$
+  <li> The relative rates $\frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}$ capture the relative tendency of ties in heterogeneous pairs compared to the baseline rate $p_{00}$
+  <li> The odds ratio $\frac{p_{00}p_{11}}{p_{01}p_{10}} = \gamma$ represents preference for homophily.
+  <ul>
+  <li> $\gamma = \text{odds ratio}(x_j=1 | \{y_{ij}=1,x_i=1\}\{y_{ij},x_i=0\})$
+  <li> $\gamma = \text{odds ratio}(x_i=1 | \{y_{ij}=1,x_j=1\}\{y_{ij},x_j=0\})$
+  </ul>
+  <li> Together, the set $\{ p_{00}, \frac{p_{01}}{p_{00}}, \frac{p_{10}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$ can give a better sense of the data than individual probabilities from each block.
   
   <div class="ex">
   <font class="ex">Example:</font> Ties between males/females in `faux.mesa.high` network. We can see from the probabilities of ties within and between the sexes (which are the densities of those subgraphs) that female-female ties are the most likely in this network. The relative rates show us that male-female relationships are less than half as likely as female-female and the odds ratio shows that there is a strong preference for within sex ties.  
@@ -347,6 +355,7 @@ $$\begin{align*}
 \text{logit}(y_{i,j} = 1 | x_i,x_j) = \text{log odds}( y_{i,j} = 1 | x_i,x_j ) &= 
   \beta_0+\beta_1 x_i + \beta_2 x_j +  \beta_{12} x_i x_j  
 \end{align*}$$
+  <li> $\beta_0$ is the baseline log odds of a tie in the case where $x_i = x_j = 0$
   <li> $\beta_1$ is the log of the odds ratio $(y=1|(1,0),(0,0))$, it represents the "effect" of $x_i$
   <li> $\beta_2$ is the log of the odds ratio $(y=1|(0,1),(0,0))$, it represents the "effect" of $x_j$
   <li> $\beta_{12}$ is the log of the ratio of odds ratios $(y=1|(1,1),(0,1))/(y=1|(1,0),(0,0))$, it represents the effect of the interaction $x_i x_j$
