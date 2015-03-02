@@ -115,12 +115,25 @@ p11 <- mean(Yfmh[sex=="M",sex=="M"])
 
 
 ### Regression
+n <- nrow(Yfmh)
 sex01 <- 1*(sex=="M")
 sexR <- matrix(sex01,nrow=n,ncol=n)
 sexC <- t(sexR)
-fit <- glm(c(Yobs) ~ c(sexR) + c(sexR)*c(sexC), family=binomial)
+fit <- glm(c(Yfmh) ~ c(sexR) + c(sexC) + c(sexR)*c(sexC), family=binomial)
 summary(fit)
 exp(fit$coef)
+P <- fit$fitted.values
+
+sim_sdo <- NULL
+sim_sdi <- NULL
+
+for(j in 1:500){
+  Ysim <- matrix(0,n,n)
+  diag(Ysim)<- NA
+  Ysim[!is.na(Ysim)] <- rbinom(n*(n-1),1,P)
+  sim_sdo <- rbind(sim_sdo, sd(rowSums(Ysim,na.rm=T)))
+  sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
+}
 
 
 sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
