@@ -310,15 +310,15 @@ xsim <- sample(xobs)
   <div class="ex">
   <font class="ex">Example:</font> Ties between males/females in `faux.mesa.high` network. We can see from the probabilities of ties within and between the sexes (which are the densities of those subgraphs) that female-female ties are the most likely in this network. The relative rates show us that male-female relationships are less than half as likely as female-female and the odds ratio shows that there is a strong preference for within sex ties.  
   $$\begin{align*}
-  p_{FF}&=0.0167 \\
+  p_{FF}&=0.0169 \\
   p_{FM}=p_{MF}&= 0.0068 \\
   p_{MM}&=0.0089
   \end{align*}$$
    
   $$\begin{align*}
-  p_{FF}&=0.0167 \\
-  \frac{p_{FM}}{p_{FF}}=\frac{p_{MF}}{p_{FF}}&=0.4043 \\
-  \frac{p_{FF}p_{MM}}{p_{FM}p_{MF}}&=3.2533
+  p_{FF}&=0.0169 \\
+  \frac{p_{FM}}{p_{FF}}=\frac{p_{MF}}{p_{FF}}&=0.4002 \\
+  \frac{p_{FF}p_{MM}}{p_{FM}p_{MF}}&=3.3178
   \end{align*}$$
   </div>
   </ul>
@@ -370,11 +370,11 @@ $$\begin{align*}
   \end{align*}$$
   </ul>
   <div class="ex">
-  <font class="ex">Example:</font> Compare these odds ratios from `faux.mesa.high` to the relative rates above. The $\beta$ coefficients were obtained from `glm(y ~ xr + xc + xr*xc, family=binomial)` in R.
+  <font class="ex">Example:</font> Compare these odds ratios from `faux.mesa.high` to the relative rates above. The $\beta$ coefficients were obtained from `glm(y ~ xr + xc + xr*xc, family=binomial)` in R, where `xr` is the binary covariate indicating sex in each row, and `xc` is the same for the columns.
   $$\begin{align*}
-  \text{exp}(\beta_0) &= 0.0170 \\
-  \text{exp}(\beta_1) = \text{exp}(\beta_2) &= 0.4003 \\
-  \text{exp}(\beta_{12}) &= 3.2934
+  \text{exp}(\beta_0) &= 0.0172 \\
+  \text{exp}(\beta_1) = \text{exp}(\beta_2) &= 0.3961 \\
+  \text{exp}(\beta_{12}) &= 3.3595
   \end{align*}$$
   
   Simulate networks from this model and evaluate the fit based on test statistics:  

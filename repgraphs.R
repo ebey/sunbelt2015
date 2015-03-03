@@ -19,6 +19,7 @@ samp_sdodeg <- sd(rowSums(Ysamp, na.rm=T))
 samp_dens <- gden(samplike, mode="digraph")
 samp_close <- centralization(samplike, closeness, mode="digraph", cmode="directed")
 ns <- nrow(Ysamp)
+
 brg_dens <- NULL
 brg_sdi <- NULL
 brg_sdo <- NULL
@@ -87,18 +88,19 @@ fmhsim <- tsim(Yfmh, gmode="graph", cmode="undirected")
 
 CUGcol <- adjustcolor("darkred", alpha.f=0.7)
 BRGcol <- adjustcolor("sienna1", alpha.f=0.9)
+obsblue <- "#4D94FF"
 
 par(mfrow=c(1,1), mar=mar, xpd=FALSE)
 layout(rbind(c(1,2,3)), widths=c(2,2,1.1))
 hist(brg_theta, col=BRGcol, ylab=NULL, main=NULL, xlab="density")
-abline(v=obs_theta, col="blue", lty=2, lwd=2)
+abline(v=obs_theta, col="#79AED4", lty=2, lwd=2)
 
 hist(brg_sdd, col=BRGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(brg_sdd,cug_sdd,obs_sdd+.2), ylim=c(0,150))
 hist(cug_sdd, col=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", add=T)
-abline(v=obs_sdd, col="blue", lty=2, lwd=2)
+abline(v=obs_sdd, col="#79AED4", lty=2, lwd=2)
 plot.new(); par(xpd=TRUE)
-legend(x="top",legend=c("observed","BRG","CUG(n,s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
-       col=c("blue",0,0), lty=c(2,0,0),lwd=c(2,0,0), merge=TRUE, bty="n")
+legend(x="top",legend=c("observed","BRG(rho)","CUG(s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
+       col=c("#79AED4",0,0), lty=c(2,0,0),lwd=c(2,0,0), merge=TRUE, bty="n")
 
 
 par(mfrow=c(1,1), xpd=FALSE)
@@ -107,10 +109,10 @@ par(mfrow=c(1,1), xpd=FALSE)
 
 ### Blockmodels
 sex <- get.vertex.attribute(fmh,"Sex")
-p00 <- mean(Yfmh[sex=="F",sex=="F"])
-p01 <- mean(Yfmh[sex=="F",sex=="M"])
-p10 <- mean(Yfmh[sex=="M",sex=="F"])
-p11 <- mean(Yfmh[sex=="M",sex=="M"])
+p00 <- mean(Yfmh[sex=="F",sex=="F"], na.rm=T)
+p01 <- mean(Yfmh[sex=="F",sex=="M"], na.rm=T)
+p10 <- mean(Yfmh[sex=="M",sex=="F"], na.rm=T)
+p11 <- mean(Yfmh[sex=="M",sex=="M"], na.rm=T)
 
 
 
@@ -124,15 +126,15 @@ summary(fit)
 exp(fit$coef)
 P <- fit$fitted.values
 
-sim_sdo <- NULL
+sim_sdd <- NULL
 sim_sdi <- NULL
 
 for(j in 1:500){
   Ysim <- matrix(0,n,n)
   diag(Ysim)<- NA
   Ysim[!is.na(Ysim)] <- rbinom(n*(n-1),1,P)
-  sim_sdo <- rbind(sim_sdo, sd(rowSums(Ysim,na.rm=T)))
-  sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
+  Ysim <- symmetrize(Ysim,rule="upper")
+  sim_sdd <- rbind(sim_sdd, sd(rowSums(Ysim,na.rm=T)))
 }
 
 
@@ -153,6 +155,6 @@ hist(sampsimdat$cug[,4], col=CUGcol, add=T)
 abline(v=samp_sdi,col="blue", lty=2, lwd=2)
 plot.new()
 par(mar=c(5.1,0,4.1,2.1))
-legend(x="topleft",legend=c("observed","BRG","CUG(n,s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
+legend(x="topleft",legend=c("observed","BRG(rho)","CUG(s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
        col=c("blue",0,0), lty=c(2,0,0),lwd=c(2,0,0), merge=TRUE, bty="n")
 par(mfrow=c(1,1)); title(main="sampson data"); 
