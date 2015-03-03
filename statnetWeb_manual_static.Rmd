@@ -205,9 +205,9 @@ Network descriptives are valuable for gaining insight into the observed network.
 #### statnetWeb: Network Descriptives
 
 **Network Plot**  
-Looking at a network plot can give a general sense of the network, and editing the display options is even more revealing. When the nodes of the `faux.mesa.high` network are color-coded, it is easy to see clustering by grade. Likewise, sizing the nodes of the flomarriage by wealth shows a tendency for wealthier families to have more marriage ties.
+Looking at a network plot can give a general sense of the network, and editing the display options is even more revealing. When the nodes of the `faux.mesa.high` network are color-coded, it is easy to see clustering by grade. Likewise, sizing the nodes of the `flomarriage` by wealth reveals a tendency for wealthier families to have more marriage ties.
 
-In statnetWeb, any nodal attributes will be available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes will be available in the sizing menu.
+In statnetWeb, any nodal attributes are available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes are available in the sizing menu.
 
 ![fmh1](images/mesa_plot.png) ![fmh2](images/mesa_colorplot.png)
 ![flomarriage wealth](images/flomarriage_wealthplot.png)
@@ -269,7 +269,7 @@ Recall, we want to capture the underlying structural features of a network with 
   <font class="ex">Example:</font> Compare the observed density of the `faux.mesa.high` network to the distribution of densities obtained from BRG($\hat\rho$). Note that when testing the standard-deviation of degrees in the network, the null models have similar distributions, but both fail to recreate the level of heterogeneity seen in the observed network.
   <div align="center">![](images/fmh_brgcug.png)  </div>
   Also see these distributions as overlays on the degree and geodesic distributions in **statnetWeb**.  
-  When compared to the null models, the `faux.mesa.high` network has fewer paths of length 5-8 than we would expect, and more disconnected node pairs (with geodesic distance inf).  
+  When compared to the null models, the `faux.mesa.high` network has more isolated nodes than we would expect, fewer paths of length 5-8, and more disconnected node pairs (with geodesic distance inf).  
 <div align="center">![mesa ddist](images/mesa_degreedist_nullsmall.png) ![mesa geodist](images/mesa_geodist_small.png)</div>
   </div>
   <li>We can add more conditions to the model: 
