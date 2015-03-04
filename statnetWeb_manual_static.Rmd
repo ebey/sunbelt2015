@@ -292,7 +292,7 @@ xsim <- sample(xobs)
   <ul>
   <li>Rearrange the rows and columns of an adjacency matrix to create a blockmodel where nodes are grouped by values of a nodal covariate. Each block is a subgraph with its own density.
   <li>Comparing densities of the blocks shows potential effects from the covariate on tie formation.
-  
+
   ![](images/blockmodel.png)
   
   <li> The odds of an event $E$ occurring is the ratio of the probability that $E$ occurs to the probability that it doesn't.  
@@ -401,10 +401,32 @@ The model below takes into account a row effect $a$ from the sender and column e
   </div>
   
   <div class="ex">
-  <font class="ex">Example:</font> Consider a directed network of friendship nominations among a group of monks. Clearly our previous null models do not accurately capture the heterogeneity of in- and out-degree.  
-  <div align="center">![](images/samp_sdinout.png)  </div>  
-  **RCE model:**
-  <font class="ex">insert image</font>
+  <font class="ex">Example:</font> Consider the `sampson` data, a directed network of friendship nominations among a group of monks. Clearly our previous null models do not accurately capture the heterogeneity of in- and out-degree or the level of reciprocity.  
+  <div align="center">![](images/samp_nulltests.png)  </div>  
+  **RCE model:** In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. The fit of in-degree variability is much better compared to the null models, but why is the observed heterogeneity in out-degree still lower than expected? In the study design monks were asked to list their three best friends, which leaves little room for out-degree heterogeneity.
+  <div align="center">![](images/samp_rcetests.png) </div>  
+
+Fitting and simulating from this model in R is accomplished in the following way.  
+```
+Ridx <- matrix(1:n,n,n)
+Cidx <- t(Ridx)
+rce.fit <- glm(c(Ysamp) ~ factor(c(Ridx))+factor(c(Cidx)), family=binomial)
+summary(rce.fit)
+P.rce <- rce.fit$fitted.values
+sim_sdi <- NULL
+sim_sdo <- NULL
+sim_mut <- NULL
+for(j in 1:1000){
+  Ysim <- matrix(0,ns,ns)
+  diag(Ysim)<- NA
+  Ysim[!is.na(Ysim)] <- rbinom(ns*(ns-1),1,P.rce)
+  sim_sdo <- rbind(sim_sdo, sd(rowSums(Ysim,na.rm=T)))
+  sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
+  sim_mut <- rbind(sim_mut, sum(Ysim*t(Ysim),na.rm=T)/2)
+}
+```
+statnetWeb can fit this model with much less hassel.
+<font class="ex">insert image</font>
   </div>
   </ul>
   

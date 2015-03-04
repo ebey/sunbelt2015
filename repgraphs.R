@@ -18,6 +18,7 @@ samp_sdideg <- sd(colSums(Ysamp, na.rm=T))
 samp_sdodeg <- sd(rowSums(Ysamp, na.rm=T))
 samp_dens <- gden(samplike, mode="digraph")
 samp_close <- centralization(samplike, closeness, mode="digraph", cmode="directed")
+samp_mut <- sum(Ysamp*t(Ysamp),na.rm=TRUE)/2
 ns <- nrow(Ysamp)
 
 ## for histograms in workflow image
@@ -51,6 +52,8 @@ tsim <- function(Y, gmode, cmode){
   cug_sdo <- NULL
   brg_sdi <- NULL
   brg_sdo <- NULL
+  brg_mut <- NULL
+  cug_mut <- NULL
   
   for(i in 1:500){
     Ycug <- matrix(0,n,n)
@@ -65,20 +68,22 @@ tsim <- function(Y, gmode, cmode){
     cug_close <- rbind(cug_close, centralization(Ycug, closeness,mode=gmode,cmode=cmode))
     cug_sdo <- rbind(cug_sdo, sd(rowSums(Ycug, na.rm=TRUE)))
     cug_sdi <- rbind(cug_sdi, sd(colSums(Ycug, na.rm=TRUE)))
+    cug_mut <- rbind(cug_mut, sum(Ycug*t(Ycug),na.rm=T)/2)
     
     Ybrg<-matrix(rbinom(n^2,1,obs_dens),n,n)
     diag(Ybrg)<-NA
-    Ybrg <- symmetrize(Ybrg,rule="upper")
+    if(gmode=="graph"){Ybrg <- symmetrize(Ybrg,rule="upper")}
     brg_sdd <- rbind(brg_sdd, sd(degree(Ybrg, gmode=gmode)))
     brg_dens <- rbind(brg_dens, gden(Ybrg, mode=gmode))
     brg_close <- rbind(brg_close, centralization(Ybrg, closeness,mode=gmode,cmode=cmode))
     brg_sdo <- rbind(brg_sdo, sd(rowSums(Ybrg, na.rm=TRUE)))
     brg_sdi <- rbind(brg_sdi, sd(colSums(Ybrg, na.rm=TRUE)))
+    brg_mut <- rbind(brg_mut, sum(Ybrg*t(Ybrg),na.rm=T)/2)
   }
   
   dat <- list()
-  dat$cug <- cbind(cug_sdd, cug_close, cug_sdo, cug_sdi)
-  dat$brg <- cbind(brg_sdd, brg_close, brg_sdo, brg_sdi, brg_dens)
+  dat$cug <- cbind(cug_sdd, cug_close, cug_sdo, cug_sdi, cug_mut)
+  dat$brg <- cbind(brg_sdd, brg_close, brg_sdo, brg_sdi, brg_mut, brg_dens)
   return(dat)
 }
 
@@ -92,7 +97,7 @@ obsblue <- "#4D94FF"
 
 par(mfrow=c(1,1), mar=mar, xpd=FALSE)
 layout(rbind(c(1,2,3)), widths=c(2,2,1.1))
-hist(fmhsim$brg[,5], col=BRGcol, ylab=NULL, main=NULL, xlab="density")
+hist(fmhsim$brg[,6], col=BRGcol, ylab=NULL, main=NULL, xlab="density")
 abline(v=fmh_dens, col=obsblue, lwd=2)
 
 hist(fmhsim$cug[,1], col=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(fmhsim$cug[,1],fmhsim$brg[,1],fmh_sdd+.2), ylim=c(0,150))
@@ -138,23 +143,52 @@ for(j in 1:500){
 }
 
 
-sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
+
 
 ### Row Column Effects
+sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
+
 samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
 samp_sdi <- sd(colSums(Ysamp, na.rm=TRUE))
 par(mfrow=c(1,3))
-hist(sampsimdat$brg[,3], col=BRGcol, xlab="sd(out-degree)", ylab=NULL,main=NULL,
-     xlim=range(c(sampsimdat$cug[,3],samp_sdo)))
-hist(sampsimdat$cug[,3], col=CUGcol, add=T)
-abline(v=samp_sdo,col="blue", lty=2, lwd=2)
+hist(sampsimdat$cug[,3], col=CUGcol, xlab="sd(out-degree)", ylab=NULL,main=NULL,
+     xlim=c(0,max(sampsimdat$cug[,3],samp_sdo)))
+hist(sampsimdat$brg[,3], col=BRGcol, add=T)
+abline(v=samp_sdo,col=obsblue, lwd=2)
 
-hist(sampsimdat$brg[,4], col=BRGcol, xlab="sd(in-degree)", ylab=NULL,main=NULL,
-     xlim=range(c(sampsimdat$cug[,4],samp_sdi)))
-hist(sampsimdat$cug[,4], col=CUGcol, add=T)
-abline(v=samp_sdi,col="blue", lty=2, lwd=2)
-plot.new()
-par(mar=c(5.1,0,4.1,2.1))
-legend(x="topleft",legend=c("observed","BRG(rho)","CUG(s)"), fill=c(0,"sienna1","darkred"), border=c(0,"black","black"),
-       col=c("blue",0,0), lty=c(2,0,0),lwd=c(2,0,0), merge=TRUE, bty="n")
+hist(sampsimdat$cug[,4], col=CUGcol, xlab="sd(in-degree)", ylab=NULL,main=NULL,
+     xlim=c(0,max(sampsimdat$cug[,4],samp_sdi)))
+hist(sampsimdat$brg[,4], col=BRGcol, add=T)
+abline(v=samp_sdi,col=obsblue, lwd=2)
+
+hist(sampsimdat$cug[,5], col=CUGcol, xlab="mutual dyads", ylab=NULL, main=NULL,
+     breaks=c(0:24),xlim=c(0,samp_mut))
+hist(sampsimdat$brg[,5], col=BRGcol, breaks=c(0:24), add=T)
+abline(v=samp_mut, col=obsblue, lwd=2)
 par(mfrow=c(1,1)); title(main="sampson data"); 
+
+Ridx <- matrix(1:ns,ns,ns)
+Cidx <- t(Ridx)
+rce.fit <- glm(c(Ysamp) ~ factor(c(Ridx))+factor(c(Cidx)), family=binomial)
+summary(rce.fit)
+P.rce <- rce.fit$fitted.values
+sim_sdi <- NULL
+sim_sdo <- NULL
+sim_mut <- NULL
+for(j in 1:1000){
+  Ysim <- matrix(0,ns,ns)
+  diag(Ysim)<- NA
+  Ysim[!is.na(Ysim)] <- rbinom(ns*(ns-1),1,P.rce)
+  sim_sdo <- rbind(sim_sdo, sd(rowSums(Ysim,na.rm=T)))
+  sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
+  sim_mut <- rbind(sim_mut, sum(Ysim*t(Ysim),na.rm=T)/2)
+}
+hist(sim_sdo, col="gray", xlab="sd(out-degree)",ylab=NULL, main=NULL,
+     xlim=range(sim_sdo,samp_sdo))
+abline(v=samp_sdo,col=obsblue,lwd=2)
+hist(sim_sdi, col="gray", xlab="sd(in-degree)",ylab=NULL, main=NULL,
+     xlim=range(sim_sdi,samp_sdi))
+abline(v=samp_sdi,col=obsblue,lwd=2)
+hist(sim_mut, col="gray", xlab="mutual dyads",ylab=NULL, main=NULL,
+     xlim=range(sim_mut,samp_mut))
+abline(v=samp_mut,col=obsblue,lwd=2)
