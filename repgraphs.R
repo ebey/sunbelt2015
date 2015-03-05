@@ -150,6 +150,7 @@ sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
 
 samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
 samp_sdi <- sd(colSums(Ysamp, na.rm=TRUE))
+samp_mut <- sum(Ysamp*t(Ysamp),na.rm=TRUE)/2
 par(mfrow=c(1,3))
 hist(sampsimdat$cug[,3], col=CUGcol, xlab="sd(out-degree)", ylab=NULL,main=NULL,
      xlim=c(0,max(sampsimdat$cug[,3],samp_sdo)))
