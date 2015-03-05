@@ -425,7 +425,7 @@ for(j in 1:1000){
   sim_mut <- rbind(sim_mut, sum(Ysim*t(Ysim),na.rm=T)/2)
 }
 ```
-statnetWeb can fit this model with much less hassel.
+statnetWeb can fit this model with much less hassle.
 <font class="ex">insert image</font>
   </div>
   </ul>
