@@ -144,7 +144,10 @@ for(j in 1:500){
 
 
 
-
+BRGcol <- adjustcolor("firebrick")
+CUGcol <- adjustcolor("orangered")
+obsblue <- "royalblue2"
+tgray <- adjustcolor("gray",alpha.f=0.4)
 ### Row Column Effects
 sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
 
@@ -152,19 +155,22 @@ samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
 samp_sdi <- sd(colSums(Ysamp, na.rm=TRUE))
 samp_mut <- sum(Ysamp*t(Ysamp),na.rm=TRUE)/2
 par(mfrow=c(1,3))
-hist(sampsimdat$cug[,3], col=CUGcol, xlab="sd(out-degree)", ylab=NULL,main=NULL,
+hist(sampsimdat$cug[,3], border=CUGcol,col=tgray,xlab="sd(out-degree)", 
+     ylab=NULL,main=NULL,
      xlim=c(0,max(sampsimdat$cug[,3],samp_sdo)))
-hist(sampsimdat$brg[,3], col=BRGcol, add=T)
+hist(sampsimdat$brg[,3], border=BRGcol,col=tgray, add=T)
 abline(v=samp_sdo,col=obsblue, lwd=2)
 
-hist(sampsimdat$cug[,4], col=CUGcol, xlab="sd(in-degree)", ylab=NULL,main=NULL,
+hist(sampsimdat$cug[,4], border=CUGcol,col=tgray,xlab="sd(in-degree)",
+     ylab=NULL,main=NULL,
      xlim=c(0,max(sampsimdat$cug[,4],samp_sdi)))
-hist(sampsimdat$brg[,4], col=BRGcol, add=T)
+hist(sampsimdat$brg[,4], border=BRGcol,col=tgray, add=T)
 abline(v=samp_sdi,col=obsblue, lwd=2)
 
-hist(sampsimdat$cug[,5], col=CUGcol, xlab="mutual dyads", ylab=NULL, main=NULL,
+hist(sampsimdat$cug[,5], border=CUGcol,col=tgray, xlab="mutual dyads",
+     ylab=NULL, main=NULL,
      breaks=c(0:24),xlim=c(0,samp_mut))
-hist(sampsimdat$brg[,5], col=BRGcol, breaks=c(0:24), add=T)
+hist(sampsimdat$brg[,5], border=BRGcol,col=tgray, breaks=c(0:24), add=T)
 abline(v=samp_mut, col=obsblue, lwd=2)
 par(mfrow=c(1,1)); title(main="sampson data"); 
 
@@ -184,12 +190,15 @@ for(j in 1:1000){
   sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
   sim_mut <- rbind(sim_mut, sum(Ysim*t(Ysim),na.rm=T)/2)
 }
-hist(sim_sdo, col="gray", xlab="sd(out-degree)",ylab=NULL, main=NULL,
+par(mfrow=c(1,3))
+hist(sim_sdo, col=tgray,border="darkred", xlab="sd(out-degree)",ylab=NULL, main=NULL,
      xlim=range(sim_sdo,samp_sdo))
 abline(v=samp_sdo,col=obsblue,lwd=2)
-hist(sim_sdi, col="gray", xlab="sd(in-degree)",ylab=NULL, main=NULL,
+
+hist(sim_sdi, col=tgray,border="darkred", xlab="sd(in-degree)",ylab=NULL, main=NULL,
      xlim=range(sim_sdi,samp_sdi))
 abline(v=samp_sdi,col=obsblue,lwd=2)
-hist(sim_mut, col="gray", xlab="mutual dyads",ylab=NULL, main=NULL,
+
+hist(sim_mut, col=tgray,border="darkred", xlab="mutual dyads",ylab=NULL, main=NULL,
      xlim=range(sim_mut,samp_mut))
 abline(v=samp_mut,col=obsblue,lwd=2)
