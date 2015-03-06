@@ -441,9 +441,9 @@ With the ergm package this becomes:
 ergm.rce <- ergm(samplike ~ edges + sender + receiver)
 sim1 <- simulate(ergm.rce, nsim=1)
 ```
-And in statnetWeb it is even easier.
+And in statnetWeb it is even easier.  
+![](images/sW_rce.png)
 
-<font class="ex">insert image</font>
   </div>
   </ul>
   
