@@ -422,26 +422,27 @@ The model below takes into account a row effect $a$ from the sender and column e
   <div align="center">![](images/samp_rcetests.png) </div>  
   In the study design monks were asked on three separate occasions to list their three best friends; there is a tie from node $i$ to $j$ in this network if monk $i$ ever listed monk $j$ as one of his best friends.  This design significantly constrains the out-degree heterogeneity. In our bernoulli model above, all ties form with the same probability $\text{Pr}(Y=1)=\frac{\text{e}^{\mu}}{1+\text{e}^{\mu}}$ and this results in some level of hetergeneity in out-degrees. Introducing $a_i$ coefficients specific to each node can only increase the out-degree heterogeneity, so our model cannot match the observed variability in out-degrees unless we also introduce constraints. 
 
-Fitting and simulating from this model in R is accomplished in the following way.  
+Fitting and simulating from this model in R is accomplished in the following way (using set to zero side conditions).  
 ```
+Ysamp <- as.matrix(samplike)
+diag(Ysamp) <- NA
 Ridx <- matrix(1:n,n,n)
 Cidx <- t(Ridx)
 rce.fit <- glm(c(Ysamp) ~ factor(c(Ridx))+factor(c(Cidx)), family=binomial)
 summary(rce.fit)
 P.rce <- rce.fit$fitted.values
-sim_sdi <- NULL
-sim_sdo <- NULL
-sim_mut <- NULL
-for(j in 1:1000){
-  Ysim <- matrix(0,ns,ns)
-  diag(Ysim)<- NA
-  Ysim[!is.na(Ysim)] <- rbinom(ns*(ns-1),1,P.rce)
-  sim_sdo <- rbind(sim_sdo, sd(rowSums(Ysim,na.rm=T)))
-  sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
-  sim_mut <- rbind(sim_mut, sum(Ysim*t(Ysim),na.rm=T)/2)
-}
+
+Ysim <- matrix(0,ns,ns)
+diag(Ysim)<- NA
+Ysim[!is.na(Ysim)] <- rbinom(ns*(ns-1),1,P.rce)
 ```
-statnetWeb can fit this model with much less hassle.
+With the ergm package this becomes:
+```
+ergm.rce <- ergm(samplike ~ edges + sender + receiver)
+sim1 <- simulate(ergm.rce, nsim=1)
+```
+And in statnetWeb it is even easier.
+
 <font class="ex">insert image</font>
   </div>
   </ul>
