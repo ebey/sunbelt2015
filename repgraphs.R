@@ -14,8 +14,8 @@ fmh_dens <- gden(fmh, mode="graph")
 fmh_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
 
 samp_sdd <- sd(degree(samplike, gmode="digraph"))
-samp_sdideg <- sd(colSums(Ysamp, na.rm=T))
-samp_sdodeg <- sd(rowSums(Ysamp, na.rm=T))
+samp_sdi <- sd(colSums(Ysamp, na.rm=T))
+samp_sdo <- sd(rowSums(Ysamp, na.rm=T))
 samp_dens <- gden(samplike, mode="digraph")
 samp_close <- centralization(samplike, closeness, mode="digraph", cmode="directed")
 samp_mut <- sum(Ysamp*t(Ysamp),na.rm=TRUE)/2

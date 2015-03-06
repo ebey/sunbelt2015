@@ -310,15 +310,15 @@ xsim <- sample(xobs)
   <div class="ex">
   <font class="ex">Example:</font> Ties between males/females in `faux.mesa.high` network. We can see from the probabilities of ties within and between the sexes (which are the densities of those subgraphs) that female-female ties are the most likely in this network. The relative rates show us that male-female relationships are less than half as likely as female-female and the odds ratio shows that there is a strong preference for within sex ties.  
   $$\begin{align*}
-  p_{FF}&=0.0169 \\
-  p_{FM}=p_{MF}&= 0.0068 \\
-  p_{MM}&=0.0089
+  p_{FF}&=0.017 \\
+  p_{FM}=p_{MF}&= 0.007 \\
+  p_{MM}&=0.009
   \end{align*}$$
    
   $$\begin{align*}
-  p_{FF}&=0.0169 \\
-  \frac{p_{FM}}{p_{FF}}=\frac{p_{MF}}{p_{FF}}&=0.4002 \\
-  \frac{p_{FF}p_{MM}}{p_{FM}p_{MF}}&=3.3178
+  p_{FF}&=0.017 \\
+  \frac{p_{FM}}{p_{FF}}=\frac{p_{MF}}{p_{FF}}&=0.400 \\
+  \frac{p_{FF}p_{MM}}{p_{FM}p_{MF}}&=3.318
   \end{align*}$$
   </div>
   </ul>
@@ -327,14 +327,14 @@ xsim <- sample(xobs)
 Given a binary outcome variable $y$ and an explanatory variable $x$, we can express the probability of a success ($y=1$) in terms of the logistic function. We can also express the log odds of a success with the logit function. 
 
 $$\begin{align*}
-\Pr(y=1) &= \frac{e^x}{1+ e^x} = p \\
+p = \Pr(y=1) &= \frac{e^\mu}{1+ e^\mu} &\text{This is sometimes referred to as the expit}\\
 \text{odds}(y=1) &= \frac{p}{1-p} \\
-\text{logit}(p) &= \log\left(\frac{p}{1-p}\right),  \hspace{2em} 0 < p < 1
+\text{log odds}(y=1) &= \log\left(\frac{p}{1-p}\right),  \hspace{1.5em} 0 < p < 1 & \text{This is sometimes referred to as the logit}
 \end{align*}$$
 
 Note that the logit function is the inverse of the logistic function.
 $$
-\text{logit}(p) = \log\left(\frac{p}{1-p}\right) = \log\left(\frac{e^x / (1+e^x)}{1/ (1+e^x)}\right) = \log(e^x) = x
+\text{logit}(p) = \log\left(\frac{p}{1-p}\right) = \log\left(\frac{e^\mu / (1+e^\mu)}{1/ (1+e^\mu)}\right) = \log(e^\mu) = \mu
 $$
 
 The logit also makes it convenient to write log odds ratios.
@@ -372,9 +372,9 @@ $$\begin{align*}
   <div class="ex">
   <font class="ex">Example:</font> Compare these odds ratios from `faux.mesa.high` to the relative rates above. The $\beta$ coefficients were obtained from `glm(y ~ xr + xc + xr*xc, family=binomial)` in R, where `xr` is the binary covariate indicating sex in each row, and `xc` is the same for the columns.
   $$\begin{align*}
-  \text{exp}(\beta_0) &= 0.0172 \\
-  \text{exp}(\beta_1) = \text{exp}(\beta_2) &= 0.3961 \\
-  \text{exp}(\beta_{12}) &= 3.3595
+  \text{exp}(\beta_0) &= 0.017 \\
+  \text{exp}(\beta_1) = \text{exp}(\beta_2) &= 0.396 \\
+  \text{exp}(\beta_{12}) &= 3.360
   \end{align*}$$
   
   Simulate networks from this model and evaluate the fit based on test statistics:  
