@@ -389,22 +389,38 @@ Perhaps some nodes in a directed network are more likely to send ties (more soci
 ![](images/snet_margins.png)
 </div>
 
-The model below takes into account a row effect $a$ from the sender and column effect $b$ from the receiver. Note that in an undirected network the row and column sums are equal, so $a_i = b_i$ for each node $i$.
+The model below takes into account a row effect $a$ from the sender and column effect $b$ from the receiver. In a friendship network, $a_i$ can be interpreted as a measure of sociability of node $i$, and $b_j$ can be interpreted as a measure of popularity of node $j$. Note that in an undirected network the row and column sums are equal, so $a_i = b_i$ for each node $i$.
 
-  <ul>
+  
   $$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu + a_{i} + b_{j}}}{1+\text{e}^{\mu + a_{i} + b_{j}}}$$   
   
-  <div style="position:relative; left:200px;">
-  $\mu$: grand mean  
-  $a_i$: measure of sociability of node i  
-  $b_j$: measure of popularity of node j
+  However, there are multiple sets of coefficients that will give the same fit. We should enforce side conditions on $a_i$ and $b_j$ so that we know how to interpret the coefficients.
+  $$\frac{\text{e}^{\mu + a_{i} + b_{j}}}{1+\text{e}^{\mu + a_{i} + b_{j}}} = \frac{\text{e}^{\tilde\mu + \tilde a_{i} + \tilde b_{j}}}{1+\text{e}^{\tilde\mu + \tilde a_{i} + \tilde b_{j}}}$$
+  
+  <div style="position:relative; left:50px;">
+  <u>Sum to zero side conditions:</u> $\sum a_i = 0, \sum b_j = 0$  
+  
+  $\mu$: overall mean  
+  $a_i$: average deviation of row $i$ from $\mu$  
+  $b_j$: average deviation of column $j$ from $\mu$
+  
+  
+  <div style="position:absolute; left:400px; bottom:0px;">
+  <u>Set to zero side conditions:</u> $a_1 = b_1 = 0$
+  
+  $\mu$:  
+  $a_i$: average deviation of row $i$ from row 1  
+  $b_j$: average deviation of column $j$ from column 1  
+  </div>
   </div>
   
+  <ul>
   <div class="ex">
   <font class="ex">Example:</font> Consider the `sampson` data, a directed network of friendship nominations among a group of monks. Clearly our previous null models do not accurately capture the heterogeneity of in- and out-degree or the level of reciprocity.  
   <div align="center">![](images/samp_nulltests.png)  </div>  
-  **RCE model:** In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. The fit of in-degree variability is much better compared to the null models, but why is the observed heterogeneity in out-degree still lower than expected? In the study design monks were asked to list their three best friends, which leaves little room for out-degree heterogeneity.
+  **RCE model:** In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. The fit of in-degree variability is much better compared to the null models, but why is the observed heterogeneity in out-degree still lower than expected? 
   <div align="center">![](images/samp_rcetests.png) </div>  
+  In the study design monks were asked on three separate occasions to list their three best friends; there is a tie from node $i$ to $j$ in this network if monk $i$ ever listed monk $j$ as one of his best friends.  This design significantly constrains the out-degree heterogeneity. In our bernoulli model above, all ties form with the same probability $\text{Pr}(Y=1)=\frac{\text{e}^{\mu}}{1+\text{e}^{\mu}}$ and this results in some level of hetergeneity in out-degrees. Introducing $a_i$ coefficients specific to each node can only increase the out-degree heterogeneity, so our model cannot match the observed variability in out-degrees unless we also introduce constraints. 
 
 Fitting and simulating from this model in R is accomplished in the following way.  
 ```
