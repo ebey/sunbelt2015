@@ -329,7 +329,7 @@ Given a binary outcome variable $y$ and an explanatory variable $x$, we can expr
 $$\begin{align*}
 p = \Pr(y=1) &= \frac{e^\mu}{1+ e^\mu} &\text{This is sometimes referred to as the expit}\\
 \text{odds}(y=1) &= \frac{p}{1-p} \\
-\text{log odds}(y=1) &= \log\left(\frac{p}{1-p}\right),  \hspace{1.5em} 0 < p < 1 & \text{This is sometimes referred to as the logit}
+\mu = \text{log odds}(y=1) &= \log\left(\frac{p}{1-p}\right),  \hspace{1.5em} 0 < p < 1 & \text{This is sometimes referred to as the logit}
 \end{align*}$$
 
 Note that the logit function is the inverse of the logistic function.
@@ -341,6 +341,25 @@ The logit also makes it convenient to write log odds ratios.
 $$
 \log\left(\frac{p_1/(1-p_1)}{p_2/(1-p_2)}\right) = \log\left(\frac{p_1}{1-p_1}\right) - \log\left(\frac{p_2}{1-p_2}\right) = \text{logit}(p_1) - \text{logit}(p_2)
 $$
+
+The simple case of logistic regression where $\mu$ is a constant corresponds to the bernoulli model, where every edge is equally likely.
+<ul>
+  <div class="ex">
+  <font class="ex">Example:</font>
+```
+brg.fit <- glm(c(Yfmh) ~ 1, family=binomial)
+summary(brg.fit)
+```
+  The fit summary tells us that the estimate of $\mu$ is -4.63. This should be the log odds of any edge in the `faux.mesa.high` network. Let's double check:  
+  $$\begin{align*}
+  p &= \frac{s}{n(n-1)/2} = \frac{203}{205*204/2} \\
+  \text{odds} &= \frac{p}{1-p} \\
+  \text{log odds} &= \log [\frac{p}{1-p}] = -4.63
+  \end{align*}$$
+  
+  We already know that bernoulli random graphs are not a good model for our dataset (and most others). Logistic regression gives us other options.
+  </div>
+</ul>
 
 Given differences between densities in the blockmodel, perhaps we think that the values of a nodal attribute are primary factors in tie formation. We can use logistic regression to model the effect of a binary covariate on the likelihood of ties, assuming that ties form independently of each other:
   <ul>
@@ -441,8 +460,8 @@ With the ergm package this becomes:
 ergm.rce <- ergm(samplike ~ edges + sender + receiver)
 sim1 <- simulate(ergm.rce, nsim=1)
 ```
-And in statnetWeb it is even easier.  
-![](images/sW_rce.png)
+And in statnetWeb it is even easier:  
+<div align="center">![](images/sW_rce.png)</div>
 
   </div>
   </ul>
