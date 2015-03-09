@@ -357,11 +357,11 @@ summary(brg.fit)
   \text{log odds} &= \log [\frac{p}{1-p}] = -4.63
   \end{align*}$$
   
-  We already know that bernoulli random graphs are not a good model for our dataset (and most others). Logistic regression gives us other options.
+  
   </div>
 </ul>
 
-Given differences between densities in the blockmodel, perhaps we think that the values of a nodal attribute are primary factors in tie formation. We can use logistic regression to model the effect of a binary covariate on the likelihood of ties, assuming that ties form independently of each other:
+We already know that bernoulli random graphs are not a good model for our dataset (and most others). Logistic regression gives us other options. Given differences between densities in the blockmodel ($\{p_{00}, p_{01}, p_{10}, p_{11}\}$ above), perhaps we think that the values of a nodal attribute are primary factors in tie formation. We can use logistic regression to model the effect of a binary covariate on the likelihood of ties, assuming that ties form independently of each other:
   <ul>
 $$\begin{align*}
  \Pr( y_{i,j} = 1 | x_i,x_j ) &= 
@@ -408,7 +408,7 @@ Perhaps some nodes in a directed network are more likely to send ties (more soci
 ![](images/snet_margins.png)
 </div>
 
-The model below takes into account a row effect $a$ from the sender and column effect $b$ from the receiver. In a friendship network, $a_i$ can be interpreted as a measure of sociability of node $i$, and $b_j$ can be interpreted as a measure of popularity of node $j$. Note that in an undirected network the row and column sums are equal, so $a_i = b_i$ for each node $i$.
+For each node $i$ in a network, let $a_i$ be an effect on $i$'s propensity to send ties and let $b_i$ be an effect on $i$'s propensity to receive ties. The vectors $\vec{a}$ and $\vec{b}$ are called row and column effects, respectively. In a friendship network, $a_i$ can be interpreted as a measure of sociability of node $i$, and $b_j$ can be interpreted as a measure of popularity of node $j$. Note that in an undirected network the row and column sums are equal, so $a_i = b_i$ for each node $i$. Depending on our data, we might want to include either row or column effects in our model. The model below takes into account both row and column effects.
 
   
   $$\text{Pr}(Y_{ij}=1)=\frac{\text{e}^{\mu + a_{i} + b_{j}}}{1+\text{e}^{\mu + a_{i} + b_{j}}}$$   
@@ -437,8 +437,12 @@ The model below takes into account a row effect $a$ from the sender and column e
   <div class="ex">
   <font class="ex">Example:</font> Consider the `sampson` data, a directed network of friendship nominations among a group of monks. Clearly our previous null models do not accurately capture the heterogeneity of in- and out-degree or the level of reciprocity.  
   <div align="center">![](images/samp_nulltests.png)  </div>  
-  **RCE model:** In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. The fit of in-degree variability is much better compared to the null models, but why is the observed heterogeneity in out-degree still lower than expected? 
+  **RCE model:** 
+  
+  In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. We do not see any improvement in the fit of the number of reciprocated dyads, but as expected, the fit of in-degree variability is much better compared to the null models. Why is the observed heterogeneity in out-degree still lower than expected even after include row effects in our model? 
+  
   <div align="center">![](images/samp_rcetests.png) </div>  
+  
   In the study design monks were asked on three separate occasions to list their three best friends; there is a tie from node $i$ to $j$ in this network if monk $i$ ever listed monk $j$ as one of his best friends.  This design significantly constrains the out-degree heterogeneity. In our bernoulli model above, all ties form with the same probability $\text{Pr}(Y=1)=\frac{\text{e}^{\mu}}{1+\text{e}^{\mu}}$ and this results in some level of hetergeneity in out-degrees. Introducing $a_i$ coefficients specific to each node can only increase the out-degree heterogeneity, so our model cannot match the observed variability in out-degrees unless we also introduce constraints. 
 
 Fitting and simulating from this model in R is accomplished in the following way (using set to zero side conditions).  
@@ -463,14 +467,21 @@ sim1 <- simulate(ergm.rce, nsim=1)
 And in statnetWeb it is even easier:  
 <div align="center">![](images/sW_rce.png)</div>
 
+<font class="ex">SUMMARY OF FIT</font>
   </div>
   </ul>
   
 
-<ul> 
-<li>$p_1$ model
-<li>$p_2$ model
-</ul>
+
+**$p_1$ model**
+The total number of mutual, asymmetric and null dyads in a network can be computed as follows, where $s$ is the total number of ties.
+$$\begin{align*}
+M &= \sum_{i<j}y_{ij}y_{ji} \\
+A &= s - 2M \\
+N &= {n \choose 2} - M _ A
+\end{align*}$$
+Above we saw that in the `sampson` data $M$ was larger than expected under the RCE model. A large observed $M$ when compared to its distribution under some null model or its expected value under some simple conditions indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data.
+
 
 **Exponential random graph models ($p^*$)**
   <ul>
