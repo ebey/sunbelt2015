@@ -8,7 +8,7 @@ Ysamp <- as.sociomatrix(samplike)
 diag(Ysamp) <- NA
 
 fmh <- faux.mesa.high
-
+n <- nrow(Yfmh)
 fmh_sdd <- sd(degree(fmh, gmode="graph"))
 fmh_dens <- gden(fmh, mode="graph")
 fmh_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
@@ -23,16 +23,23 @@ ns <- nrow(Ysamp)
 
 ## for histograms in workflow image
 brg_dens <- NULL
-brg_sdi <- NULL
-brg_sdo <- NULL
+brg_sdd <- NULL
 for(s in 1:500){
-  Ysim <- matrix(rbinom(ns^2,1,samp_dens),ns,ns)
+  Ysim <- matrix(rbinom(n^2,1,fmh_dens),n,n)
   diag(Ysim)<- NA
   brg_dens <- rbind(brg_dens,mean(Ysim,na.rm=T))
-  brg_sdo <- rbind(brg_sdo, sd(rowSums(Ysim, na.rm=TRUE)))
-  brg_sdi <- rbind(brg_sdi, sd(colSums(Ysim, na.rm=TRUE)))
+  brg_sdd <- rbind(brg_sdd, sd(rowSums(Ysim, na.rm=TRUE)))
 }
-
+BRGcol <- adjustcolor("firebrick")
+CUGcol <- adjustcolor("orangered")
+obsblue <- "royalblue2"
+tgray <- adjustcolor("gray",alpha.f=0.4)
+par(mfrow=c(1,2))
+hist(brg_dens,col=tgray,border=BRGcol,xlab="density",ylab=NULL,main=NULL)
+abline(v=fmh_dens,col=obsblue,lwd=2)
+hist(brg_sdd,col=tgray,border=BRGcol,xlab="sd(degree)",ylab=NULL,main=NULL,
+     xlim=range(brg_sdd,fmh_sdd))
+abline(v=fmh_sdd,col=obsblue,lwd=2)
 
 tsim <- function(Y, gmode, cmode){
   n <- nrow(Y)
@@ -91,20 +98,21 @@ tsim <- function(Y, gmode, cmode){
 ## histograms in null distribution section
 fmhsim <- tsim(Yfmh, gmode="graph", cmode="undirected")
 
-BRGcol <- adjustcolor("darkred", alpha.f=0.7)
-CUGcol <- adjustcolor("sienna1", alpha.f=0.9)
-obsblue <- "#4D94FF"
+BRGcol <- adjustcolor("firebrick")
+CUGcol <- adjustcolor("orangered")
+obsblue <- "royalblue2"
+tgray <- adjustcolor("gray",alpha.f=0.4)
 
 par(mfrow=c(1,1), mar=mar, xpd=FALSE)
 layout(rbind(c(1,2,3)), widths=c(2,2,1.1))
-hist(fmhsim$brg[,6], col=BRGcol, ylab=NULL, main=NULL, xlab="density")
+hist(fmhsim$brg[,6], col=tgray,border=BRGcol,ylab=NULL,main=NULL,xlab="density")
 abline(v=fmh_dens, col=obsblue, lwd=2)
 
-hist(fmhsim$cug[,1], col=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(fmhsim$cug[,1],fmhsim$brg[,1],fmh_sdd+.2), ylim=c(0,150))
-hist(fmhsim$brg[,1], col=BRGcol, ylab=NULL, main=NULL, xlab="sd(degree)", add=T)
+hist(fmhsim$cug[,1], col=tgray,border=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(fmhsim$cug[,1],fmhsim$brg[,1],fmh_sdd+.2), ylim=c(0,150))
+hist(fmhsim$brg[,1], col=tgray,border=BRGcol, ylab=NULL, main=NULL, xlab="sd(degree)", add=T)
 abline(v=fmh_sdd, col=obsblue, lwd=2)
 plot.new(); par(xpd=TRUE)
-legend(x="top",legend=c("observed","BRG(rho)","CUG(s)"), fill=c(0,"darkred","sienna1"), border=c(0,"black","black"),
+legend(x="top",legend=c("observed","BRG(rho)","CUG(s)"), fill=c(0,tgray,tgray), border=c(0,BRGcol,CUGcol),
        col=c(obsblue,0,0), lty=c(1,0,0),lwd=c(2,0,0), merge=TRUE, bty="n", cex=1.5)
 
 
