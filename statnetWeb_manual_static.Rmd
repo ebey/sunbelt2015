@@ -3,9 +3,11 @@ title: "statnetWeb for Social Network Analysis"
 author: "Emily Beylerian"
 output:
   html_document:
-    toc: true
-    mathjax: default
     css: sW.css
+    mathjax: default
+    toc: yes
+  pdf_document:
+    toc: yes
 ---
 
 # Introduction to statnetWeb
@@ -473,17 +475,34 @@ And in statnetWeb it is even easier:
   
 
 
-**$p_1$ model**
+**p<sub>1</sub> model**
 The total number of mutual, asymmetric and null dyads in a network can be computed as follows, where $s$ is the total number of ties.
 $$\begin{align*}
 M &= \sum_{i<j}y_{ij}y_{ji} \\
 A &= s - 2M \\
 N &= {n \choose 2} - M _ A
 \end{align*}$$
-Above we saw that in the `sampson` data $M$ was larger than expected under the RCE model. A large observed $M$ when compared to its distribution under some null model or its expected value under some simple conditions indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data.
+Above we saw that in the `sampson` data $M$ was larger than expected under the RCE model. A large observed $M$ indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
+
+How to test for mutuality?
+<ul>
+<li>Compare observed $M$ to its distribution under some null model.
+<li>Compare observed $M$ to its expected value under some simple conditions.
+  <ul>
+  <li>Fixed choice: Each individual makes exactly $d$ nominations uniformly at random.  
+  $$\begin{align*} 
+  E[M|H] &= E[\sum_{i<j} y_{ij}y_{ji} | H] \\
+         &= \sum_{i<j} E[y_{ij}y_{ji} | H] \\
+         &= {n \choose 2} E[y_{ij}y_{ji} | H] \\
+         &= {n \choose 2} \text{Pr}(y_{ij}=1 \text{ and } y_{ji}=1 |H) \\
+         &= {n \choose 2} \frac{d^2}{(n-1)^2}
+  \end{align*}$$
+  <li>Free choice: Individual $i$ makes exactly $d_i$ nominations uniformly at random  (controls for out-degree heterogeneity).
+  </ul>
+</ul>
 
 
-**Exponential random graph models ($p^*$)**
+**Exponential random graph models (p$^*$)**
   <ul>
   <li>
   </ul>
