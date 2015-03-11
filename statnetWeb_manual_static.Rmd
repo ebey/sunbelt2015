@@ -347,11 +347,23 @@ $$
 The simple case of logistic regression where $\mu$ is a constant corresponds to the bernoulli model, where every edge is equally likely.
 <ul>
   <div class="ex">
-  <font class="ex">Example:</font>
+  <font class="ex">Example:</font> We can fit the bernoulli model in R with GLMs:
 ```
 brg.fit <- glm(c(Yfmh) ~ 1, family=binomial)
 summary(brg.fit)
 ```
+
+Or with the ergm package:
+```
+brg.fit2 <- ergm(faux.mesa.high ~ edges)
+```
+
+Or with statnetWeb:  
+<div align="center">![](images/sW_fmhedges.png) </div>
+
+And with each we get the same result.  
+![](images/fmh_edges.png)
+
   The fit summary tells us that the estimate of $\mu$ is -4.63. This should be the log odds of any edge in the `faux.mesa.high` network. Let's double check:  
   $$\begin{align*}
   p &= \frac{s}{n(n-1)/2} = \frac{203}{205*204/2} \\
@@ -469,17 +481,17 @@ sim1 <- simulate(ergm.rce, nsim=1)
 And in statnetWeb it is even easier:  
 <div align="center">![](images/sW_rce.png)</div>
 
-<font class="ex">SUMMARY OF FIT</font>
+<div align="center">![](images/rce_fitsummary.png)</div>
   </div>
   </ul>
   
 
 
 **p<sub>1</sub> model**
-The total number of mutual, asymmetric and null dyads in a network can be computed as follows, where $s$ is the total number of ties.
+The total number of mutual, asymmetric and null dyads in a network can be computed as follows, where $y_{\cdot\cdot}$ is the total number of ties.
 $$\begin{align*}
 M &= \sum_{i<j}y_{ij}y_{ji} \\
-A &= s - 2M \\
+A &= y_{\cdot\cdot} - 2M \\
 N &= {n \choose 2} - M _ A
 \end{align*}$$
 Above we saw that in the `sampson` data $M$ was larger than expected under the RCE model. A large observed $M$ indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
@@ -498,22 +510,29 @@ How to test for mutuality?
          &= {n \choose 2} \frac{d^2}{(n-1)^2}
   \end{align*}$$
   <li>Free choice: Individual $i$ makes exactly $d_i$ nominations uniformly at random  (controls for out-degree heterogeneity).
+  $$\begin{align*} 
+  E[M|H] = \frac{y_{\cdot\cdot}^2 - \sum y_{i \cdot}^2}{2(n-1)^2}
+  \end{align*}$$  
+  Where $y_{\cdot \cdot}$ is the total number of ties and $y_{i \cdot}$ are the column sums
   </ul>
 </ul>
 
+The $p_1$ model:
+<ul>
+<li> Between dyad relations are independent of each other
+<li> Within dyad relations are dependent
+</ul>
+$$
+\text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma)
+$$
 
-**Exponential random graph models (p$^*$)**
-  <ul>
-  <li>
-  </ul>
-
-
-### ERG Model Specification
-
+### Exponential random graph models (p$^*$)  
 ![](images/workflow2.png)
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
+
+**ERG Model Specification**  
 $$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
 <ul>
 <li> $Y$: random variable for state of network (with realization $y$)
