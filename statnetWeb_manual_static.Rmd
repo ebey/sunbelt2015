@@ -219,15 +219,6 @@ Inspect the distribution of nodal degrees throughout the network. Do most nodes 
 
 ![](images/mesa_degreedist_small.png)
 
-Null models: 
-<ul>
-<li>Conditional uniform graphs (CUG): Draws from the distribution of simple random graphs with the same fixed density as the observed network.</li>
-<li>Bernoulli random graphs (BRG): Draws from the distribution of simple random graphs with the same stochastic tie probability as the observed network.</li>
-</ul>  
-
-<font class="ex">Exercise:</font> What is different about the null models? Are there situations when one would be more important than the other? How does the observed network compare to the null models and what does that tell us?
-
-![](images/mesa_degreedist_nullsmall.png)
 
 **Geodesic Distribution**  
 The geodesic measures the length of the shortest path between two nodes. A geodesic distance of "inf" between two nodes means that they are not connected by any path. Compare the distribution of the geodesics from all the dyads in the observed network to null models.
