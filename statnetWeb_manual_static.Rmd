@@ -274,7 +274,7 @@ BRG($\rho$): Bernoulli random graphs (simple random graphs)
 
 CUG($s$): Graphs conditional on number of ties $s$ (Erdos-Reyni graphs)
   <ul>
-  <li>All possible networks with $s$ total ties are equally likely (have uniform probability).
+  <li>Given the same number of nodes $n$ as the observed network, all possible networks with $s$ total ties are equally likely (have uniform probability).
   <li>CUG($s$) does not require that we estimate $\rho$, it always reproduces the density of the observed network. It often gives similar results to the BRG($\hat\rho$) model above. 
   </ul>
   <div class="ex">
@@ -285,7 +285,7 @@ CUG($s$): Graphs conditional on number of ties $s$ (Erdos-Reyni graphs)
 <div align="center">![mesa ddist](images/mesa_degreedist_nullsmall.png) ![mesa geodist](images/mesa_geodist_small.png)</div>
   </div>
 
-We can add more conditions to the model: 
+It is possible to add more conditions to make a new CUG model: 
   <ul>
   <li>A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the CUG($s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.  
 ```
