@@ -419,7 +419,22 @@ $$\begin{align*}
   \end{align*}$$
   </ul>
   <div class="ex">
-  <font class="ex">Example:</font> Compare these odds ratios from `faux.mesa.high` to the relative rates above. The $\beta$ coefficients were obtained from `glm(y ~ xr + xc + xr*xc, family=binomial)` in R, where `xr` is the binary covariate indicating sex in each row, and `xc` is the same for the columns.
+  <font class="ex">Example:</font> Fit the above model to the `faux.mesa.high` network using the "Sex" attribute as a covariate. We can do this in multiple ways:
+  
+<ul>
+<li>Using vectors in R, where `xr` is the binary covariate indicating sex in each row, and `xc` is the same for the columns:  
+`glm(y ~ xr + xc + xr*xc, family=binomial)`
+<li>Using the ergm package:   
+`ergm(faux.mesa.high ~ edges + nodefactor("Sex") + nodematch("Sex",diff=TRUE,keep=2))`
+<li>In statnetWeb:   
+<div align="center">![](images/sW_logreg.png) </div>
+</ul>  
+  
+  Results:  
+  
+  <div align="center">![](images/sW_logregsumm.png)</div>
+  
+  Compare the odds ratios (the result of exponentiating the $\beta$ coefficients) to the relative rates above. 
   $$\begin{align*}
   \text{exp}(\beta_0) &= 0.017 \\
   \text{exp}(\beta_1) = \text{exp}(\beta_2) &= 0.396 \\
@@ -427,7 +442,8 @@ $$\begin{align*}
   \end{align*}$$
   
   Simulate networks from this model and evaluate the fit based on test statistics:  
-  <font class="ex">insert image</font>
+  <div align="center">![](images/fmh_logregtests.png)</div>
+  
   </div>
   </ul>
   

@@ -14,7 +14,7 @@ div.ex {
   border: 1px solid gray;
   border-radius: 5px;
   padding: 5px;
-  background-color: #F0F0F0;
+  background-color: #F5F5F5;
 }
 div.cols {
   -webkit-column-count: 2; /* Chrome, Safari, Opera */
