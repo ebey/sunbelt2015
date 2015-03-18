@@ -63,6 +63,8 @@ tsim <- function(Y, gmode, cmode){
   brg_sdo <- NULL
   brg_mut <- NULL
   cug_mut <- NULL
+  brg_ingroupsex <- NULL
+  cug_ingroupsex <- NULL
   
   for(i in 1:500){
     Ycug <- matrix(0,n,n)
@@ -78,6 +80,7 @@ tsim <- function(Y, gmode, cmode){
     cug_sdo <- rbind(cug_sdo, sd(rowSums(Ycug, na.rm=TRUE)))
     cug_sdi <- rbind(cug_sdi, sd(colSums(Ycug, na.rm=TRUE)))
     cug_mut <- rbind(cug_mut, sum(Ycug*t(Ycug),na.rm=T)/2)
+    cug_ingroupsex <- rbind(cug_ingroupsex, sum(Ycug[sex01==1,sex01==1],na.rm=T)+sum(Ycug[sex01==0,sex01==0],na.rm=T))
     
     Ybrg<-matrix(rbinom(n^2,1,obs_dens),n,n)
     diag(Ybrg)<-NA
@@ -88,11 +91,12 @@ tsim <- function(Y, gmode, cmode){
     brg_sdo <- rbind(brg_sdo, sd(rowSums(Ybrg, na.rm=TRUE)))
     brg_sdi <- rbind(brg_sdi, sd(colSums(Ybrg, na.rm=TRUE)))
     brg_mut <- rbind(brg_mut, sum(Ybrg*t(Ybrg),na.rm=T)/2)
+    brg_ingroupsex <- rbind(brg_ingroupsex, sum(Ybrg[sex01==1,sex01==1],na.rm=T)+sum(Ybrg[sex01==0,sex01==0],na.rm=T))
   }
   
   dat <- list()
-  dat$cug <- cbind(cug_sdd, cug_close, cug_sdo, cug_sdi, cug_mut)
-  dat$brg <- cbind(brg_sdd, brg_close, brg_sdo, brg_sdi, brg_mut, brg_dens)
+  dat$cug <- cbind(cug_sdd, cug_close, cug_sdo, cug_sdi, cug_mut, cug_ingroupsex)
+  dat$brg <- cbind(brg_sdd, brg_close, brg_sdo, brg_sdi, brg_mut, brg_ingroupsex, brg_dens)
   return(dat)
 }
 
@@ -105,14 +109,19 @@ CUGcol <- adjustcolor("orangered")
 obsblue <- "royalblue2"
 tgray <- adjustcolor("gray",alpha.f=0.4)
 
-par(mfrow=c(1,1), mar=mar, xpd=FALSE)
-layout(rbind(c(1,2,3)), widths=c(2,2,1.1))
-hist(fmhsim$brg[,6], col=tgray,border=BRGcol,ylab=NULL,main=NULL,xlab="density")
+par(mfrow=c(1,1), xpd=FALSE)
+layout(rbind(c(1,2,3,4)), widths=c(2,2,2,1.1))
+hist(fmhsim$brg[,7], col=tgray,border=BRGcol,ylab=NULL,main=NULL,xlab="density")
 abline(v=fmh_dens, col=obsblue, lwd=2)
 
 hist(fmhsim$cug[,1], col=tgray,border=CUGcol, ylab=NULL, main=NULL, xlab="sd(degree)", xlim=range(fmhsim$cug[,1],fmhsim$brg[,1],fmh_sdd+.2), ylim=c(0,150))
 hist(fmhsim$brg[,1], col=tgray,border=BRGcol, ylab=NULL, main=NULL, xlab="sd(degree)", add=T)
 abline(v=fmh_sdd, col=obsblue, lwd=2)
+
+hist(fmhsim$cug[,6], col=tgray,border=CUGcol, ylab=NULL, main=NULL, xlab="within group ties (sex)", xlim=range(fmhsim$cug[,6],fmhsim$brg[,6],fmh_ingroup))
+hist(fmhsim$brg[,6], col=tgray,border=BRGcol, ylab=NULL, main=NULL, xlab="within group ties (sex)", add=T)
+abline(v=fmh_ingroup, col=obsblue, lwd=2)
+
 plot.new(); par(xpd=TRUE)
 legend(x="top",legend=c("observed","BRG(rho)","CUG(s)"), fill=c(0,tgray,tgray), border=c(0,BRGcol,CUGcol),
        col=c(obsblue,0,0), lty=c(1,0,0),lwd=c(2,0,0), merge=TRUE, bty="n", cex=1.5)
@@ -144,7 +153,7 @@ sex <- get.vertex.attribute(fmh,"Sex")
 sex01 <- 1*(sex=="M")
 sexR <- matrix(sex01,nrow=n,ncol=n)
 sexC <- t(sexR)
-fit <- glm(c(Yfmh) ~ c(sexR) + c(sexC) + c(sexR)*c(sexC), family=binomial)
+fit <- glm(c(Yfmh) ~ c(sexR) + c(sexC) + c(sexR*sexC), family=binomial)
 summary(fit)
 exp(fit$coef)
 P <- fit$fitted.values
@@ -166,12 +175,15 @@ for(j in 1:500){
 }
 
 par(mfrow=c(1,3))
-hist(sim_sdd,col=tgray,xlim=range(sim_sdd,fmh_sdd), border=BRGcol)
-abline(v=fmh_sdd,col=obsblue)
-hist(sim_ingroupsex,col=tgray,xlim=range(sim_ingroupsex,fmh_ingroup), border=BRGcol)
-abline(v=fmh_ingroup,col=obsblue)
-hist(sim_tri, col=tgray,xlim=range(sim_tri,fmh_tri), border=BRGcol)
-abline(v=fmh_tri, col=obsblue)
+hist(sim_sdd,col=tgray,xlim=range(sim_sdd,fmh_sdd), border=BRGcol,xlab="sd(degree)",
+     ylab=NULL,main=NULL)
+abline(v=fmh_sdd,col=obsblue, lwd=2)
+hist(sim_ingroupsex,col=tgray,xlim=range(sim_ingroupsex,fmh_ingroup), border=BRGcol,
+     xlab="within group ties (sex)",ylab=NULL,main=NULL)
+abline(v=fmh_ingroup,col=obsblue, lwd=2)
+hist(sim_tri, col=tgray,xlim=range(sim_tri,fmh_tri), border=BRGcol,xlab="triangles",
+     ylab=NULL,main=NULL)
+abline(v=fmh_tri, col=obsblue, lwd=2)
 
 BRGcol <- adjustcolor("firebrick")
 CUGcol <- adjustcolor("orangered")
