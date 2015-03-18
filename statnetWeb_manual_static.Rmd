@@ -347,7 +347,9 @@ xsim <- sample(xobs)
   </div>
   </ul>
   
-#### Logistic regression and the logit
+#### Logistic regression
+
+**The logit function**
 
 Recall that given a binary outcome variable $Y$ with probability of success $\Pr(Y=1)=p$, we can express the odds of a success. If we take the log of the odds we have what is sometimes referred to as the **logit**. 
 
@@ -368,53 +370,28 @@ $$
 \log\left(\frac{p_1/(1-p_1)}{p_2/(1-p_2)}\right) = \log\left(\frac{p_1}{1-p_1}\right) - \log\left(\frac{p_2}{1-p_2}\right) = \text{logit}(p_1) - \text{logit}(p_2)
 $$
 
-Logistic regression is a special case of a **generalized linear model**. GLMs describe the relationship between explanatory variables $x$ and  the expected value of a response variable $\mu=E(Y)$ through a link function $g(.)$. The model takes the form 
+**Logistic regression as a GLM**
+
+Logistic regression is a special case of **generalized linear models**. GLMs describe the relationship between explanatory variables $x$ and  the expected value of a response variable $\mu=E(Y)$ through a link function $g(.)$. The model takes the form 
 $$g(\mu) = \beta_0 + \beta_1 x_1 + ... + \beta_k x_k.$$
 
-The simplest link function is $g(\mu)=\mu$, which specifies a linear model for the mean response. The log link function $g(\mu)=\log(\mu)$ leads to a loglinear model, and is appropriate when $\mu$ cannot be negative. Logistic regression uses the link function $g(\mu)=\log[\mu/(1-\mu)]$, called the logit link, and models the log of an odds. It is appropriate when $\mu$ is between 0 and 1, such as for a probability.
+The simplest link function is $g(\mu)=\mu$, which specifies a linear model for the mean response. The log link function $g(\mu)=\log(\mu)$ leads to a loglinear model, and is appropriate when $\mu$ cannot be negative, such as for count data. Logistic regression uses the link function $g(\mu)=\log[\mu/(1-\mu)]$, called the logit link, and models the log of an odds. It is appropriate when $\mu$ is between 0 and 1, such as for a probability.
 
-Now let $p(x)$ be the probability of success when explanatory variable(s) $X$ takes value(s) $x$. Using the logit to link the linear predictor to the response gives us the following logistic regression model.
+Suppose the probability of success $p$ from above depends on explanatory variable(s) $x$, so that $\Pr(Y=1 | x)=p(x)$. The right side of the model is a linear combination of the explanatory variables: $\beta_0 + \beta_1 x_1 + ... \beta_k x_k$. Using the logit to link the linear predictor to the response gives us the following logistic regression model.
 $$\begin{align*}
-\text{logit}[p(x)] &= \log\left(\frac{p(x)}{1-p(x)}\right) = \beta_0 + \beta x \\
-p(x) &= \frac{e^{\beta_0 + \beta x}}{1+e^{\beta_0 + \beta x}}
+\text{logit}[p(x)] &= \log\left(\frac{p(x)}{1-p(x)}\right) = \beta_0 + \beta_1 x_1 \\
+p(x) &= \frac{e^{\beta_0 + \beta_1 x_1 }}{1+e^{\beta_0 + \beta_1 x_1 }}
 \end{align*}$$
 
+![](images/logreg.png)
+
+To apply this concept to network data, let $x_1$ and $x_2$ be covariates and $\Pr(y_{ij} = 1 | x_1, x_2)$ be the probability of a tie from node $i$ to $j$. Now we have
+$$
+\Pr(y_{ij} = 1 | x_1, x_2) = \frac{e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}{1+e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}
+$$
 
 
-The simple case of logistic regression where $\text{logit}[p(x)] = \beta_0$ corresponds to the bernoulli model, where every edge is equally likely.
-<ul>
-  <div class="ex">
-  <font class="ex">Example:</font> We can fit the bernoulli model in R with the GLM function:
-```
-brg.fit <- glm(c(Yfmh) ~ 1, family=binomial)
-summary(brg.fit)
-```
-
-Or with the ergm package:
-```
-brg.fit2 <- ergm(faux.mesa.high ~ edges)
-```
-
-Or with statnetWeb:  
-<div align="center">![](images/sW_fmhedges.png) </div>
-
-And with each we get the same result.  
-![](images/fmh_edges.png)
-
-  The fit summary tells us that the estimate of $\mu$ is -4.63. This should be the log odds of any edge in the `faux.mesa.high` network. Let's double check:  
-  $$\begin{align*}
-  p &= \frac{s}{n(n-1)/2} = \frac{203}{205*204/2} \\
-  \text{odds} &= \frac{p}{1-p} \\
-  \text{log odds} &= \log [\frac{p}{1-p}] = -4.63
-  \end{align*}$$
-  
-  
-  </div>
-</ul>
-
-<font class="ex">Why can we use the ergm software to fit a logistic regression model?? Because it's an ergm!</font>
-
-We already know that bernoulli random graphs are not a good model for our dataset (and most others). Logistic regression gives us other options. Given differences between densities in the blockmodel ($\{p_{00}, p_{01}, p_{10}, p_{11}\}$ above), perhaps we think that the values of a nodal attribute are primary factors in tie formation. We can use logistic regression to model the effect of a binary covariate on the likelihood of ties, assuming that ties form independently of each other:
+Given differences between densities in the blockmodel ($\{p_{00}, p_{01}, p_{10}, p_{11}\}$ in the section above), perhaps we think that the values of a nodal attribute are primary factors in tie formation. We can use logistic regression to model the effect of a binary covariate on the likelihood of ties, assuming that ties form independently of each other. Here $x_1$ indicates the covariate value in each row, $x_2$ indicates the covariate value in each column, and $x_1x_2$ is their interaction.
   <ul>
 $$\begin{align*}
  \Pr( y_{i,j} = 1 | x_i,x_j ) &= 
@@ -453,6 +430,39 @@ $$\begin{align*}
   <font class="ex">insert image</font>
   </div>
   </ul>
+  
+If we don't include any covariates in a logistic regression, we have the simple case where $\Pr(y_{ij}=1) = \frac{\text{exp}(\beta_0)}{1+\text{exp}(\beta_0)}$. This corresponds to the bernoulli model, where every edge is equally likely.
+<ul>
+  <div class="ex">
+  <font class="ex">Example:</font> We can fit the bernoulli model in R with the GLM function:
+```
+brg.fit <- glm(c(Yfmh) ~ 1, family=binomial)
+summary(brg.fit)
+```
+
+Or with the ergm package:
+```
+brg.fit2 <- ergm(faux.mesa.high ~ edges)
+```
+
+Or with statnetWeb:  
+<div align="center">![](images/sW_fmhedges.png) </div>
+
+And with each we get the same result.  
+![](images/fmh_edges.png)
+
+  The fit summary tells us that the estimate of $\beta_0$ is -4.63. This should be the log odds of any edge in the `faux.mesa.high` network. Let's double check:  
+  $$\begin{align*}
+  p &= \frac{s}{n(n-1)/2} = \frac{203}{205*204/2} \\
+  \text{odds} &= \frac{p}{1-p} \\
+  \text{log odds} &= \log [\frac{p}{1-p}] = -4.63
+  \end{align*}$$
+  
+  
+  </div>
+</ul>
+
+<font class="ex">Why can we use the ergm software to fit a logistic regression model?? Because it's an ergm!</font>
   
 #### Individual effects
 

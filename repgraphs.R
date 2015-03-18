@@ -12,6 +12,8 @@ n <- nrow(Yfmh)
 fmh_sdd <- sd(degree(fmh, gmode="graph"))
 fmh_dens <- gden(fmh, mode="graph")
 fmh_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
+fmh_ingroup <- sum(diag(mixingmatrix(fmh, "Sex")[[2]]))
+fmh_tri <- summary(fmh ~ triangle)
 
 samp_sdd <- sd(degree(samplike, gmode="digraph"))
 samp_sdi <- sd(colSums(Ysamp, na.rm=T))
@@ -130,7 +132,15 @@ p11 <- mean(Yfmh[sex=="M",sex=="M"], na.rm=T)
 
 
 ### Regression
+b0 <- 0.0009
+par(mfrow=c(2,1))
+b1 <- 2
+x <- seq(-2.5,3,0.05)
+mu <- exp(b0 + b1*x)/(1+exp(b0 + b1*x))
+plot(x,mu,type="l",xaxt="n", main="beta1 > 0", ylab="Pr(Y=1 | x)")
+
 n <- nrow(Yfmh)
+sex <- get.vertex.attribute(fmh,"Sex")
 sex01 <- 1*(sex=="M")
 sexR <- matrix(sex01,nrow=n,ncol=n)
 sexC <- t(sexR)
@@ -140,7 +150,9 @@ exp(fit$coef)
 P <- fit$fitted.values
 
 sim_sdd <- NULL
-sim_sdi <- NULL
+sim_ingroupsex <- NULL
+sim_ingroupgrade <- NULL
+sim_tri <- NULL
 
 for(j in 1:500){
   Ysim <- matrix(0,n,n)
@@ -148,14 +160,25 @@ for(j in 1:500){
   Ysim[!is.na(Ysim)] <- rbinom(n*(n-1),1,P)
   Ysim <- symmetrize(Ysim,rule="upper")
   sim_sdd <- rbind(sim_sdd, sd(rowSums(Ysim,na.rm=T)))
+  sim_ingroupsex <- rbind(sim_ingroupsex, sum(Ysim[sex01==1,sex01==1],na.rm=T)+sum(Ysim[sex01==0,sex01==0],na.rm=T))
+  diag(Ysim) <- 0
+  sim_tri <- rbind(sim_tri,sum(diag(Ysim%*%Ysim%*%Ysim)))
 }
 
-
+par(mfrow=c(1,3))
+hist(sim_sdd,col=tgray,xlim=range(sim_sdd,fmh_sdd), border=BRGcol)
+abline(v=fmh_sdd,col=obsblue)
+hist(sim_ingroupsex,col=tgray,xlim=range(sim_ingroupsex,fmh_ingroup), border=BRGcol)
+abline(v=fmh_ingroup,col=obsblue)
+hist(sim_tri, col=tgray,xlim=range(sim_tri,fmh_tri), border=BRGcol)
+abline(v=fmh_tri, col=obsblue)
 
 BRGcol <- adjustcolor("firebrick")
 CUGcol <- adjustcolor("orangered")
 obsblue <- "royalblue2"
 tgray <- adjustcolor("gray",alpha.f=0.4)
+
+
 ### Row Column Effects
 sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
 
