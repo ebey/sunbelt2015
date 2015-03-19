@@ -385,6 +385,10 @@ p(x) &= \frac{e^{\beta_0 + \beta_1 x_1 }}{1+e^{\beta_0 + \beta_1 x_1 }}
 
 ![](images/logreg.png)
 
+See @agresti1996 for more on generalized linear models.
+
+**Logistic regression for networks**
+
 To apply this concept to network data, let $x_1$ and $x_2$ be covariates and $\Pr(y_{ij} = 1 | x_1, x_2)$ be the probability of a tie from node $i$ to $j$. Now we have
 $$
 \Pr(y_{ij} = 1 | x_1, x_2) = \frac{e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}{1+e^{\beta_0 + \beta_1 x_1 + \beta_2 x_2}}
@@ -478,7 +482,7 @@ And with each we get the same result.
   </div>
 </ul>
 
-<font class="ex">Why can we use the ergm software to fit a logistic regression model?? Because it's an ergm!</font>
+Why were we able to use the ergm software to fit the models above? Because logistic regression models are ERGMs! We will make this connection more explicit later, but for now read the help docmentation for each term used above (through the documentation box in statnetWeb or `help("ergm-terms")` in the command line) and connect it to the logistic regression formula.
   
 #### Individual effects
 
@@ -553,13 +557,7 @@ And in statnetWeb it is even easier:
 
 
 #### p<sub>1</sub> model
-The total number of mutual, asymmetric and null dyads in a network can be computed as follows, where $y_{\cdot\cdot}$ is the total number of ties.
-$$\begin{align*}
-M &= \sum_{i<j}y_{ij}y_{ji} \\
-A &= y_{\cdot\cdot} - 2M \\
-N &= {n \choose 2} - M _ A
-\end{align*}$$
-Above we saw that in the `sampson` data $M$ was larger than expected under the RCE model. A large observed $M$ indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
+Above we saw that in the `sampson` data the number of mutual dyads was larger than expected under the RCE model. A large observed $M$ indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
 
 How to test for mutuality?
 <ul>
@@ -590,6 +588,10 @@ The $p_1$ model:
 $$
 \text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma)
 $$
+
+#### p<sub>2</sub> model
+
+#### Markov Graphs
 
 #### Exponential random graph models (p$^*$)  
 ![](images/workflow2.png)
