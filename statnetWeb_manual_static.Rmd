@@ -451,9 +451,6 @@ $$\begin{align*}
   
   </div>
   </ul>
-So far we have been assessing the fit of our models by generating histograms of test statistics that we compute from simulations from the model...
-
-
 
 If we don't include any covariates in a logistic regression, we have the simple case where $\Pr(y_{ij}=1) = \frac{\text{exp}(\beta_0)}{1+\text{exp}(\beta_0)}$. This corresponds to the bernoulli model, where every edge is equally likely.
 <ul>
@@ -487,7 +484,13 @@ And with each we get the same result.
 </ul>
 
 Why were we able to use the ergm software to fit the models above? Because logistic regression models are ERGMs! We will make this connection more explicit later, but for now reading the help documentation for each term used above (through the documentation box in statnetWeb or `help("ergm-terms")` in the command line) should present some connections to the logistic regression formula.
-  
+
+#### Goodness of fit
+
+So far we have been assessing the fit of our models by comparing the observed value of a test statistic to histograms generated from simulations (draws from the probability distribution) of the model. This allows us to see if the observed value is within the range we would expect to see from the model. If a statistic is included in our model, simulations should always reproduce the observed value - checking this verifies that the model is performing the way we expect it to. If a model is able to reproduce statistics that are not explicitly included in the model, this is a sign that we have captured the key structural features of the data.
+
+statnetWeb has a built in goodness of fit mechanism. Rather than histograms, ------
+
 #### Individual effects
 
 Perhaps some nodes in a directed network are more likely to send ties (more sociable) or more likely to receive ties (more popular). We can capture the variability of out-degree and in-degree by fitting the marginal totals of a network's adjacency matrix.
@@ -506,7 +509,7 @@ For each node $i$ in a network, let $a_i$ be an effect on $i$'s propensity to se
   <div style="position:relative; left:50px;">
   <u>Sum to zero side conditions:</u> $\sum a_i = 0, \sum b_j = 0$  
   
-  $\mu$: overall mean  
+  $\mu$: overall log odds of a tie  
   $a_i$: average deviation of row $i$ from $\mu$  
   $b_j$: average deviation of column $j$ from $\mu$
   
@@ -514,7 +517,7 @@ For each node $i$ in a network, let $a_i$ be an effect on $i$'s propensity to se
   <div style="position:absolute; left:400px; bottom:0px;">
   <u>Set to zero side conditions:</u> $a_1 = b_1 = 0$
   
-  $\mu$:  
+  $\mu$: log odds of a tie in absence of any row of column effect  
   $a_i$: average deviation of row $i$ from row 1  
   $b_j$: average deviation of column $j$ from column 1  
   </div>
@@ -591,7 +594,7 @@ The $p_1$ model:
 <li> Within dyad relations are dependent
 </ul>
 $$
-\text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma)
+\text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma) = \frac{\text{e}^{\mu_{ij}y_{ij}+\mu_{ji}y_{ji}+\gamma y_{ij}y_{ji}}}{1+\text{e}^{\mu_{ij}}+\text{e}^{\mu_{ji}}+\text{e}^{\mu_{ij}+\mu_{ji}+\gamma}}
 $$
 
 Problems with the $p_1$ model
