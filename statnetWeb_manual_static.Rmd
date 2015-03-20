@@ -422,6 +422,7 @@ $$\begin{align*}
   & = \{\text{e}^{\beta_0}, \text{e}^{\beta_1}, \text{e}^{\beta_2}, \text{e}^{\beta_{12}}\}
   \end{align*}$$
   </ul>
+  
   <div class="ex">
   <font class="ex">Example:</font> Fit the above model to the `faux.mesa.high` network using the "Sex" attribute as a covariate. We can do this in multiple ways:
   
@@ -450,7 +451,10 @@ $$\begin{align*}
   
   </div>
   </ul>
-  
+So far we have been assessing the fit of our models by generating histograms of test statistics that we compute from simulations from the model...
+
+
+
 If we don't include any covariates in a logistic regression, we have the simple case where $\Pr(y_{ij}=1) = \frac{\text{exp}(\beta_0)}{1+\text{exp}(\beta_0)}$. This corresponds to the bernoulli model, where every edge is equally likely.
 <ul>
   <div class="ex">
@@ -482,7 +486,7 @@ And with each we get the same result.
   </div>
 </ul>
 
-Why were we able to use the ergm software to fit the models above? Because logistic regression models are ERGMs! We will make this connection more explicit later, but for now read the help docmentation for each term used above (through the documentation box in statnetWeb or `help("ergm-terms")` in the command line) and connect it to the logistic regression formula.
+Why were we able to use the ergm software to fit the models above? Because logistic regression models are ERGMs! We will make this connection more explicit later, but for now reading the help documentation for each term used above (through the documentation box in statnetWeb or `help("ergm-terms")` in the command line) should present some connections to the logistic regression formula.
   
 #### Individual effects
 
@@ -520,6 +524,7 @@ For each node $i$ in a network, let $a_i$ be an effect on $i$'s propensity to se
   <div class="ex">
   <font class="ex">Example:</font> Consider the `sampson` data, a directed network of friendship nominations among a group of monks. Clearly our previous null models do not accurately capture the heterogeneity of in- and out-degree or the level of reciprocity.  
   <div align="center">![](images/samp_nulltests.png)  </div>  
+  
   **RCE model:** 
   
   In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. We do not see any improvement in the fit of the number of reciprocated dyads, but as expected, the fit of in-degree variability is much better compared to the null models. Why is the observed heterogeneity in out-degree still lower than expected even after include row effects in our model? 
@@ -557,8 +562,8 @@ And in statnetWeb it is even easier:
 
 
 #### p<sub>1</sub> model
-Above we saw that in the `sampson` data the number of mutual dyads was larger than expected under the RCE model. A large observed $M$ indicates high mutuality in the data. Mutuality (or reciprocity) describes the tendency for ties to be mutual. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
-
+Above we saw that in the `sampson` data the number of mutual dyads was larger than expected under the RCE model. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
+$$M = \sum_{i<j}y_{ij}y_{ji}$$
 How to test for mutuality?
 <ul>
 <li>Compare observed $M$ to its distribution under some null model.
@@ -589,9 +594,13 @@ $$
 \text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma)
 $$
 
+Problems with the $p_1$ model
+* Not generalizable
+* Not parsimonious (many parameters!)
+
 #### p<sub>2</sub> model
 
-#### Markov Graphs
+#### Markov graphs
 
 #### Exponential random graph models (p$^*$)  
 ![](images/workflow2.png)
