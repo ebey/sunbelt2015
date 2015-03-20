@@ -13,6 +13,8 @@ fmh_sdd <- sd(degree(fmh, gmode="graph"))
 fmh_dens <- gden(fmh, mode="graph")
 fmh_close <- centralization(fmh, closeness, mode="graph", cmode="undirected")
 fmh_ingroup <- sum(diag(mixingmatrix(fmh, "Sex")[[2]]))
+fmh_mm <- mixingmatrix(fmh,"Sex")[[2]][[2,2]]
+fmh_ff <- mixingmatrix(fmh,"Sex")[[2]][[1,1]]
 fmh_tri <- summary(fmh ~ triangle)
 
 samp_sdd <- sd(degree(samplike, gmode="digraph"))
@@ -154,22 +156,32 @@ sex01 <- 1*(sex=="M")
 sexR <- matrix(sex01,nrow=n,ncol=n)
 sexC <- t(sexR)
 fit <- glm(c(Yfmh) ~ c(sexR) + c(sexC) + c(sexR*sexC), family=binomial)
-summary(fit)
+summary(fit) #same
+fit2 <- ergm(fmh ~ edges + nodefactor("Sex") + nodematch("Sex",keep=2))
+summary(fit2) #same
+fit3 <- glm(c(Yfmh) ~ c(sexR) + c(sexR*sexC), family=binomial)
+summary(fit3) #different
+fit4 <- glm(c(Yfmh) ~ c(sexR) + c(sexR)*c(sexC), family=binomial)
+summary(fit4) #same
+
 exp(fit$coef)
 P <- fit$fitted.values
 
 sim_sdd <- NULL
 sim_ingroupsex <- NULL
-sim_ingroupgrade <- NULL
+sim_mm <- NULL
+sim_ff <- NULL
 sim_tri <- NULL
 
-for(j in 1:500){
+for(j in 1:1000){
   Ysim <- matrix(0,n,n)
   diag(Ysim)<- NA
   Ysim[!is.na(Ysim)] <- rbinom(n*(n-1),1,P)
   Ysim <- symmetrize(Ysim,rule="upper")
   sim_sdd <- rbind(sim_sdd, sd(rowSums(Ysim,na.rm=T)))
   sim_ingroupsex <- rbind(sim_ingroupsex, sum(Ysim[sex01==1,sex01==1],na.rm=T)+sum(Ysim[sex01==0,sex01==0],na.rm=T))
+  sim_mm <- rbind(sim_mm, sum(Ysim[sex01==1,sex01==1],na.rm=T))
+  sim_ff <- rbind(sim_ff, sum(Ysim[sex01==0,sex01==0],na.rm=T))
   diag(Ysim) <- 0
   sim_tri <- rbind(sim_tri,sum(diag(Ysim%*%Ysim%*%Ysim)))
 }
@@ -181,6 +193,12 @@ abline(v=fmh_sdd,col=obsblue, lwd=2)
 hist(sim_ingroupsex,col=tgray,xlim=range(sim_ingroupsex,fmh_ingroup), border=BRGcol,
      xlab="within group ties (sex)",ylab=NULL,main=NULL)
 abline(v=fmh_ingroup,col=obsblue, lwd=2)
+hist(sim_mm,col=tgray,xlim=range(sim_mm,fmh_mm), border=BRGcol,
+     xlab="male-male ties",ylab=NULL,main=NULL)
+abline(v=fmh_mm,col=obsblue, lwd=2)
+hist(sim_ff,col=tgray,xlim=range(sim_ff,fmh_ff), border=BRGcol,
+     xlab="female-female ties",ylab=NULL,main=NULL)
+abline(v=fmh_ff,col=obsblue, lwd=2)
 hist(sim_tri, col=tgray,xlim=range(sim_tri,fmh_tri), border=BRGcol,xlab="triangles",
      ylab=NULL,main=NULL)
 abline(v=fmh_tri, col=obsblue, lwd=2)
