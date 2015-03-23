@@ -489,7 +489,9 @@ Why were we able to use the ergm software to fit the models above? Because logis
 
 So far we have been assessing the fit of our models by comparing the observed value of a test statistic to histograms generated from simulations (draws from the probability distribution) of the model. This allows us to see if the observed value is within the range we would expect to see from the model. If a statistic is included in our model, simulations should always reproduce the observed value - checking this verifies that the model is performing the way we expect it to. If a model is able to reproduce statistics that are not explicitly included in the model, this is a sign that we have captured the key structural features of the data.
 
-statnetWeb has a built in goodness of fit mechanism. Rather than histograms, ------
+statnetWeb has a built in goodness of fit mechanism. For various terms (degree, egdewise shared partners, geodesic distance and more), the user can check statistics and boxplots of simulated values and compared them to the observed network. For example, below is the goodness of fit data for the degree distribution of the `faux.mesa.high ~ edges + nodefactor("Sex") + nodematch("Sex",diff=TRUE,keep=2)` model. The dark black line in the plot corresponds to the degree distribution of `faux.mesa.high`, while the box plots represent the values obtained from simulations from the model.
+
+![](images/sW_gof.png)
 
 #### Individual effects
 
@@ -529,14 +531,7 @@ For each node $i$ in a network, let $a_i$ be an effect on $i$'s propensity to se
   <div align="center">![](images/samp_nulltests.png)  </div>  
   
   **RCE model:** 
-  
-  In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. We do not see any improvement in the fit of the number of reciprocated dyads, but as expected, the fit of in-degree variability is much better compared to the null models. Why is the observed heterogeneity in out-degree still lower than expected even after include row effects in our model? 
-  
-  <div align="center">![](images/samp_rcetests.png) </div>  
-  
-  In the study design monks were asked on three separate occasions to list their three best friends; there is a tie from node $i$ to $j$ in this network if monk $i$ ever listed monk $j$ as one of his best friends.  This design significantly constrains the out-degree heterogeneity. In our bernoulli model above, all ties form with the same probability $\text{Pr}(Y=1)=\frac{\text{e}^{\mu}}{1+\text{e}^{\mu}}$ and this results in some level of hetergeneity in out-degrees. Introducing $a_i$ coefficients specific to each node can only increase the out-degree heterogeneity, so our model cannot match the observed variability in out-degrees unless we also introduce constraints. 
-
-Fitting and simulating from this model in R is accomplished in the following way (using set to zero side conditions).  
+  Fitting and simulating from this model in R is accomplished in the following way (using set to zero side conditions).  
 ```
 Ysamp <- as.matrix(samplike)
 diag(Ysamp) <- NA
@@ -559,6 +554,21 @@ And in statnetWeb it is even easier:
 <div align="center">![](images/sW_rce.png)</div>
 
 <div align="center">![](images/rce_fitsummary.png)</div>
+<br>
+
+  In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. As expected, the fit of in-degree variability is much better compared to the null models, but the out-degree variability predicted by the model is much too high. We do not see any improvement in the fit of the number of reciprocated dyads. Why is the observed heterogeneity in out-degree still lower than expected even after include row effects in our model? 
+  
+  <div align="center">![](images/samp_rcetests.png) </div>  
+  <br>
+  
+  Using the out-degree term in the goodness of fit allows us to see what is going on in more detail. 
+  
+  <div align="center">![](images/sW_gofoutdeg.png) </div>
+  <br>
+  
+  In the study design monks were asked on three separate occasions to list their three best friends; there is a tie from node $i$ to $j$ in this network if monk $i$ ever listed monk $j$ as one of his best friends.  This design significantly constrains the out-degree heterogeneity. In our bernoulli model at the beginning of this section, all ties form with the same probability $\text{Pr}(Y=1)=\frac{\text{e}^{\mu}}{1+\text{e}^{\mu}}$ and this results in some level of hetergeneity in out-degrees. Introducing $a_i$ coefficients specific to each node can only increase the out-degree heterogeneity, so the RCE model cannot match the observed variability in out-degrees unless we also introduce constraints. 
+
+
   </div>
   </ul>
   
