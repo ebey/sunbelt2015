@@ -447,7 +447,7 @@ $$\begin{align*}
   \end{align*}$$
   
   Simulate networks from this model and evaluate the fit based on test statistics:  
-  <div align="center">![](images/fmh_logregtests.png)</div>
+  <div align="center">![](images/fmh_logregtests2.png)</div>
   
   </div>
   </ul>
@@ -519,7 +519,7 @@ For each node $i$ in a network, let $a_i$ be an effect on $i$'s propensity to se
   <div style="position:absolute; left:400px; bottom:0px;">
   <u>Set to zero side conditions:</u> $a_1 = b_1 = 0$
   
-  $\mu$: log odds of a tie in absence of any row of column effect  
+  $\mu$: log odds of a tie in absence of any row or column effect  
   $a_i$: average deviation of row $i$ from row 1  
   $b_j$: average deviation of column $j$ from column 1  
   </div>
@@ -556,7 +556,7 @@ And in statnetWeb it is even easier:
 <div align="center">![](images/rce_fitsummary.png)</div>
 <br>
 
-  In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. As expected, the fit of in-degree variability is much better compared to the null models, but the out-degree variability predicted by the model is much too high. We do not see any improvement in the fit of the number of reciprocated dyads. Why is the observed heterogeneity in out-degree still lower than expected even after include row effects in our model? 
+  In the model, $a_i$ and $b_j$ explicitly account for each node's tendency to have lower or higher than average row and column sums, so we would expect a very good fit for the variability of out- and in-degree. As expected, the fit of in-degree variability is much better compared to the null models, but the out-degree variability predicted by the model is much too high. We do not see any improvement in the fit of the number of reciprocated dyads. Why is the observed heterogeneity in out-degree still lower than expected even after including row effects in our model? 
   
   <div align="center">![](images/samp_rcetests.png) </div>  
   <br>
@@ -588,11 +588,24 @@ $$
 
 Here $\mu$ represents the overall density, $a_i$ characterizes $i$ as a sender, $b_j$ characterizes $j$ as a receiver, and $\gamma$ is the mutuality parameter.
 
-Problems with the $p_1$ model
-<ul>
-<li> Not generalizable  
-<li> Not parsimonious (many parameters!)
-</ul>
+<div class="ex">
+<font class="ex">Example:</font> The $p_1$ model improves our fit of the number of mutual ties in the `samplike` network, but does not improve the fit of any other test statistics.
+```
+p1fit <- ergm(samplike ~ edges + sender + receiver + mutual)
+```
+
+<div align="center">
+![](images/samp_p1tests.png)
+
+![](images/samp_p1gof.png)
+</div>
+
+
+</div>
+
+<font class="ex">plot comparisons broken in statnetWeb, no difference from RCE anyway...and can't use mutual term</font>
+
+The two main problems with the $p_1$ model are that it is not generalizable and it has a huge number of parameters. Each individual has both sender and receiver parameters, plus there are two graph level parameters, so we end up with roughly twice as many parameters as nodes in the network. Ideally, we want to find a more general and more parsimonious model.
 
 See @holland1981 for more on $p_1$ models.
 
@@ -612,11 +625,26 @@ a_i &= X_{1i}\theta_{1i} + A_i \\
 b_j &= X_{2j}\theta_{2j} + B_j
 \end{align*}$$
 
-
-
-See **van Duijn 2004** for more on $p_2$ models.
+See @vanduijn2004 for more on $p_2$ models.
 
 #### Markov graphs
+
+As stated in @frank1986, a graph is said to be a Markov graph if only incident dyads can be conditionally dependent. In other words, dyads are dependent only if they share a node.
+
+
+
+See @frank1986 for more on markov graphs.  
+<font class="ex">wasserman/pattison 1996 and frank 1991 would be useful...?</font>
+
+#### MCMC Diagnostics
+
+You may have noticed that some ergm models take longer to run than others, and that plots are not always available on the MCMC Diagnostics page.
+
+<font class="ex">describe MCMC briefly</font>
+
+To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. However, recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that funcionality.  
+
+![](images/mcmc_mutual.png)
 
 #### Exponential random graph models (p$^*$)  
 ![](images/workflow2.png)
@@ -753,7 +781,8 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 
 <font class="lobj">Learning objectives:</font>
 
-Longitudinal network analysis?
+Missing data  
+Longitudinal network analysis (STERGM)  
 
 ## Course Outlines
 
