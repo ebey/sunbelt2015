@@ -575,43 +575,46 @@ And in statnetWeb it is even easier:
 
 
 #### p<sub>1</sub> model
+
 Above we saw that in the `sampson` data the number of mutual dyads was larger than expected under the RCE model. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
 $$M = \sum_{i<j}y_{ij}y_{ji}$$
-How to test for mutuality?
-<ul>
-<li>Compare observed $M$ to its distribution under some null model.
-<li>Compare observed $M$ to its expected value under some simple conditions.
-  <ul>
-  <li>Fixed choice: Each individual makes exactly $d$ nominations uniformly at random.  
-  $$\begin{align*} 
-  E[M|H] &= E[\sum_{i<j} y_{ij}y_{ji} | H] \\
-         &= \sum_{i<j} E[y_{ij}y_{ji} | H] \\
-         &= {n \choose 2} E[y_{ij}y_{ji} | H] \\
-         &= {n \choose 2} \text{Pr}(y_{ij}=1 \text{ and } y_{ji}=1 |H) \\
-         &= {n \choose 2} \frac{d^2}{(n-1)^2}
-  \end{align*}$$
-  <li>Free choice: Individual $i$ makes exactly $d_i$ nominations uniformly at random  (controls for out-degree heterogeneity).
-  $$\begin{align*} 
-  E[M|H] = \frac{y_{\cdot\cdot}^2 - \sum y_{i \cdot}^2}{2(n-1)^2}
-  \end{align*}$$  
-  Where $y_{\cdot \cdot}$ is the total number of ties and $y_{i \cdot}$ are the column sums
-  </ul>
-</ul>
 
-The $p_1$ model:
-<ul>
-<li> Between dyad relations are independent of each other
-<li> Within dyad relations are dependent
-</ul>
+Holland and Leinhardt (1981) proposed the $p_1$ model to take into consideration "the two elementary social tendencies of reciprocation and differential attraction". The model consists of the same sender and receiver effects as the individual effects model above, with an additional parameter to take into consideration the tendency for ties to be mutual. In this model within dyad relations are dependent, but between dyad relations are still independent of each other; the probability of the tie $Y_{ij}$ depends on $Y_{ji}$, but the probability of $Y_{ik}$ does not depend on either of them.
+
+The model:
 $$
-\text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma) = \frac{\text{e}^{\mu_{ij}y_{ij}+\mu_{ji}y_{ji}+\gamma y_{ij}y_{ji}}}{1+\text{e}^{\mu_{ij}}+\text{e}^{\mu_{ji}}+\text{e}^{\mu_{ij}+\mu_{ji}+\gamma}}
+\text{Pr}(y_{ij},y_{ji} | \mu, a_i, b_j, \gamma) = \frac{\text{e}^{(\mu + a_i +b_j)y_{ij}+(\mu + a_j + b_i)y_{ji}+\gamma y_{ij}y_{ji}}}{1+\text{e}^{\mu+a_i+b_j}+\text{e}^{\mu+a_j+b_i}+\text{e}^{2\mu+a_i+a_j+b_i+b_j+\gamma}}.
 $$
+
+Here $\mu$ represents the overall density, $a_i$ characterizes $i$ as a sender, $b_j$ characterizes $j$ as a receiver, and $\gamma$ is the mutuality parameter.
 
 Problems with the $p_1$ model
-* Not generalizable
-* Not parsimonious (many parameters!)
+<ul>
+<li> Not generalizable  
+<li> Not parsimonious (many parameters!)
+</ul>
+
+See @holland1981 for more on $p_1$ models.
 
 #### p<sub>2</sub> model
+
+The $p_2$ model was proposed as an extension to the $p_1$ model allowing for dependence between dyads. The density and mutuality parameters are now allowed to vary over dyads. For each dyad $(i,j)$ we have $\mu_{ij}$ and $\gamma_{ij}$, which are modeled as being linearly related to dyadic covariates $Z_1$ and $Z_2$.
+
+$$\begin{align*}
+\mu_{ij} &= \mu + Z_{1ij}\delta_1 \\
+\gamma_{ij} &= \gamma + Z_{2ij}\delta_2
+\end{align*}$$
+
+Furthermore, the sender and receiver effects are modeled with nodal covariates $X_1$ and $X_2$.
+
+$$\begin{align*}
+a_i &= X_{1i}\theta_{1i} + A_i \\
+b_j &= X_{2j}\theta_{2j} + B_j
+\end{align*}$$
+
+
+
+See **van Duijn 2004** for more on $p_2$ models.
 
 #### Markov graphs
 
