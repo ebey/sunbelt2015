@@ -622,12 +622,14 @@ $$\begin{align*}
 \gamma_{ij} &= \gamma + Z_{2ij}\delta_2
 \end{align*}$$
 
-Furthermore, the sender and receiver effects are modeled with nodal covariates $X_1$ and $X_2$.
+Furthermore, the sender and receiver effects are modeled with nodal covariates $X_1$ and $X_2$, weighted by $\theta_1$ and $\theta_2$. The residual terms $A$ and $B$ are modeled as normally distributed random variables with mean $0$ and variances $\sigma_A^2$ and $\sigma_B^2$, respecitively. The parameters $\sigma_A^2$ and $\sigma_B^2$ can be interpreted as the unexplained variance of $a$ and $b$ after taking into account the covariates.
 
 $$\begin{align*}
 a_i &= X_{1i}\theta_{1i} + A_i \\
 b_j &= X_{2j}\theta_{2j} + B_j
 \end{align*}$$
+
+The presence of parameters $A$ and $B$ make this a random effects model, which cannot be fit using the ergm software. The inclusion of sender and receiver covariates is considered the main advantage of the $p_2$ model over $p_1$, but it still has the same drawbacks.
 
 See @vanduijn2004 for more on $p_2$ models.
 
