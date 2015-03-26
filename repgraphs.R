@@ -133,7 +133,10 @@ par(mfrow=c(1,1), xpd=FALSE)
 #hist(brg_close, col=BRGcol, ylab=NULL, main=NULL, xlab="closeness centrality")
 #all zeros because graph is disconnected
 
-### Blockmodels
+
+# Blockmodels -------------------------------------------------------------
+
+
 sex <- get.vertex.attribute(fmh,"Sex")
 p00 <- mean(Yfmh[sex=="F",sex=="F"], na.rm=T)
 p01 <- mean(Yfmh[sex=="F",sex=="M"], na.rm=T)
@@ -142,7 +145,10 @@ p11 <- mean(Yfmh[sex=="M",sex=="M"], na.rm=T)
 
 
 
-### Regression
+
+# Regression --------------------------------------------------------------
+
+
 b0 <- 0.0009
 par(mfrow=c(2,1))
 b1 <- 2
@@ -173,6 +179,7 @@ sim_mm <- NULL
 sim_ff <- NULL
 sim_tri <- NULL
 
+#from glm fitted values
 for(j in 1:1000){
   Ysim <- matrix(0,n,n)
   diag(Ysim)<- NA
@@ -185,8 +192,17 @@ for(j in 1:1000){
   diag(Ysim) <- 0
   sim_tri <- rbind(sim_tri,sum(diag(Ysim%*%Ysim%*%Ysim)))
 }
+# from ergm
+for(j in 1:500){
+  Ysim <- simulate(fit2)
+  sim_sdd <- rbind(sim_sdd, sd(summary(Ysim ~ degree(0:15))))
+  sim_ingroupsex <- rbind(sim_ingroupsex, summary(Ysim ~ nodematch("Sex")))
+  sim_mm <- rbind(sim_mm, summary(Ysim ~ nodematch("Sex",diff=TRUE,keep=1)))
+  sim_ff <- rbind(sim_ff, summary(Ysim ~ nodematch("Sex",diff=TRUE,keep=2)))
+  sim_tri <- rbind(sim_tri,summary(Ysim ~ triangles))
+}
 
-par(mfrow=c(1,3))
+par(mfrow=c(1,5))
 hist(sim_sdd,col=tgray,xlim=range(sim_sdd,fmh_sdd), border=BRGcol,xlab="sd(degree)",
      ylab=NULL,main=NULL)
 abline(v=fmh_sdd,col=obsblue, lwd=2)
@@ -209,7 +225,10 @@ obsblue <- "royalblue2"
 tgray <- adjustcolor("gray",alpha.f=0.4)
 
 
-### Row Column Effects
+
+# Row Column Effects ------------------------------------------------------
+
+
 sampsimdat <- tsim(Ysamp, gmode="digraph", cmode="directed")
 
 samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
@@ -263,3 +282,31 @@ abline(v=samp_sdi,col=obsblue,lwd=2)
 hist(sim_mut, col=tgray,border="darkred", xlab="mutual dyads",ylab=NULL, main=NULL,
      xlim=range(sim_mut,samp_mut))
 abline(v=samp_mut,col=obsblue,lwd=2)
+
+### p1
+
+fitp1 <- ergm(samplike ~ edges + sender + receiver + mutual)
+sim_sdi <- NULL
+sim_sdo <- NULL
+sim_mut <- NULL
+for(k in 1:1000){
+  Ysim <- simulate(fitp1)
+  sim_sdi <- rbind(sim_sdi,sd(summary(Ysim ~ idegree(0:15))))
+  sim_sdo <- rbind(sim_sdo,sd(summary(Ysim ~ odegree(0:15))))
+  sim_mut <- rbind(sim_mut,summary(Ysim ~ mutual))
+}
+
+par(mfrow=c(1,3))
+hist(sim_sdo, col=tgray,border="darkred", xlab="sd(out-degree)",ylab=NULL, main=NULL,
+     xlim=range(sim_sdo,samp_sdo))
+abline(v=samp_sdo,col=obsblue,lwd=2)
+
+hist(sim_sdi, col=tgray,border="darkred", xlab="sd(in-degree)",ylab=NULL, main=NULL,
+     xlim=range(sim_sdi,samp_sdi))
+abline(v=samp_sdi,col=obsblue,lwd=2)
+
+hist(sim_mut, col=tgray,border="darkred", xlab="mutual dyads",ylab=NULL, main=NULL,
+     xlim=range(sim_mut,samp_mut))
+abline(v=samp_mut,col=obsblue,lwd=2)
+par(mfrow=c(2,2))
+plot(gof(fitp1))
