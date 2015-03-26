@@ -483,9 +483,13 @@ And with each we get the same result.
   </div>
 </ul>
 
-Why were we able to use the ergm software to fit the models above? Because logistic regression models are ERGMs! We will make this connection more explicit later, but for now reading the help documentation for each term used above (through the documentation box in statnetWeb or `help("ergm-terms")` in the command line) should present some connections to the logistic regression formula.
+Why were we able to use the ergm software to fit the models above? Because logistic regression models are ERGMs! Each term in the call to glm corresponds to a term in the ergm formula. Reading the help documentation for each term used above (through the documentation box in statnetWeb or `help("ergm-terms")` in the command line) should present some connections to the logistic regression formula. For example, notice that `nodematch("Sex",diff=TRUE,keep=2)` corresponds to `xr*xc`, but using `nodematch("Sex")` in ergm would be the same as having a dyadic covariate `z <- 1*(xr==xc)` in a glm.
 
 #### Goodness of fit
+
+In the logistic regression models above we chose certain statistics to include in our model, which could have been counts of nodal covariates, dyadic covariates, or functions of these. The coefficients we get after fitting the model are direct results of the values of those statistics in our observed network. This revised workflow image reflects the dependence of the modeling process on the observed network.
+
+![](images/workflow2.png)
 
 So far we have been assessing the fit of our models by comparing the observed value of a test statistic to histograms generated from simulations (draws from the probability distribution) of the model. This allows us to see if the observed value is within the range we would expect to see from the model. If a statistic is included in our model, simulations should always reproduce the observed value - checking this verifies that the model is performing the way we expect it to. If a model is able to reproduce statistics that are not explicitly included in the model, this is a sign that we have captured the key structural features of the data.
 
@@ -647,7 +651,7 @@ To verify that our model is not degenerate, we want the MCMC sample statistics t
 ![](images/mcmc_mutual.png)
 
 #### Exponential random graph models (p$^*$)  
-![](images/workflow2.png)
+
 
 **What is an ERGM?**  
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
