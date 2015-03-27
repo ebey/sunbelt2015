@@ -642,15 +642,6 @@ As stated in @frank1986, a graph is said to be a Markov graph if only incident d
 See @frank1986 for more on markov graphs.  
 <font class="ex">wasserman/pattison 1996 and frank 1991 would be useful...?</font>
 
-#### MCMC Diagnostics
-
-You may have noticed that some ergm models take longer to run than others, and that plots are not always available on the MCMC Diagnostics page.
-
-<font class="ex">describe MCMC briefly</font>
-
-To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. However, recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that funcionality.  
-
-![](images/mcmc_mutual.png)
 
 #### Exponential random graph models (p$^*$)  
 
@@ -684,20 +675,24 @@ Our goal is to use key model statistics to fit an exponential-family random grap
 
 <font class="ex">Exercise:</font> Which of the above terms are dyad dependent? Why?
 
-##### ERGM Estimation
+**ERGM Estimation**
 
-#### statnetWeb: Fit Model
-
-We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window in statnetWeb gives access to the help file of each one.
-<ul>
-<li>Browse through all terms or narrow the results down to only the terms that are applicable to the currently loaded network.
-<li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
-</ul>
+You may have noticed that some ergm models take longer to run than others, and that plots are not always available on the MCMC Diagnostics page.
 
 How does statnetWeb find a model that fits?  
 <ul>
 <li>MLE: maximum likelihood estimation</li>
 <li>MCMC: only for models with dyadic dependent terms</li>
+</ul>
+
+<font class="ex">describe MCMC briefly</font>
+
+##### statnetWeb: Fit Model
+
+We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window in statnetWeb gives access to the help file of each one.
+<ul>
+<li>Browse through all terms or narrow the results down to only the terms that are applicable to the currently loaded network.
+<li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
 </ul>
 
 Output from model fitting
@@ -740,15 +735,21 @@ When a model fails
 <li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
 </ul>
 
-## Model Evaluation
+##### Model Evaluation
 
 <font class="lobj">Learning objectives:</font>
 
 Recall the hypothesis testing with conditionally uniform models. If we reject a single model, for example a simple random graph with tie probability $\theta_1$, we cannot necessarily reject any other simple random graph with $\theta_2$. Instead of checking every possible value of $\theta$, we use the maximum likelihood estimator $\hat\theta$ so that $p(Y|\hat\theta) \ge p(Y|\theta)$ for all $\theta \in \Theta$.
 
-#### statnetWeb: MCMC Diagnostics
 
-We want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0.  
+
+
+**statnetWeb: MCMC Diagnostics**
+
+To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. However, recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that funcionality.
+
+![](images/mcmc_mutual.png)
+
 <ul>
 <li>flobusiness ~ edges+degree(1)  
 ![](images/mcmc_good.png)
@@ -761,18 +762,18 @@ try to modify control parameters and do better
 ![](images/mcmc_bad.png)
 </ul>
 
-#### statnetWeb: Goodness-of-fit
+**statnetWeb: Goodness-of-fit**
 
 Test how well your model fits the original data by choosing a network statistic that is not in the model, and comparing the value of this statistic observed in the original network to the distribution of values you get in simulated networks from your model.  
 When multiple models are saved, compare GOF plots in a chart.
 
-## Model-Based Simulation
+##### Model-Based Simulation
 
 <font class="lobj">Learning objectives:</font>
 
 After creating an ergm and checking the diagnostics, we can simulate from it (take examples of networks drawn from this distribution). If the model is a good fit to the observed data, then networks drawn from this distribution will be more likely to “resemble” the observed data.
 
-#### statnetWeb: Simulate
+**statnetWeb: Simulate**
 
 <ul>
 <li>View network plot of each simulation; edit display options in the same way as the plot of the observed network.
