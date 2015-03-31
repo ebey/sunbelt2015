@@ -635,11 +635,20 @@ See @vanduijn2004 for more on $p_2$ models.
 
 #### Markov graphs
 
-As stated in @frank1986, a graph is said to be a Markov graph if only incident dyads can be conditionally dependent. In other words, dyads are dependent only if they share a node.
+As explained in detail in @frank1986, a dependence graph $D$ consists of nodes that correspond to the dyads of a random graph $G$. There is a tie between nodes in $D$ if those dyads in $G$ are conditionally dependent. A Markov graph is defined as a random graph $G$ whose dependence graph $D$ has no ties between disjoint sets of nodes from $G$. In other words, conditional on the rest of the graph, dyads are dependent only if they share a node. In this case, groups of dyads that are all dependent on each other (the cliques of $D$) form triangles and stars in $G$.
 
 
 
-See @frank1986 for more on markov graphs.  
+<div class="ex">
+<font class="ex">Example:</font> To understand the role that dyad dependence can play in the formation of triangles, consider the graph interpretation of the saying that "a friend of my friend is my friend". If having mutual friends makes two people more likely to be friends, the probability of a tie between them depends on the states of other ties.
+
+The number of friends that the two red nodes have in common equals the number of triangles that would form if the tie between them existed. In our scenario, the tie on the right is the most likely to form because it closes the most triangles. Notice that the probability of a tie forming does not depend on the state of any non-incident dyads, so this is indeed a Markov graph.
+
+<div align="center">![](images/triangles.png)</div>
+</div>
+
+
+See @frank1986, @wasserman1996 and @frank1991 for more on Markov graphs.  
 <font class="ex">wasserman/pattison 1996 and frank 1991 would be useful...?</font>
 
 
@@ -647,7 +656,7 @@ See @frank1986 for more on markov graphs.
 
 
 **What is an ERGM?**  
-Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks.
+Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks. Most of the models that we have discussed in this document already are specific forms of ERGMs.
 
 **ERG Model Specification**  
 $$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
@@ -682,7 +691,10 @@ You may have noticed that some ergm models take longer to run than others, and t
 How does statnetWeb find a model that fits?  
 <ul>
 <li>MLE: maximum likelihood estimation</li>
-<li>MCMC: only for models with dyadic dependent terms</li>
+<li>MCMC: Markov chain Monte Carlo estimation
+<ul>
+<li>only for models with dyadic dependent terms</li>
+</ul>
 </ul>
 
 <font class="ex">describe MCMC briefly</font>
