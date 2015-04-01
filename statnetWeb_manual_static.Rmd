@@ -128,13 +128,10 @@ See @snijders2011
   <ul>
   <li>In simple random graphs, each edge between two nodes is equally likely - not the case for most social networks</li>
   <ul>
-  <li>The chance of a tie between nodes i and j may depend on the attributes of i and j (e.g. Homophily)</li>
+  <li>The chance of a tie between nodes $i$ and $j$ may depend on the attributes of $i$ and $j$ (e.g. homophily)</li>
   </ul>
   </ul>
   <li>Joint models for nodal attributes and links:  Influence and Selection</li>
-  <ul>
-  <li>Transitivity
-  </ul>
   </ul>
 </ul>
 
@@ -412,8 +409,9 @@ $$\begin{align*}
   <li> $\beta_1$ is the log of the odds ratio $(y=1|(1,0),(0,0))$, it represents the "effect" of $x_i$
   <li> $\beta_2$ is the log of the odds ratio $(y=1|(0,1),(0,0))$, it represents the "effect" of $x_j$
   <li> $\beta_{12}$ is the log of the ratio of odds ratios $(y=1|(1,1),(0,1))/(y=1|(1,0),(0,0))$, it represents the effect of the interaction $x_i x_j$
-  <li>How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?  
-  <ul>
+
+How are $\{\beta_0, \beta_1, \beta_2, \beta_{12}\}$ related to $\{p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\}$?  
+ 
   If network density is low, $1-p_{x_ix_j} \approx 1$  
   $$o_{x_ix_j} = p_{x_ix_j}/(1-p_{x_ix_j}) \approx p_{x_ix_j}$$
   And
@@ -421,7 +419,7 @@ $$\begin{align*}
   \{ p_{00}, \frac{p_{10}}{p_{00}}, \frac{p_{01}}{p_{00}}, \frac{p_{00}p_{11}}{p_{01}p_{10}}\} & \approx \{o_{00}, \frac{o_{10}}{o_{00}}, \frac{o_{01}}{o_{00}}, \frac{o_{00}o_{11}}{o_{01}o_{10}}\} \\
   & = \{\text{e}^{\beta_0}, \text{e}^{\beta_1}, \text{e}^{\beta_2}, \text{e}^{\beta_{12}}\}
   \end{align*}$$
-  </ul>
+  
   
   <div class="ex">
   <font class="ex">Example:</font> Fit the above model to the `faux.mesa.high` network using the "Sex" attribute as a covariate. We can do this in multiple ways:
