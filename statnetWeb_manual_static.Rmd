@@ -661,13 +661,14 @@ $$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
 <li> $Y$: random variable for state of network (with realization $y$)
 <li> $g(y)$: vector of model statistics for network $y$
 <li> $\theta$: vector of coefficients for statistics $g(y)$
-<li> $k(\theta)$: numerator summed over all possible networks (with same node set as $y$)
+<li> $k(\theta)$: numerator summed over all possible networks with same node set as $y$ (normalizing constant)
 </ul>
 
 Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{ij})$
 <ul>
-<li>$\delta(y_{ij})$ is the change statistic, i.e. it records how $g(y)$ changes if the tie $y_{ij}$ is toggled on or off</li>
-<li>$\theta$ (the coefficient for a model statistic) is the log-odds of an individual tie conditional on all others</li>
+<li>$\delta(y_{ij})$ is the change statistic, i.e. it records how $g(y)$ changes if the tie $y_{ij}$ is toggled on or off.
+<li>$\theta$ (the coefficient for a model statistic) is the log-odds of an individual tie conditional on all others.
+<li>If $\theta_1$ is positive and $g_1(y)$ is larger when $y_{ij}$ is toggled on, the tie $y_{ij}$ is more likely to form
 </ul>
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.  
@@ -683,7 +684,8 @@ In statnetWeb, each model statistic that we want to include is represented by a 
 
 **ERGM Estimation**
 
-As we have seen before, model statistics are either dyad dependent or dyad independent. For dyad dependent statistics, the change statistic $\delta(y_{ij})$ depends on the status of dyads in the network other than just $y_{ij}$.
+As we have seen before, model statistics are either dyad dependent or dyad independent. For dyad dependent statistics, the change statistic $\delta(y_{ij})$ depends on the status of dyads in the network other than just $y_{ij}$.  
+
 <font class="ex">Exercise:</font> Which of the following terms are dyad dependent? Why?
 
 * edges
@@ -692,55 +694,41 @@ As we have seen before, model statistics are either dyad dependent or dyad indep
 * nodal homophily (nodematch)
 
 
-How does statnetWeb fit a model? It depends which terms are in the model.
+Fitting a model is difficult because calculating the normalizing constant $k(\theta)$ is impossible for all but the simplest models. How does statnetWeb get around this? It depends which terms are in the model formula.
+
+Formulas with only dyad independent terms:
 <ul>
-<li>MLE: maximum likelihood estimation</li>
-<li>MCMC: Markov chain Monte Carlo estimation
-<ul>
-<li>only for models with dyadic dependent terms</li>
-</ul>
+<li>statnetWeb uses an iterative Newton-Raphson algorithm to find the maximum likelihood estimates of the coefficients. This is similar to the process that occurs in logistic regression.
 </ul>
 
-<font class="ex">describe MCMC briefly</font>
-Potential problems with MCMC:
-<ol>
-<li>bimodal distributions (getting stuck in one place)
-<li>
-<li>
-</ol>
-
-**statnetWeb: model output**
+Formulas with dyad dependent terms: 
 <ul>
-<li>Iterations - useful to see if model is degenerate</li>
-<li>Model summary</li>
+<li>statnetWeb uses Markov chain Monte Carlo estimation to iteratively simulate graphs and approximate coefficients that approach the maximum likelihood estimates. With each iteration of this procedure the expected value of a model statistic gets closer to the target value (from the observed network). This, however, is a computationally intensive process and comes with limitations.
+
+Potential problems can arise because for certain sets of parameters, the distribution of possible graphs may be characterized by two (or more) distinct subsets (regimes) of the outcome space. MCMC simulations will in theory always switch between these regimes, but may spend an arbitrarily long time drawing sequential graphs from one. In this case MCMC is unsuitable to simulate a random draw from the distribution and convergence to the target statistics can be very slow.
+</ul>
+
+ 
+
+See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERGM specification and estimation and @snijders2002 ([here](http://www.cmu.edu/joss/content/articles/volume3/Snijders.pdf)) for more on MCMC estimation specifically.
+
+**Model output**
+<ul>
+<li>Iterations - useful to see if model is degenerate  
+<font class="ex">image here</font>
+<li>Model summary</li>  
+<font class="ex">image here</font>
   <ul>
-  <li>Interpretation of coefficient estimates:</li>
-  <ul>
-  <li>Conditional log-odds of two actors having a tie is  
-  $\theta_1$ x change in stat1 + $\theta_2$ x change in stat2
-  <li>Corresponding probability from equation above
-  </ul>
+  Once we have coefficient estimates, we can interpret them as influencing the conditional log-odds of two nodes having a tie:  
+
+  $\theta_1$ x change in stat<sub>1</sub> + $\theta_2$ x change in stat<sub>2</sub>
+
   </ul>
   <li>Save up to five models for comparison  
   ![](images/modelcomp.png)
 </ul>
 
-<font class="ex">Example: Bernoulli model</font> 
-<ul><li>flomarriage ~ edges</li></ul>
 
-<font class="ex">Example: Triad formation</font>  
-<ul><li>flomarriage ~ edges + triangle</li></ul>
-
-<font class="ex">Example: Nodal covariates</font>  
-<ul><li>flomarriage ~ edges + nodecov("wealth")</li></ul>
-
-<font class="ex">Example: -Inf coefficients</font>  
-
-<font class="ex">Example: Missing data in ERGMs</font>
-<ul>
-<li>missnet ~ edges
-<li>Compare when edges are coded as missing vs. zeros
-</ul>
 
 
 
@@ -796,6 +784,25 @@ After creating an ergm and checking the diagnostics, we can simulate from it (ta
 <li>Edit MCMC controls (e.g. increase the interval if simulation statistics are highly auto-correlated.)
 [IMAGE AFTER INCREASING INTERVAL]
 <li>Download simulation statistics
+</ul>
+
+#### Examples
+
+<font class="ex">Example: Bernoulli model</font> 
+<ul><li>flomarriage ~ edges</li></ul>
+
+<font class="ex">Example: Triad formation</font>  
+<ul><li>flomarriage ~ edges + triangle</li></ul>
+
+<font class="ex">Example: Nodal covariates</font>  
+<ul><li>flomarriage ~ edges + nodecov("wealth")</li></ul>
+
+<font class="ex">Example: -Inf coefficients</font>  
+
+<font class="ex">Example: Missing data in ERGMs</font>
+<ul>
+<li>missnet ~ edges
+<li>Compare when edges are coded as missing vs. zeros
 </ul>
 
 ## Review and Further Topics
