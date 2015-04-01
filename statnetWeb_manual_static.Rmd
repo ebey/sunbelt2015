@@ -269,6 +269,7 @@ BRG($\rho$): Bernoulli random graphs (simple random graphs)
   <li>BRG($\rho$) is not a good model for most networks, but comparing test statistics from the model to the observed network will allow us to see in what ways they are different. Often the tests will allow us to reject the null hypothesis that ties are formed randomly with probability $\rho$.
   <li>Do we have to test every possible $\rho$ if we want to reject all bernoulli graphs? If we use a value $\hat\rho$ that maximizes the probability that our observed network $y$ came from the distribution BRG($\rho$) and can reject this model, then we can reject BRG($\rho$) for all $\rho$. It can be shown that the MLE $\hat\rho$ is equal to $\bar{y}$, the density of the observed network.
   <li>Draws from this model can be simulated with the following code:
+  
 ```
 rho <- mean(Yobs, na.rm=T)
 Ysim <- matrix(0,nrow=nrow(Yobs),ncol=nrow(Yobs))
@@ -294,12 +295,14 @@ CUG($s$): Graphs conditional on number of ties $s$ (Erdos-Reyni graphs)
 
 It is possible to add more conditions to make a more complicated CUG model: 
   <ul>
-  <li>A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the CUG($s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.  
+  <li>A null hypothesis where ties are independent of covariates, i.e. $p(Y,x)=p(Y) \times p(x)$, and the ties are drawn from the CUG($s$) distribution. We can simulate this by randomly reassigning the ties in $Y$ and holding the covariates $x$ constant.
+  
 ```
 Ysim <- matrix(0,n,n)
 diag(Ysim) <- NA
 Ysim[!is.na(Ysim)] <- sample(Yobs[!is.na(Yobs)])
 ```
+
   <li>A null hypothesis where ties are independent of covariates and  the covariates are i.i.d. for some distribution $p(x)$. We can simulate this by holding the ties in $Y$ constant and randomly permuting the values in $x$.
 ```
 Ysim <- Yobs
@@ -575,7 +578,6 @@ And in statnetWeb it is even easier:
   </ul>
   
 
-
 #### p<sub>1</sub> model
 
 Above we saw that in the `sampson` data the number of mutual dyads was larger than expected under the RCE model. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
@@ -648,14 +650,13 @@ The number of friends that the two red nodes have in common equals the number of
 <br>
 See @frank1986 ([here](http://www.stat.cmu.edu/~fienberg/Stat36-835/FrankStrauss-JASA-1986.pdf)), @wasserman1996 ([here](http://www.stat.cmu.edu/~brian/780/hw02/WassermanPattison-Psychometrika-1996.pdf)) and @frank1991 for more on Markov graphs.  
 
-
 #### Exponential random graph models (p$^*$)  
 
 
-**What is an ERGM?**  
+##### What is an ERGM?
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks. Most of the models that we have discussed in this document already are specific forms of ERGMs.
 
-**ERG Model Specification**  
+##### ERG Model Specification 
 $$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
 <ul>
 <li> $Y$: random variable for state of network (with realization $y$)
@@ -682,8 +683,12 @@ In statnetWeb, each model statistic that we want to include is represented by a 
 <li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
 </ul>
 
-**ERGM Estimation**
+##### ERGM Estimation
 
+Fitting a model is difficult because calculating the normalizing constant $k(\theta)$ is impossible for all but the simplest models. How does statnetWeb get around this? It depends which terms are in the model formula.
+
+<ul>
+<div class="ex">
 As we have seen before, model statistics are either dyad dependent or dyad independent. For dyad dependent statistics, the change statistic $\delta(y_{ij})$ depends on the status of dyads in the network other than just $y_{ij}$.  
 
 <font class="ex">Exercise:</font> Which of the following terms are dyad dependent? Why?
@@ -692,9 +697,8 @@ As we have seen before, model statistics are either dyad dependent or dyad indep
 * triangles
 * nodes of degree 0
 * nodal homophily (nodematch)
-
-
-Fitting a model is difficult because calculating the normalizing constant $k(\theta)$ is impossible for all but the simplest models. How does statnetWeb get around this? It depends which terms are in the model formula.
+</div>
+</ul>
 
 Formulas with only dyad independent terms:
 <ul>
@@ -712,7 +716,7 @@ Potential problems can arise because for certain sets of parameters, the distrib
 
 See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERGM specification and estimation and @snijders2002 ([here](http://www.cmu.edu/joss/content/articles/volume3/Snijders.pdf)) for more on MCMC estimation specifically.
 
-**Model output**
+##### Model Output
 <ul>
 <li>Iterations - useful to see if model is degenerate  
 <font class="ex">image here</font>
@@ -727,11 +731,6 @@ See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERG
   <li>Save up to five models for comparison  
   ![](images/modelcomp.png)
 </ul>
-
-
-
-
-
 
 ##### Model Evaluation
 
