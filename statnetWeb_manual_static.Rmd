@@ -640,7 +640,7 @@ As explained in detail in @frank1986, a dependence graph $D$ consists of nodes t
 <div class="ex">
 <font class="ex">Example:</font> To understand the role that dyad dependence can play in the formation of triangles, consider the graph interpretation of the saying that "a friend of my friend is my friend". If having mutual friends makes two people more likely to be friends, the probability of a tie between them depends on the states of other ties.
 
-The number of friends that the two red nodes have in common equals the number of triangles that would form if the tie between them existed. In our scenario, the tie on the right is the most likely to form because it closes the most triangles. Notice that the probability of a tie forming does not depend on the state of any non-incident dyads, so this is indeed a Markov graph.
+The number of friends that the two red nodes have in common equals the number of triangles that would be closed if the tie between them formed. In our scenario, the tie on the right is the most likely to form because it closes the most triangles. Notice that the probability of a tie forming does not depend on the state of any dyads except those incident on the tie in question, so this is indeed a Markov graph.
 
 <div align="center">![](images/triangles.png)</div>
 </div>
@@ -673,20 +673,27 @@ Conditional log-odds: $\mathrm{logit}(Y_{ij} = 1|y_{ij}^{c}) = \theta'\delta(y_{
 
 Our goal is to use key model statistics to fit an exponential-family random graph model (ERGM) to the observed data. We want this model to capture the underlying structure of the network, so we include statistics that we hypothesize differ significantly in the observed network when compared to a simple random graph.  
 
-<u>Important to consider:</u> model statistics are either dyad dependent or dyad independent.
+In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window in statnetWeb gives access to the help file of each one.
+
+<font class="ex">image of term doc box</font>
+
+<ul>
+<li>Browse through all terms or narrow the results down to only the terms that are applicable to the currently loaded network.
+<li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
+</ul>
+
+**ERGM Estimation**
+
+As we have seen before, model statistics are either dyad dependent or dyad independent. For dyad dependent statistics, the change statistic $\delta(y_{ij})$ depends on the status of dyads in the network other than just $y_{ij}$.
+<font class="ex">Exercise:</font> Which of the following terms are dyad dependent? Why?
 
 * edges
 * triangles
 * nodes of degree 0
 * nodal homophily (nodematch)
 
-<font class="ex">Exercise:</font> Which of the above terms are dyad dependent? Why?
 
-**ERGM Estimation**
-
-You may have noticed that some ergm models take longer to run than others, and that plots are not always available on the MCMC Diagnostics page.
-
-How does statnetWeb find a model that fits?  
+How does statnetWeb fit a model? It depends which terms are in the model.
 <ul>
 <li>MLE: maximum likelihood estimation</li>
 <li>MCMC: Markov chain Monte Carlo estimation
@@ -696,16 +703,14 @@ How does statnetWeb find a model that fits?
 </ul>
 
 <font class="ex">describe MCMC briefly</font>
+Potential problems with MCMC:
+<ol>
+<li>bimodal distributions (getting stuck in one place)
+<li>
+<li>
+</ol>
 
-##### statnetWeb: Fit Model
-
-We can choose which model statistics to include in an ERGM. In statnetWeb, each model statistic that we want to include is represented by a term in the model formula. There are many terms coded into the statnet software and the term documentation window in statnetWeb gives access to the help file of each one.
-<ul>
-<li>Browse through all terms or narrow the results down to only the terms that are applicable to the currently loaded network.
-<li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
-</ul>
-
-Output from model fitting
+**statnetWeb: model output**
 <ul>
 <li>Iterations - useful to see if model is degenerate</li>
 <li>Model summary</li>
@@ -739,11 +744,7 @@ Output from model fitting
 </ul>
 
 
-When a model fails
-<ul>
-<li>Control parameters: burn-in, interval, sample size
-<li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
-</ul>
+
 
 ##### Model Evaluation
 
@@ -752,7 +753,11 @@ When a model fails
 Recall the hypothesis testing with conditionally uniform models. If we reject a single model, for example a simple random graph with tie probability $\theta_1$, we cannot necessarily reject any other simple random graph with $\theta_2$. Instead of checking every possible value of $\theta$, we use the maximum likelihood estimator $\hat\theta$ so that $p(Y|\hat\theta) \ge p(Y|\theta)$ for all $\theta \in \Theta$.
 
 
-
+When a model fails
+<ul>
+<li>Control parameters: burn-in, interval, sample size
+<li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
+</ul>
 
 **statnetWeb: MCMC Diagnostics**
 
