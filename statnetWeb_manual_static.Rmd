@@ -723,10 +723,11 @@ See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERG
 <li>Model summary</li>  
 <font class="ex">image here</font>
   <ul>
-  Once we have coefficient estimates, we can interpret them as influencing the conditional log-odds of two nodes having a tie:  
+  Once we have coefficient estimates, we can see how they influence the conditional log-odds of two nodes having a tie:  
 
   $\theta_1$ x change in stat<sub>1</sub> + $\theta_2$ x change in stat<sub>2</sub>
 
+  For example, if we have an `edges` coefficient $\theta_1 = -5$, a `nodematch("color")` coefficient $\theta_2 = 2$ and a `degree(0)` coefficient $\theta_3 = 1$ the log-odds of the potential tie below is $(-5*1) + (2*2) + (1*-1) = -2$.
   </ul>
   <li>Save up to five models for comparison  
   ![](images/modelcomp.png)
