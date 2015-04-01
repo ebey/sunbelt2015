@@ -32,7 +32,7 @@ Network analysis techniques have progressed immensely over the past 60 years and
   <ul>
   <li>Useful as null hypotheses, but don't give indications of how to model
   </ul>
-<li> $p_1$ model ([Holland and Leinhardt 1981](http://www.stat.cmu.edu/~fienberg/Stat36-835/HollandLeinhardt-JASA-1981.pdf))
+<li> $p_1$ model  @holland1981
   <ul>
   <li>Statistical inference
   <li>Large number of parameters
@@ -307,7 +307,7 @@ xsim <- sample(xobs)
 ```
   </ul>
 
-
+See @holland1976 and @wasserman1977 for more on conditionally uniform models.
   
 #### Covariate effects, odds ratios for tie preferences
   <ul>
@@ -609,7 +609,7 @@ p1fit <- ergm(samplike ~ edges + sender + receiver + mutual)
 
 The two main problems with the $p_1$ model are that it is not generalizable and it has a huge number of parameters. Each individual has both sender and receiver parameters, plus there are two graph level parameters, so we end up with roughly twice as many parameters as nodes in the network. Ideally, we want to find a more general and more parsimonious model.
 
-See @holland1981 for more on $p_1$ models.
+See @holland1981 ([here](http://www.stat.cmu.edu/~fienberg/Stat36-835/HollandLeinhardt-JASA-1981.pdf)) for more on $p_1$ models.
 
 #### p<sub>2</sub> model
 
@@ -629,7 +629,7 @@ b_j &= X_{2j}\theta_{2j} + B_j
 
 The presence of parameters $A$ and $B$ make this a random effects model, which cannot be fit using the ergm software. The inclusion of sender and receiver covariates is considered the main advantage of the $p_2$ model over $p_1$, but it still has the same drawbacks.
 
-See @vanduijn2004 for more on $p_2$ models.
+See @vanduijn2004 ([here](http://onlinelibrary.wiley.com/doi/10.1046/j.0039-0402.2003.00258.x/full) and [here](http://www.stats.ox.ac.uk/~snijders/VanDuijnSnijdersZijlstraStatistica2004.pdf)) for more on $p_2$ models.
 
 #### Markov graphs
 
@@ -645,9 +645,8 @@ The number of friends that the two red nodes have in common equals the number of
 <div align="center">![](images/triangles.png)</div>
 </div>
 
-
-See @frank1986, @wasserman1996 and @frank1991 for more on Markov graphs.  
-<font class="ex">wasserman/pattison 1996 and frank 1991 would be useful...?</font>
+<br>
+See @frank1986 ([here](http://www.stat.cmu.edu/~fienberg/Stat36-835/FrankStrauss-JASA-1986.pdf)), @wasserman1996 ([here](http://www.stat.cmu.edu/~brian/780/hw02/WassermanPattison-Psychometrika-1996.pdf)) and @frank1991 for more on Markov graphs.  
 
 
 #### Exponential random graph models (p$^*$)  
