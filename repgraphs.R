@@ -7,6 +7,9 @@ diag(Yfmh) <- NA
 Ysamp <- as.sociomatrix(samplike)
 diag(Ysamp) <- NA
 
+# obs vals ----------------------------------------------------------------
+
+
 fmh <- faux.mesa.high
 n <- nrow(Yfmh)
 fmh_sdd <- sd(degree(fmh, gmode="graph"))
@@ -53,7 +56,7 @@ tsim <- function(Y, gmode, cmode){
     s <- sum(Y, na.rm=T)
   }
   obs_dens <- mean(Y, na.rm=TRUE)
-  
+
   brg_dens <- NULL
   brg_close <- NULL
   brg_sdd <- NULL
@@ -67,7 +70,7 @@ tsim <- function(Y, gmode, cmode){
   cug_mut <- NULL
   brg_ingroupsex <- NULL
   cug_ingroupsex <- NULL
-  
+
   for(i in 1:500){
     Ycug <- matrix(0,n,n)
     diag(Ycug)<- NA
@@ -83,7 +86,7 @@ tsim <- function(Y, gmode, cmode){
     cug_sdi <- rbind(cug_sdi, sd(colSums(Ycug, na.rm=TRUE)))
     cug_mut <- rbind(cug_mut, sum(Ycug*t(Ycug),na.rm=T)/2)
     cug_ingroupsex <- rbind(cug_ingroupsex, sum(Ycug[sex01==1,sex01==1],na.rm=T)+sum(Ycug[sex01==0,sex01==0],na.rm=T))
-    
+
     Ybrg<-matrix(rbinom(n^2,1,obs_dens),n,n)
     diag(Ybrg)<-NA
     if(gmode=="graph"){Ybrg <- symmetrize(Ybrg,rule="upper")}
@@ -95,7 +98,7 @@ tsim <- function(Y, gmode, cmode){
     brg_mut <- rbind(brg_mut, sum(Ybrg*t(Ybrg),na.rm=T)/2)
     brg_ingroupsex <- rbind(brg_ingroupsex, sum(Ybrg[sex01==1,sex01==1],na.rm=T)+sum(Ybrg[sex01==0,sex01==0],na.rm=T))
   }
-  
+
   dat <- list()
   dat$cug <- cbind(cug_sdd, cug_close, cug_sdo, cug_sdi, cug_mut, cug_ingroupsex)
   dat$brg <- cbind(brg_sdd, brg_close, brg_sdo, brg_sdi, brg_mut, brg_ingroupsex, brg_dens)
@@ -193,7 +196,7 @@ for(j in 1:1000){
   sim_tri <- rbind(sim_tri,sum(diag(Ysim%*%Ysim%*%Ysim)))
 }
 # from ergm
-for(j in 1:500){
+for(j in 1:1000){
   Ysim <- simulate(fit2)
   sim_sdd <- rbind(sim_sdd, sd(summary(Ysim ~ degree(0:15))))
   sim_ingroupsex <- rbind(sim_ingroupsex, summary(Ysim ~ nodematch("Sex")))
@@ -235,7 +238,7 @@ samp_sdo <- sd(rowSums(Ysamp, na.rm=TRUE))
 samp_sdi <- sd(colSums(Ysamp, na.rm=TRUE))
 samp_mut <- sum(Ysamp*t(Ysamp),na.rm=TRUE)/2
 par(mfrow=c(1,3))
-hist(sampsimdat$cug[,3], border=CUGcol,col=tgray,xlab="sd(out-degree)", 
+hist(sampsimdat$cug[,3], border=CUGcol,col=tgray,xlab="sd(out-degree)",
      ylab=NULL,main=NULL,
      xlim=c(0,max(sampsimdat$cug[,3],samp_sdo)))
 hist(sampsimdat$brg[,3], border=BRGcol,col=tgray, add=T)
@@ -252,13 +255,14 @@ hist(sampsimdat$cug[,5], border=CUGcol,col=tgray, xlab="mutual dyads",
      breaks=c(0:24),xlim=c(0,samp_mut))
 hist(sampsimdat$brg[,5], border=BRGcol,col=tgray, breaks=c(0:24), add=T)
 abline(v=samp_mut, col=obsblue, lwd=2)
-par(mfrow=c(1,1)); title(main="sampson data"); 
+par(mfrow=c(1,1)); title(main="sampson data");
 
 Ridx <- matrix(1:ns,ns,ns)
 Cidx <- t(Ridx)
 rce.fit <- glm(c(Ysamp) ~ factor(c(Ridx))+factor(c(Cidx)), family=binomial)
 summary(rce.fit)
 P.rce <- rce.fit$fitted.values
+
 sim_sdi <- NULL
 sim_sdo <- NULL
 sim_mut <- NULL
@@ -269,6 +273,17 @@ for(j in 1:1000){
   sim_sdo <- rbind(sim_sdo, sd(rowSums(Ysim,na.rm=T)))
   sim_sdi <- rbind(sim_sdi, sd(colSums(Ysim,na.rm=T)))
   sim_mut <- rbind(sim_mut, sum(Ysim*t(Ysim),na.rm=T)/2)
+}
+
+rce.fit <- ergm(samplike ~ edges + sender + receiver, constraints=~bd(maxout=9))
+sim_sdi <- NULL
+sim_sdo <- NULL
+sim_mut <- NULL
+for(j in 1:1000){
+  Ysim <- simulate(rce.fit)
+  sim_sdo <- rbind(sim_sdo, sd(summary(Ysim ~ odegree(0:9))))
+  sim_sdi <- rbind(sim_sdi, sd(summary(Ysim ~ idegree(0:15))))
+  sim_mut <- rbind(sim_mut, summary(Ysim ~ mutual))
 }
 par(mfrow=c(1,3))
 hist(sim_sdo, col=tgray,border="darkred", xlab="sd(out-degree)",ylab=NULL, main=NULL,
@@ -283,7 +298,11 @@ hist(sim_mut, col=tgray,border="darkred", xlab="mutual dyads",ylab=NULL, main=NU
      xlim=range(sim_mut,samp_mut))
 abline(v=samp_mut,col=obsblue,lwd=2)
 
-### p1
+par(mfrow=c(1,1))
+plot(gof(rce.fit,GOF=~odegree,constraints=~bd(maxout=9)))
+
+# p1 ----------------------------------------------------------------------
+
 
 fitp1 <- ergm(samplike ~ edges + sender + receiver + mutual)
 sim_sdi <- NULL
