@@ -83,6 +83,8 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
 
 **Motivation**  
 
+What kind of data can be represented as a network?
+
 What can we accomplish with network analysis?  
 <ul>
 <li>Answer specific research questions</li>
@@ -94,15 +96,6 @@ What can we accomplish with network analysis?
   
 In order to answer questions like this we will analyze the characteristics of an observed network and then try to fit a model to it.
 
-**Network data storage and representation**
-<ul>
-<li>Overview of adjacency matrices, incidence matrices, edge lists</li>
-</ul>
-**Network data as a graph**
-<ul>
-<li>Graph notation</li>
-<li>Graph terminology</li>
-</ul>
 
 **Network data sampling designs**
 <ul>
@@ -149,6 +142,13 @@ See @snijders2011 for an overview of network analysis methods.
 Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists. The network type (directed, valued, etc.) will be reflected in the data.
 ![](images/snet_data.png)
 
+
+
+**Network data storage and representation**
+<ul>
+<li>Overview of adjacency matrices, incidence matrices, edge lists</li>
+</ul>
+
 <ul>
 <li>Limitations:
   <ul>
@@ -158,6 +158,11 @@ Outside of statnetWeb, the nodes and edges of a network can be denoted by adjace
   </ul>
 </ul>
 
+**Network data as a graph**
+<ul>
+<li>Graph notation</li>
+<li>Graph terminology</li>
+</ul>
 
 #### statnetWeb: Data
 
@@ -609,7 +614,6 @@ p1fit <- ergm(samplike ~ edges + sender + receiver + mutual)
 
 </div>
 
-<font class="ex">plot comparisons broken in statnetWeb, no difference from RCE anyway...and can't use mutual term</font>
 
 The two main problems with the $p_1$ model are that it is not generalizable and it has a huge number of parameters. Each individual has both sender and receiver parameters, plus there are two graph level parameters, so we end up with roughly twice as many parameters as nodes in the network. Ideally, we want to find a more general and more parsimonious model.
 
