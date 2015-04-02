@@ -722,13 +722,13 @@ See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERG
 
 <ul>
 <li>Model summary</li>  
-<font class="ex">image here</font>
+<div align="center">![](images/modeloutput.png)</div>
   <ul>
   Once we have coefficient estimates, we can see how they influence the conditional log-odds of two nodes having a tie:  
   
-  $\theta_1 * \delta_1(y_{ij}) + \theta_2 * \delta_2(y_{ij})$  
+  $\theta_1 * \delta_1(y_{ij}) + \theta_2 * \delta_2(y_{ij}) + \theta_3 * \delta_3(y_{ij})$  
 
-  For example, if we have a model formula `edges + nodematch("Grade") + degree(0)` with coefficients $\theta_1 = -5$, $\theta_2 = 2$ and $\theta_3 = 1$ respectively, the log-odds of the potential tie below is $(-5*1) + (2*2) + (1*-1) = -2$.
+  For example, if we have a model formula `edges + degree(0) + nodematch("Grade")` with coefficients $\theta_1 = -5$, $\theta_2 = 2$ and $\theta_3 = 1$ respectively, the log-odds of the potential tie below is $(-5*1) + (2*2) + (1*-1) = -2$.
   
   <div align="center">![](images/modelout.png)</div>
   
@@ -748,7 +748,7 @@ A degenerate model is one whose parameters have been specified in such a way tha
 
 **MCMC Diagnostics**
 
-For models that require the MCMC estimation procedure (ones with dyadic dependency) statnetWeb offers plots of the MCMC sample statistics compared to the observed statistics. To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. Recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that funcionality.
+For models that require the MCMC estimation procedure (ones with dyadic dependency) statnetWeb offers plots of the MCMC sample statistics compared to the observed statistics. To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. Recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that functionality.
 
 ![](images/mcmc_mutual.png)
 
@@ -772,7 +772,7 @@ When a model fails
 
 **statnetWeb: Goodness-of-fit**
 
-Test how well your model fits the original data by choosing a network statistic that is not in the model, and comparing the value of this statistic observed in the original network to the distribution of values you get in simulated networks from your model.  
+As we have already seen, the user can test how well a model fits the original data by choosing a network statistic that is not in the model, and comparing the value of this statistic observed in the original network to the distribution of values you get in simulated networks from the model.  
 When multiple models are saved, compare GOF plots in a chart.
 
 ##### Model-Based Simulation
