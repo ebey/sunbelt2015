@@ -717,7 +717,7 @@ Formulas with dyad dependent terms:
 <ul>
 <li>statnetWeb uses Markov chain Monte Carlo estimation to iteratively simulate graphs and approximate coefficients that approach the maximum likelihood estimates. With each iteration of this procedure the expected value of a model statistic gets closer to the target value (from the observed network). This, however, is a computationally intensive process and comes with limitations.
 
-Potential problems arise when, for certain sets of parameters, the distribution of possible graphs may be characterized by two (or more) distinct subsets (regimes) of the outcome space. MCMC simulations will in theory always switch between these regimes, but may spend an arbitrarily long time drawing sequential graphs from one. In this case MCMC is unsuitable to simulate a random draw from the distribution and convergence to the target statistics can be very slow.
+<font class="ex">Warning:</font> Problems arise when, for certain sets of parameters, dyadic dependence quickly cascades across the network, causing the distribution of possible graphs to be characterized by two (or more) distinct subsets (regimes) of the outcome space. MCMC simulations will in theory always switch between these regimes, but may spend an arbitrarily long time drawing sequential graphs from one. In this case MCMC is unsuitable to simulate a random draw from the distribution and convergence to the target statistics can be very slow.
 </ul>
 
  
@@ -780,6 +780,8 @@ When a model fails
 
 As we have already seen, the user can test how well a model fits the original data by choosing a network statistic that is not in the model, and comparing the value of this statistic observed in the original network to the distribution of values you get in simulated networks from the model.  
 When multiple models are saved, compare GOF plots in a chart.
+
+statnetWeb also calculates the AIC and BIC index of every model.
 
 ##### Model-Based Simulation
 
