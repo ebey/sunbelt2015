@@ -711,7 +711,7 @@ Formulas with dyad dependent terms:
 <ul>
 <li>statnetWeb uses Markov chain Monte Carlo estimation to iteratively simulate graphs and approximate coefficients that approach the maximum likelihood estimates. With each iteration of this procedure the expected value of a model statistic gets closer to the target value (from the observed network). This, however, is a computationally intensive process and comes with limitations.
 
-Potential problems can arise because for certain sets of parameters, the distribution of possible graphs may be characterized by two (or more) distinct subsets (regimes) of the outcome space. MCMC simulations will in theory always switch between these regimes, but may spend an arbitrarily long time drawing sequential graphs from one. In this case MCMC is unsuitable to simulate a random draw from the distribution and convergence to the target statistics can be very slow.
+Potential problems arise when, for certain sets of parameters, the distribution of possible graphs may be characterized by two (or more) distinct subsets (regimes) of the outcome space. MCMC simulations will in theory always switch between these regimes, but may spend an arbitrarily long time drawing sequential graphs from one. In this case MCMC is unsuitable to simulate a random draw from the distribution and convergence to the target statistics can be very slow.
 </ul>
 
  
@@ -721,8 +721,6 @@ See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERG
 ##### Model Output 
 
 <ul>
-<li>Iterations - useful to see if model is degenerate  
-<font class="ex">image here</font>
 <li>Model summary</li>  
 <font class="ex">image here</font>
   <ul>
@@ -743,18 +741,14 @@ See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERG
 
 <font class="lobj">Learning objectives:</font>
 
-Recall the hypothesis testing with conditionally uniform models. If we reject a single model, for example a simple random graph with tie probability $\theta_1$, we cannot necessarily reject any other simple random graph with $\theta_2$. Instead of checking every possible value of $\theta$, we use the maximum likelihood estimator $\hat\theta$ so that $p(Y|\hat\theta) \ge p(Y|\theta)$ for all $\theta \in \Theta$.
+A complete model evaluation has two goals, first to ensure that the model itself is not degenerate, and second to see how well the model has captured the key structure of the observed data.
+
+A degenerate model is one whose parameters have been specified in such a way that the distribution of possible graphs exhibits the bimodality discussed in the ERGM Estimation section. Often this manifests as two separate regimes with low and high density graphs.
 
 
-When a model fails
-<ul>
-<li>Control parameters: burn-in, interval, sample size
-<li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
-</ul>
+**MCMC Diagnostics**
 
-**statnetWeb: MCMC Diagnostics**
-
-To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. However, recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that funcionality.
+For models that require the MCMC estimation procedure (ones with dyadic dependency) statnetWeb offers plots of the MCMC sample statistics compared to the observed statistics. To verify that our model is not degenerate, we want the MCMC sample statistics to vary randomly around the observed values and the difference between the observed and simulated values of the sample statistics to have a roughly bell-shaped distribution, centered at 0. Recent changes in the ergm estimation algorithm mean that these plots can no longer be used to ensure that the mean statistics from the model match the observed network statistics. The goodness-of-fit plots and simulation statistics in statnetWeb are useful for that funcionality.
 
 ![](images/mcmc_mutual.png)
 
@@ -768,6 +762,12 @@ Interpreting other MCMC diagnostics
 flobusiness has 5 isolates, can't have any fewer than -5 from target statistic  
 try to modify control parameters and do better
 ![](images/mcmc_bad.png)
+</ul>
+
+When a model fails
+<ul>
+<li>Control parameters: burn-in, interval, sample size
+<li>If the user is familiar with more MCMC control parameters, they can be entered in the text box.
 </ul>
 
 **statnetWeb: Goodness-of-fit**
