@@ -82,14 +82,16 @@ To learn more about statnet, see the [statnet Wiki](https://statnet.csde.washing
 ![](images/samplenets_small.png)
 
 **Motivation**  
+
 What can we accomplish with network analysis?  
 <ul>
-<li>Examples</li>
+<li>Answer specific research questions</li>
   <ul>
-  <li>Show examples with statnetWeb</li>
+  <li>How might a public health intervention impact the spread of disease?
+  <li>
   </ul>
-<li>Glimpse ahead to types of analysis</li>
-</ul>
+  
+In order to answer questions like this we will analyze the characteristics of an observed network and then try to fit a model to it.
 
 **Network data storage and representation**
 <ul>
@@ -107,8 +109,8 @@ What can we accomplish with network analysis?
 <li>Adaptive sample: link-tracing designs, e.g., snowballs, respondent-driven sampling, etc.</li>
 <li>Egocentric sample: a sample of nodes (egos) with data on their links to other nodes (alters).  The alters may or may not be identifiable, and may or may not be in the sample, and data may or may not exist on ties between the alters (as reported by ego).</li>
 </ul>
+
 **Types of statistical network analysis**  
-See @snijders2011 
 <ul>
 <li>Descriptive</li>
   <ul>
@@ -137,11 +139,13 @@ See @snijders2011
 
 <font class="ex">Exercise:</font> Read introductory chapters of a social network analysis textbook. Read published network analysis paper and identify type of analysis and why it was used.
 
+See @snijders2011 for an overview of network analysis methods.
+
 ## Network Data
 
 <font class="lobj">Learning objectives:</font> Know differences between network representation methods and advantages/disadvantages of each. Practice creating networks, translating between each representation and uploading to statnetWeb.
 
-Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists.
+Outside of statnetWeb, the nodes and edges of a network can be denoted by adjacency matrices, incidence matrices or edge lists. The network type (directed, valued, etc.) will be reflected in the data.
 ![](images/snet_data.png)
 
 <ul>
@@ -149,9 +153,8 @@ Outside of statnetWeb, the nodes and edges of a network can be denoted by adjace
   <ul>
   <li>Adjacency matrices are large, but often sparse
   <li>Edge lists don't include isolates
-  <li>
+  <li>Incidence matrices are for relationships between two classes of elements
   </ul>
-<li>The network type will be reflected in the data
 </ul>
 
 
@@ -202,9 +205,7 @@ Once a network has been uploaded, a summary of the network's properties will be 
 Network descriptives are valuable for gaining insight into the observed network. Exploring plots and descriptive statistics before fitting a model can lead to better model formulations and improve interpretation of results.  
 
 
-#### statnetWeb: Network Descriptives
-
-**Network Plot**  
+##### Network Plot  
 Looking at a network plot can give a general sense of the network, and editing the display options is even more revealing. When the nodes of the `faux.mesa.high` network are color-coded, it is easy to see clustering by grade. Likewise, sizing the nodes of the `flomarriage` by wealth reveals a tendency for wealthier families to have more marriage ties.
 
 In statnetWeb, any nodal attributes are available in the color-coding menu. Numeric attributes, plus the betweenness measures of the nodes are available in the sizing menu.
@@ -212,16 +213,16 @@ In statnetWeb, any nodal attributes are available in the color-coding menu. Nume
 ![fmh1](images/mesa_plot.png) ![fmh2](images/mesa_colorplot.png)
 ![flomarriage wealth](images/flomarriage_wealthplot.png)
 
-**Degree Distribution**  
+##### Degree Distribution  
 Inspect the distribution of nodal degrees throughout the network. Do most nodes have similar degree? Are there a few nodes with high degree ("hubs") and many with low degree? Does the distribution vary by attribute? 
 
 ![](images/mesa_degreedist_small.png)
 
 
-**Geodesic Distribution**  
+##### Geodesic Distribution  
 The geodesic measures the length of the shortest path between two nodes. A geodesic distance of "inf" between two nodes means that they are not connected by any path. Compare the distribution of the geodesics from all the dyads in the observed network to null models.
 
-**More**
+##### More
 <ul>
 <li>Mixing matrices</li>
 <li>Node-level indices</li>
