@@ -578,7 +578,7 @@ And in statnetWeb it is even easier:
   </ul>
   
 
-#### p<sub>1</sub> model
+#### p<sub>1</sub> model 
 
 Above we saw that in the `sampson` data the number of mutual dyads was larger than expected under the RCE model. This would indicate within-dyad dependence in the data, whereas our models so far have assumed that each tie is independent of all other ties.
 $$M = \sum_{i<j}y_{ij}y_{ji}$$
@@ -613,7 +613,7 @@ The two main problems with the $p_1$ model are that it is not generalizable and 
 
 See @holland1981 ([here](http://www.stat.cmu.edu/~fienberg/Stat36-835/HollandLeinhardt-JASA-1981.pdf)) for more on $p_1$ models.
 
-#### p<sub>2</sub> model
+#### p<sub>2</sub> model 
 
 The $p_2$ model was proposed as an extension to the $p_1$ model allowing for dependence between dyads. The density and mutuality parameters are now allowed to vary over dyads. For each dyad $(i,j)$ we have $\mu_{ij}$ and $\gamma_{ij}$, which are modeled as being linearly related to dyadic covariates $Z_1$ and $Z_2$.
 
@@ -633,7 +633,7 @@ The presence of parameters $A$ and $B$ make this a random effects model, which c
 
 See @vanduijn2004 ([here](http://onlinelibrary.wiley.com/doi/10.1046/j.0039-0402.2003.00258.x/full) and [here](http://www.stats.ox.ac.uk/~snijders/VanDuijnSnijdersZijlstraStatistica2004.pdf)) for more on $p_2$ models.
 
-#### Markov graphs
+#### Markov graphs 
 
 As explained in detail in @frank1986, a dependence graph $D$ consists of nodes that correspond to the dyads of a random graph $G$. There is a tie between nodes in $D$ if those dyads in $G$ are conditionally dependent. A Markov graph is defined as a random graph $G$ whose dependence graph $D$ has no ties between disjoint sets of nodes from $G$. In other words, conditional on the rest of the graph, dyads are dependent only if they share a node. In this case, groups of dyads that are all dependent on each other (the cliques of $D$) form triangles and stars in $G$.
 
@@ -653,10 +653,12 @@ See @frank1986 ([here](http://www.stat.cmu.edu/~fienberg/Stat36-835/FrankStrauss
 #### Exponential random graph models (p$^*$)  
 
 
-##### What is an ERGM?
+##### What is an ERGM? 
+ 
 Exponential-family random graph models are a class of models for specifying the probability distribution for a set of random graphs or networks. Most of the models that we have discussed in this document already are specific forms of ERGMs.
 
 ##### ERG Model Specification 
+
 $$ P(Y=y)=\frac{\mathrm{exp}(\theta'g(y))}{k(\theta)} $$
 <ul>
 <li> $Y$: random variable for state of network (with realization $y$)
@@ -683,7 +685,7 @@ In statnetWeb, each model statistic that we want to include is represented by a 
 <li>Commonly used terms: [click here](statnet.csde.washington.edu/EpiModel/nme/2014/d2-ergmterms.html)
 </ul>
 
-##### ERGM Estimation
+##### ERGM Estimation 
 
 Fitting a model is difficult because calculating the normalizing constant $k(\theta)$ is impossible for all but the simplest models. How does statnetWeb get around this? It depends which terms are in the model formula.
 
@@ -716,7 +718,8 @@ Potential problems can arise because for certain sets of parameters, the distrib
 
 See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERGM specification and estimation and @snijders2002 ([here](http://www.cmu.edu/joss/content/articles/volume3/Snijders.pdf)) for more on MCMC estimation specifically.
 
-##### Model Output
+##### Model Output 
+
 <ul>
 <li>Iterations - useful to see if model is degenerate  
 <font class="ex">image here</font>
@@ -724,16 +727,19 @@ See @hunter2008 ([here](http://www.jstatsoft.org/v24/i03/paper)) for more on ERG
 <font class="ex">image here</font>
   <ul>
   Once we have coefficient estimates, we can see how they influence the conditional log-odds of two nodes having a tie:  
+  
+  $\theta_1 * \delta_1(y_{ij}) + \theta_2 * \delta_2(y_{ij})$  
 
-  $\theta_1$ x change in stat<sub>1</sub> + $\theta_2$ x change in stat<sub>2</sub>
-
-  For example, if we have an `edges` coefficient $\theta_1 = -5$, a `nodematch("color")` coefficient $\theta_2 = 2$ and a `degree(0)` coefficient $\theta_3 = 1$ the log-odds of the potential tie below is $(-5*1) + (2*2) + (1*-1) = -2$.
+  For example, if we have a model formula `edges + nodematch("Grade") + degree(0)` with coefficients $\theta_1 = -5$, $\theta_2 = 2$ and $\theta_3 = 1$ respectively, the log-odds of the potential tie below is $(-5*1) + (2*2) + (1*-1) = -2$.
+  
+  <div align="center">![](images/modelout.png)</div>
+  
   </ul>
   <li>Save up to five models for comparison  
   ![](images/modelcomp.png)
 </ul>
 
-##### Model Evaluation
+##### Model Evaluation  
 
 <font class="lobj">Learning objectives:</font>
 
